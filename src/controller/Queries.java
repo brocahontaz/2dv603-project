@@ -1,5 +1,10 @@
 package controller;
 
+/**
+ * Enum class containing the queries used on the database.
+ * @author Johan Andersson
+ *
+ */
 public enum Queries {
 	GET_CUSTOMER_BY_LASTNAME("SELECT * FROM customers WHERE lastname = ?");
 	

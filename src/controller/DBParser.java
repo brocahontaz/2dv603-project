@@ -23,14 +23,18 @@ public class DBParser {
 	private PreparedStatement ps = null;
 
 	/**
-	 * Constructor Creates an DBParser object
+	 * Constructor.
+	 * 
+	 * Creates an DBParser object
 	 */
 	public DBParser() {
 
 	}
 
 	/**
-	 * EXAMPLE FUNCTION Method to get customers by last name.
+	 * EXAMPLE FUNCTION.
+	 * 
+	 * Method to get customers by last name.
 	 * 
 	 * @param lastname
 	 *            the lastname
@@ -41,7 +45,8 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method the execute query with a single parameter on the database
+	 * Private help method the execute query with a single parameter on the
+	 * database.
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
@@ -54,7 +59,7 @@ public class DBParser {
 
 	/**
 	 * Private help method the execute update with a single parameter on the
-	 * database
+	 * database.
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
@@ -66,7 +71,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method to execute queries on the database
+	 * Private help method to execute queries on the database.
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
@@ -104,7 +109,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method to execute updates on the database
+	 * Private help method to execute updates on the database.
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
@@ -140,7 +145,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method to initialize the database connection
+	 * Private help method to initialize the database connection.
 	 */
 	private void initialize() {
 		try {
@@ -152,7 +157,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method to shutdown the database connection
+	 * Private help method to shutdown the database connection.
 	 */
 	private void shutdown() {
 		try {
