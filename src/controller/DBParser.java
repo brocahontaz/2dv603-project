@@ -19,12 +19,28 @@ public class DBParser {
 	}
 
 	private void executeQuery(String query, String[] params) {
-
+		this.initialize();
+		try {
+			//connection.setAutoCommit(false);
+			
+			ps = connection.prepareStatement(query);
+			
+		} catch (SQLException e) {
+			try {
+				System.err.print("Transaction is being rolled back");
+				connection.rollback();
+			} catch (SQLException excep) {
+				excep.printStackTrace();
+			}
+		} finally {
+			this.shutdown();
+		}
 	}
 
 	private void initialize() {
 		try {
 			connection = DriverManager.getConnection(url, user, password);
+			connection.setAutoCommit(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
