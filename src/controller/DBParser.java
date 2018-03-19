@@ -3,6 +3,7 @@ package controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBParser {
@@ -18,12 +19,26 @@ public class DBParser {
 
 	}
 
-	private void executeQuery(String query, String[] params) {
+	private ResultSet executeQuery(String query, String[] params) {
 		this.initialize();
+		ResultSet rs = null;
+		
+		//params = params != null ? params : null;
+		
 		try {
 			//connection.setAutoCommit(false);
 			
 			ps = connection.prepareStatement(query);
+			
+			if(params != null) {
+				for(int i = 0; i < params.length; i++) {
+					ps.setString(i+1, params[i]);
+				}
+			}
+			
+			rs = ps.executeQuery();
+			
+			//return rs;
 			
 		} catch (SQLException e) {
 			try {
@@ -35,6 +50,8 @@ public class DBParser {
 		} finally {
 			this.shutdown();
 		}
+		
+		return rs;
 	}
 
 	private void initialize() {
