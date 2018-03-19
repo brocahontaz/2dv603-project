@@ -22,42 +22,71 @@ public class DBParser {
 	private ResultSet executeQuery(String query, String[] params) {
 		this.initialize();
 		ResultSet rs = null;
-		
-		//params = params != null ? params : null;
-		
+
+		// params = params != null ? params : null;
+
 		try {
-			//connection.setAutoCommit(false);
-			
-			ps = connection.prepareStatement(query);
-			
-			if(params != null) {
-				for(int i = 0; i < params.length; i++) {
-					ps.setString(i+1, params[i]);
+			// connection.setAutoCommit(false);
+
+			this.ps = this.connection.prepareStatement(query);
+
+			if (params != null) {
+				for (int i = 0; i < params.length; i++) {
+					this.ps.setString(i + 1, params[i]);
 				}
 			}
-			
-			rs = ps.executeQuery();
-			
-			//return rs;
-			
+
+			rs = this.ps.executeQuery();
+
+			// return rs;
+
 		} catch (SQLException e) {
 			try {
 				System.err.print("Transaction is being rolled back");
-				connection.rollback();
+				this.connection.rollback();
 			} catch (SQLException excep) {
 				excep.printStackTrace();
 			}
 		} finally {
 			this.shutdown();
 		}
-		
+
 		return rs;
+	}
+
+	private void executeUpdate(String query, String[] params) {
+		this.initialize();
+
+		try {
+			// connection.setAutoCommit(false);
+
+			this.ps = this.connection.prepareStatement(query);
+
+			if (params != null) {
+				for (int i = 0; i < params.length; i++) {
+					this.ps.setString(i + 1, params[i]);
+				}
+			}
+			
+			this.ps.executeUpdate();
+			this.connection.commit();
+
+		} catch (SQLException e) {
+			try {
+				System.err.print("Transaction is being rolled back");
+				this.connection.rollback();
+			} catch (SQLException excep) {
+				excep.printStackTrace();
+			}
+		} finally {
+			this.shutdown();
+		}
 	}
 
 	private void initialize() {
 		try {
-			connection = DriverManager.getConnection(url, user, password);
-			connection.setAutoCommit(false);
+			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+			this.connection.setAutoCommit(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,13 +94,13 @@ public class DBParser {
 
 	private void shutdown() {
 		try {
-			connection.setAutoCommit(true);
+			this.connection.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			if (ps != null) {
+			if (this.ps != null) {
 				try {
-					ps.close();
+					this.ps.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
