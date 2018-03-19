@@ -6,6 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Class for handling connections between the software and the database.
+ * Handling the queries and updates.
+ * 
+ * @author Johan Andersson
+ *
+ */
 public class DBParser {
 
 	private Connection connection;
@@ -15,28 +22,62 @@ public class DBParser {
 
 	private PreparedStatement ps = null;
 
+	/**
+	 * Constructor Creates an DBParser object
+	 */
 	public DBParser() {
 
 	}
 
+	/**
+	 * EXAMPLE FUNCTION Method to get customers by last name.
+	 * 
+	 * @param lastname
+	 *            the lastname
+	 * @return <ResultSet> the results
+	 */
 	public ResultSet getCustomerByLastName(String lastname) {
 		return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
 	}
 
+	/**
+	 * Private help method the execute query with a single parameter on the database
+	 * 
+	 * @param query
+	 *            the query to be used in the prepared statement
+	 */
 	private ResultSet executeSingleParamQuery(String query, String param) {
 		String[] params = { param };
 
 		return this.executeQuery(query, params);
 	}
 
+	/**
+	 * Private help method the execute update with a single parameter on the
+	 * database
+	 * 
+	 * @param query
+	 *            the query to be used in the prepared statement
+	 */
+	private void executeSingleParamUpdate(String query, String param) {
+		String[] params = { param };
+
+		this.executeUpdate(query, params);
+	}
+
+	/**
+	 * Private help method to execute queries on the database
+	 * 
+	 * @param query
+	 *            the query to be used in the prepared statement
+	 * @param params
+	 *            the parameters to be used for the prepared statement
+	 */
 	private ResultSet executeQuery(String query, String[] params) {
 		this.initialize();
 		ResultSet rs = null;
 
-		// params = params != null ? params : null;
-
 		try {
-			// connection.setAutoCommit(false);
 
 			this.ps = this.connection.prepareStatement(query);
 
@@ -47,8 +88,6 @@ public class DBParser {
 			}
 
 			rs = this.ps.executeQuery();
-
-			// return rs;
 
 		} catch (SQLException e) {
 			try {
@@ -64,11 +103,18 @@ public class DBParser {
 		return rs;
 	}
 
+	/**
+	 * Private help method to execute updates on the database
+	 * 
+	 * @param query
+	 *            the query to be used in the prepared statement
+	 * @param params
+	 *            the parameters to be used for the prepared statement
+	 */
 	private void executeUpdate(String query, String[] params) {
 		this.initialize();
 
 		try {
-			// connection.setAutoCommit(false);
 
 			this.ps = this.connection.prepareStatement(query);
 
@@ -93,6 +139,9 @@ public class DBParser {
 		}
 	}
 
+	/**
+	 * Private help method to initialize the database connection
+	 */
 	private void initialize() {
 		try {
 			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
@@ -102,6 +151,9 @@ public class DBParser {
 		}
 	}
 
+	/**
+	 * Private help method to shutdown the database connection
+	 */
 	private void shutdown() {
 		try {
 			this.connection.setAutoCommit(true);
