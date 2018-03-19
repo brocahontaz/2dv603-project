@@ -19,6 +19,16 @@ public class DBParser {
 
 	}
 
+	public ResultSet getCustomerByLastName(String lastname) {
+		return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
+	}
+
+	private ResultSet executeSingleParamQuery(String query, String param) {
+		String[] params = { param };
+
+		return this.executeQuery(query, params);
+	}
+
 	private ResultSet executeQuery(String query, String[] params) {
 		this.initialize();
 		ResultSet rs = null;
@@ -67,7 +77,7 @@ public class DBParser {
 					this.ps.setString(i + 1, params[i]);
 				}
 			}
-			
+
 			this.ps.executeUpdate();
 			this.connection.commit();
 
