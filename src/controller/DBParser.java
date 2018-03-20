@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Class for handling connections between the software and the database.
@@ -21,6 +22,7 @@ public class DBParser {
 	private String password = "";
 
 	private PreparedStatement ps = null;
+	// private ResultSet rs = null;
 
 	/**
 	 * Constructor.
@@ -37,15 +39,39 @@ public class DBParser {
 	 * Method to get customers by last name.
 	 * 
 	 * @param lastname
-	 *            the lastname
-	 * @return <ResultSet> the results
+	 *            the last name
+	 * @return <ArrayList> the results
 	 */
-	public ResultSet getCustomerByLastName(String lastname) {
-		return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
+	public ArrayList<model.Guest> getCustomerByLastName(String lastname) {
+
+		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		ResultSet rsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
+
+		try {
+			while (rsTemp.next()) {
+				guests.add(new model.Guest(rsTemp.getString("firstName"), rsTemp.getString("lastName"),
+						rsTemp.getString("address"), rsTemp.getString("telephoneNumber"),
+						rsTemp.getString("creditCard"), rsTemp.getString("passportNumber")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				rsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return guests;
+
+		//return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
 	}
 
 	/**
-	 * Private help method the execute query with a single parameter on the
+	 * Private help method to execute query with a single parameter on the
 	 * database.
 	 * 
 	 * @param query
@@ -58,7 +84,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Private help method the execute update with a single parameter on the
+	 * Private help method to execute update with a single parameter on the
 	 * database.
 	 * 
 	 * @param query
