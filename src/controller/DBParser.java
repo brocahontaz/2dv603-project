@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.sql.rowset.CachedRowSet;
+import com.sun.rowset.CachedRowSetImpl;
 
 /**
  * Class for handling connections between the software and the database.
@@ -22,6 +24,7 @@ public class DBParser {
 	private String password = "";
 
 	private PreparedStatement ps = null;
+	private CachedRowSetImpl crs;
 	// private ResultSet rs = null;
 
 	/**
@@ -45,39 +48,45 @@ public class DBParser {
 	public ArrayList<model.Guest> getCustomerByLastName(String lastname) {
 
 		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
-		ResultSet rsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
+		CachedRowSetImpl crsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
 
+		populateGuestArray(guests, crsTemp);
+
+		return guests;
+
+		// return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(),
+		// lastname);
+	}
+	
+	private void populateGuestArray(ArrayList<model.Guest> list, CachedRowSetImpl crsTemp) {
 		try {
-			while (rsTemp.next()) {
-				guests.add(new model.Guest(rsTemp.getString("firstName"), rsTemp.getString("lastName"),
-						rsTemp.getString("address"), rsTemp.getString("telephoneNumber"),
-						rsTemp.getString("creditCard"), rsTemp.getString("passportNumber")));
+			while (crsTemp.next()) {
+				list.add(new model.Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
+						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
+						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
-				rsTemp.close();
+				crsTemp.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		return guests;
-
-		//return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
 	}
 
 	/**
-	 * Private help method to execute query with a single parameter on the
-	 * database.
+	 * Private help method to execute query with a single parameter on the database.
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
+	 * @param param
+	 *            the parameter to be used
 	 */
-	private ResultSet executeSingleParamQuery(String query, String param) {
+	private CachedRowSetImpl executeSingleParamQuery(String query, String param) {
 		String[] params = { param };
 
 		return this.executeQuery(query, params);
@@ -89,6 +98,8 @@ public class DBParser {
 	 * 
 	 * @param query
 	 *            the query to be used in the prepared statement
+	 * @param param
+	 *            the parameter to be used
 	 */
 	private void executeSingleParamUpdate(String query, String param) {
 		String[] params = { param };
@@ -104,9 +115,10 @@ public class DBParser {
 	 * @param params
 	 *            the parameters to be used for the prepared statement
 	 */
-	private ResultSet executeQuery(String query, String[] params) {
+	private CachedRowSetImpl executeQuery(String query, String[] params) {
 		this.initialize();
 		ResultSet rs = null;
+		CachedRowSetImpl crs = null;
 
 		try {
 
@@ -119,6 +131,9 @@ public class DBParser {
 			}
 
 			rs = this.ps.executeQuery();
+			crs = new CachedRowSetImpl();
+			crs.populate(rs);
+			rs.close();
 
 		} catch (SQLException e) {
 			try {
@@ -131,7 +146,7 @@ public class DBParser {
 			this.shutdown();
 		}
 
-		return rs;
+		return crs;
 	}
 
 	/**
