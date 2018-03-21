@@ -190,9 +190,9 @@ public class DBParser {
 	 */
 	public void initialize() {
 		try {
-			//Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-			this.connection.setAutoCommit(false);
+			//this.connection.setAutoCommit(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
