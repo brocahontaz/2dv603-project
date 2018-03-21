@@ -19,9 +19,9 @@ import com.sun.rowset.CachedRowSetImpl;
 public class DBParser {
 
 	private Connection connection;
-	private String url = "";
-	private String user = "";
-	private String password = "";
+	private String url = "jdbc:mysql://104.168.114.195:3306/2dv603";
+	private String user = "root";
+	private String password = "ed64JT/g]w{~znqH";
 
 	private PreparedStatement ps = null;
 	private CachedRowSetImpl crs;
@@ -188,8 +188,9 @@ public class DBParser {
 	/**
 	 * Private help method to initialize the database connection.
 	 */
-	private void initialize() {
+	public void initialize() {
 		try {
+			//Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
 			this.connection.setAutoCommit(false);
 		} catch (Exception e) {
