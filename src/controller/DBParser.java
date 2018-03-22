@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
+import model.testTableClass;
+
 /**
  * Class for handling connections between the software and the database.
  * Handling the queries and updates.
@@ -19,9 +21,9 @@ import com.sun.rowset.CachedRowSetImpl;
 public class DBParser {
 
 	private Connection connection;
-	private String url = "jdbc:mysql://104.168.114.195:3306/2dv603";
-	private String user = "root";
-	private String password = "ed64JT/g]w{~znqH";
+	private String url = "jdbc:mysql://soggarna.se:3306/2dv603";
+	private String user = "2dv603";
+	private String password = "gmU<B44SWnhdjATJ";
 
 	private PreparedStatement ps = null;
 	private CachedRowSetImpl crs;
@@ -34,6 +36,41 @@ public class DBParser {
 	 */
 	public DBParser() {
 
+	}
+	
+	public void insertIntoTestTableTest(String testid, String testname) {
+		
+		String[] temp = {testid, testname};
+		
+		this.executeUpdate(Queries.INSERT_TEST_TABLE.toString(), temp);
+	}
+	
+	public ArrayList<testTableClass> getTestTableClass() {
+		
+		ArrayList<testTableClass> test = new ArrayList<testTableClass>();
+		
+		String[] params = null;
+		this.populateTestArray(test, this.executeQuery(Queries.GET_ALL_FROM_TEST_TABLE.toString(), params));
+		
+		return test;
+	}
+	
+	private void populateTestArray(ArrayList<model.testTableClass> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new model.testTableClass(crsTemp.getInt("testid"), crsTemp.getString("testname")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -159,7 +196,7 @@ public class DBParser {
 	 */
 	private void executeUpdate(String query, String[] params) {
 		this.initialize();
-
+		
 		try {
 
 			this.ps = this.connection.prepareStatement(query);
@@ -175,6 +212,7 @@ public class DBParser {
 
 		} catch (SQLException e) {
 			try {
+				e.printStackTrace();
 				System.err.print("Transaction is being rolled back");
 				this.connection.rollback();
 			} catch (SQLException excep) {
@@ -188,11 +226,11 @@ public class DBParser {
 	/**
 	 * Private help method to initialize the database connection.
 	 */
-	public void initialize() {
+	private void initialize() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-			//this.connection.setAutoCommit(false);
+			this.connection.setAutoCommit(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
