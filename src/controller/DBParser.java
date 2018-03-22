@@ -15,7 +15,7 @@ import test.testTableClass;
  * Class for handling connections between the software and the database.
  * Handling the queries and updates.
  * 
- * @author Johan Andersson
+ * @author Johan Andersson, Fredrik Norrman, David Larsson
  *
  */
 public class DBParser {

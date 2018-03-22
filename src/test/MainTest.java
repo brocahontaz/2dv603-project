@@ -3,6 +3,11 @@ import java.util.ArrayList;
 
 import controller.DBParser;
 
+/**
+ * 
+ * @author Johan Andersson, Fredrik Norrman, David Larsson
+ *
+ */
 public class MainTest {
 	
 	public static void main(String[] args) {
