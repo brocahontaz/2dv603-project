@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
-import model.testTableClass;
+import test.testTableClass;
 
 /**
  * Class for handling connections between the software and the database.
@@ -69,10 +69,10 @@ public class DBParser {
 	 * @param list
 	 * @param crsTemp
 	 */
-	private void populateTestArray(ArrayList<model.testTableClass> list, CachedRowSetImpl crsTemp) {
+	private void populateTestArray(ArrayList<test.testTableClass> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				list.add(new model.testTableClass(crsTemp.getInt("testid"), crsTemp.getString("testname")));
+				list.add(new test.testTableClass(crsTemp.getInt("testid"), crsTemp.getString("testname")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

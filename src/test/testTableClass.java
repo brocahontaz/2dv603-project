@@ -1,4 +1,4 @@
-package model;
+package test;
 
 public class testTableClass {
 	

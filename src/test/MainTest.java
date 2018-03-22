@@ -10,9 +10,9 @@ public class MainTest {
 		
 		testParser.insertIntoTestTableTest("11", "testarn deluxe!");
 
-		ArrayList<model.testTableClass> test = testParser.getTestTableClass();
+		ArrayList<test.testTableClass> test = testParser.getTestTableClass();
 		
-		for(model.testTableClass testclass : test) {
+		for(test.testTableClass testclass : test) {
 			System.out.print(testclass.toString());
 		}
 		
