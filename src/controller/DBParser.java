@@ -38,6 +38,11 @@ public class DBParser {
 
 	}
 	
+	/**
+	 * TEST
+	 * @param testid
+	 * @param testname
+	 */
 	public void insertIntoTestTableTest(String testid, String testname) {
 		
 		String[] temp = {testid, testname};
@@ -45,6 +50,10 @@ public class DBParser {
 		this.executeUpdate(Queries.INSERT_TEST_TABLE.toString(), temp);
 	}
 	
+	/**
+	 * TEST
+	 * @return
+	 */
 	public ArrayList<testTableClass> getTestTableClass() {
 		
 		ArrayList<testTableClass> test = new ArrayList<testTableClass>();
@@ -55,6 +64,11 @@ public class DBParser {
 		return test;
 	}
 	
+	/**
+	 * TEST
+	 * @param list
+	 * @param crsTemp
+	 */
 	private void populateTestArray(ArrayList<model.testTableClass> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
