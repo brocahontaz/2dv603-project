@@ -37,54 +37,21 @@ public class DBParser {
 	public DBParser() {
 
 	}
-	
-	/**
-	 * TEST
-	 * @param testid
-	 * @param testname
-	 */
-	public void insertIntoTestTableTest(String testid, String testname) {
-		
-		String[] temp = {testid, testname};
-		
-		this.executeUpdate(Queries.INSERT_TEST_TABLE.toString(), temp);
+
+	public void addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
+			String creditCard, String passportNumber) {
+		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
+		this.executeUpdate(Queries.ADD_NEW_GUEST.toString(), temp);
 	}
-	
-	/**
-	 * TEST
-	 * @return
-	 */
-	public ArrayList<testTableClass> getTestTableClass() {
-		
-		ArrayList<testTableClass> test = new ArrayList<testTableClass>();
-		
-		String[] params = null;
-		this.populateTestArray(test, this.executeQuery(Queries.GET_ALL_FROM_TEST_TABLE.toString(), params));
-		
-		return test;
-	}
-	
-	/**
-	 * TEST
-	 * @param list
-	 * @param crsTemp
-	 */
-	private void populateTestArray(ArrayList<test.testTableClass> list, CachedRowSetImpl crsTemp) {
-		try {
-			while (crsTemp.next()) {
-				list.add(new test.testTableClass(crsTemp.getInt("testid"), crsTemp.getString("testname")));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				crsTemp.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
+	public ArrayList<model.Guest> getAllGuests() {
+		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		String[] temp = {};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_GUESTS.toString(), temp);
+
+		populateGuestArray(guests, crsTemp);
+
+		return guests;
 	}
 
 	/**
@@ -108,7 +75,7 @@ public class DBParser {
 		// return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(),
 		// lastname);
 	}
-	
+
 	private void populateGuestArray(ArrayList<model.Guest> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -210,7 +177,7 @@ public class DBParser {
 	 */
 	private void executeUpdate(String query, String[] params) {
 		this.initialize();
-		
+
 		try {
 
 			this.ps = this.connection.prepareStatement(query);

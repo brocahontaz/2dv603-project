@@ -6,9 +6,9 @@ package controller;
  *
  */
 public enum Queries {
-	GET_CUSTOMER_BY_LASTNAME("SELECT * FROM customers WHERE lastname = ?"),
-	INSERT_TEST_TABLE("INSERT INTO testTable (testid, testname) values (?, ?)"),
-	GET_ALL_FROM_TEST_TABLE("SELECT * FROM testTable");
+	GET_CUSTOMER_BY_LASTNAME("SELECT * FROM customers WHERE lastname = ?;"),
+	GET_ALL_GUESTS("SELECT * FROM guests;"),
+	ADD_NEW_GUEST("INSERT INTO guests (firstName, lastName, address, telephoneNumber, creditCard, passportNumber) VALUES(?, ?, ?, ?, ?, ?)");
 	
 	private String query;
 	

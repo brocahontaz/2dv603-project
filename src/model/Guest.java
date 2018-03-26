@@ -74,5 +74,10 @@ public class Guest {
 	public void setPassportNumber(String passportNumber) {
 		this.passportNumber = passportNumber;
 	}
+	
+	@Override
+	public String toString() {
+		return this.firstName;
+	}
 
 }
