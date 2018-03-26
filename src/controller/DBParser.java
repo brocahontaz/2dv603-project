@@ -41,13 +41,13 @@ public class DBParser {
 	public void addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber) {
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
-		this.executeUpdate(Queries.ADD_NEW_GUEST.toString(), temp);
+		this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
 
 	public ArrayList<model.Guest> getAllGuests() {
 		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
 		String[] temp = {};
-		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_GUESTS.toString(), temp);
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_GUESTS, temp);
 
 		populateGuestArray(guests, crsTemp);
 
@@ -66,7 +66,7 @@ public class DBParser {
 	public ArrayList<model.Guest> getCustomerByLastName(String lastname) {
 
 		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
-		CachedRowSetImpl crsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(), lastname);
+		CachedRowSetImpl crsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME, lastname);
 
 		populateGuestArray(guests, crsTemp);
 
@@ -104,7 +104,7 @@ public class DBParser {
 	 * @param param
 	 *            the parameter to be used
 	 */
-	private CachedRowSetImpl executeSingleParamQuery(String query, String param) {
+	private CachedRowSetImpl executeSingleParamQuery(Queries query, String param) {
 		String[] params = { param };
 
 		return this.executeQuery(query, params);
@@ -119,7 +119,7 @@ public class DBParser {
 	 * @param param
 	 *            the parameter to be used
 	 */
-	private void executeSingleParamUpdate(String query, String param) {
+	private void executeSingleParamUpdate(Queries query, String param) {
 		String[] params = { param };
 
 		this.executeUpdate(query, params);
@@ -133,14 +133,14 @@ public class DBParser {
 	 * @param params
 	 *            the parameters to be used for the prepared statement
 	 */
-	private CachedRowSetImpl executeQuery(String query, String[] params) {
+	private CachedRowSetImpl executeQuery(Queries query, String[] params) {
 		this.initialize();
 		ResultSet rs = null;
 		CachedRowSetImpl crs = null;
 
 		try {
 
-			this.ps = this.connection.prepareStatement(query);
+			this.ps = this.connection.prepareStatement(query.toString());
 
 			if (params != null) {
 				for (int i = 0; i < params.length; i++) {
@@ -175,12 +175,12 @@ public class DBParser {
 	 * @param params
 	 *            the parameters to be used for the prepared statement
 	 */
-	private void executeUpdate(String query, String[] params) {
+	private void executeUpdate(Queries query, String[] params) {
 		this.initialize();
 
 		try {
 
-			this.ps = this.connection.prepareStatement(query);
+			this.ps = this.connection.prepareStatement(query.toString());
 
 			if (params != null) {
 				for (int i = 0; i < params.length; i++) {
