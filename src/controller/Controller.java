@@ -17,6 +17,7 @@ public class Controller {
 
 	private ArrayList<model.Guest> guests;
 	private DBParser dbParser = new DBParser();
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	@FXML
 	private ResourceBundle resources;
@@ -80,7 +81,7 @@ public class Controller {
 		if (addGuestPassport.getText().isEmpty()) {
 			return;
 		}
-		ExecutorService executor = Executors.newSingleThreadExecutor();
+
 		executor.submit(() -> {
 			dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText());
@@ -101,13 +102,11 @@ public class Controller {
 	@FXML
 	void listAllGuests(MouseEvent event) {
 
-		ExecutorService executor = Executors.newSingleThreadExecutor();
 		executor.submit(() -> {
 			guests = dbParser.getAllGuests();
 			for (model.Guest guest : guests) {
 				System.out.println(guest.getFirstName() + " " + guest.getLastName());
 			}
-			// System.out.println("Hello " + guests);
 		});
 
 	}
