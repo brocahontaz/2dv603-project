@@ -148,6 +148,11 @@ public class Controller {
 		});
 
 	}
+	
+	@FXML
+    void checkSingularGuest(MouseEvent event) {
+		System.out.println(searchResultTable.getSelectionModel().getSelectedItem().getFirstName());
+    }
 
 	@FXML
 	void initialize() {

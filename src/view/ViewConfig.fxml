@@ -54,18 +54,18 @@
               <tabs>
                 <Tab text="Reservation Management">
                   <content>
-                    <AnchorPane prefWidth="1920.0">
+                    <AnchorPane maxWidth="1920.0" prefWidth="1920.0">
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="1013.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <FlowPane>
+                                    <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
                                           <TitledPane fx:id="addGuestBox11" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Make Reservation">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox11" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Check Reservations">
@@ -73,7 +73,7 @@
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox111" animated="false" collapsible="false" layoutX="712.0" layoutY="20.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Check Rooms">
@@ -81,14 +81,14 @@
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                           <TitledPane fx:id="resultsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Results">
                                              <content>
                                                 <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
                                                    <children>
-                                                      <TableView fx:id="searchResultTable1" layoutX="14.0" layoutY="14.0" prefHeight="556.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TableView fx:id="searchResultTable1" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <columns>
                                                             <TableColumn fx:id="firstNameCol1" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="First name" />
                                                             <TableColumn fx:id="lastNameCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Last name" />
@@ -120,14 +120,14 @@
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="1013.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <FlowPane>
+                                    <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
                                           <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Check out guests">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Check in guests">
@@ -135,7 +135,7 @@
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                        </children>
@@ -150,59 +150,67 @@
                   </Tab>
                 <Tab text="Guest Management">
                   <content>
-                    <AnchorPane>
+                    <AnchorPane maxWidth="1920.0" prefWidth="1920.0">
                            <children>
                               <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="1261.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <FlowPane>
+                                    <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
-                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Add guest">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
-                                                   <children>
-                                                      <TextField fx:id="addGuestFirstName" layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
-                                                      <TextField fx:id="addGuestLastName" layoutX="14.0" layoutY="57.0" prefWidth="310.0" promptText="Lastname" />
-                                                      <TextField fx:id="addGuestAddress" layoutX="14.0" layoutY="96.0" prefWidth="310.0" promptText="Address" />
-                                                      <TextField fx:id="addGuestTelephone" layoutX="14.0" layoutY="134.0" prefWidth="310.0" promptText="Telephone number" />
-                                                      <TextField fx:id="addGuestCreditCard" layoutX="14.0" layoutY="173.0" prefWidth="310.0" promptText="Credit card" />
-                                                      <TextField fx:id="addGuestPassport" layoutX="14.0" layoutY="211.0" prefWidth="310.0" promptText="Passport number" />
-                                                      <Button fx:id="addGuestButton" layoutX="275.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#addNewGuest" text="Add" />
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                             <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
-                                             </FlowPane.margin>
-                                          </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Search guests">
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
-                                                      <TextField layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
-                                                      <TextField layoutX="14.0" layoutY="51.0" prefWidth="310.0" promptText="Lastname" />
-                                                      <TextField layoutX="14.0" layoutY="88.0" prefWidth="310.0" promptText="Address" />
-                                                      <TextField layoutX="14.0" layoutY="125.0" prefWidth="310.0" promptText="Telephone number" />
-                                                      <TextField layoutX="14.0" layoutY="163.0" prefWidth="310.0" promptText="Credit card" />
-                                                      <TextField layoutX="14.0" layoutY="203.0" prefWidth="310.0" promptText="Passport number" />
-                                                      <Button layoutX="260.0" layoutY="240.0" mnemonicParsing="false" text="Search" />
-                                                      <Button fx:id="listAllGuests" layoutX="400.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests" />
+                                                      <FlowPane hgap="10.0" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="520.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TextField prefWidth="309.0" promptText="Firstname" />
+                                                            <TextField prefWidth="310.0" promptText="Lastname" />
+                                                            <TextField prefWidth="310.0" promptText="Address" />
+                                                            <TextField prefWidth="310.0" promptText="Telephone number" />
+                                                            <TextField prefWidth="310.0" promptText="Credit card" />
+                                                            <TextField prefWidth="310.0" promptText="Passport number" />
+                                                            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" text="Search" />
+                                                            <Button fx:id="listAllGuests" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests" />
+                                                         </children>
+                                                      </FlowPane>
                                                    </children>
                                                 </AnchorPane>
                                             </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
+                                             </FlowPane.margin>
+                                          </TitledPane>
+                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Add guest">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
+                                                   <children>
+                                                      <FlowPane hgap="10.0" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="520.0" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TextField fx:id="addGuestFirstName" prefWidth="309.0" promptText="Firstname" />
+                                                            <TextField fx:id="addGuestLastName" prefWidth="310.0" promptText="Lastname" />
+                                                            <TextField fx:id="addGuestAddress" prefWidth="310.0" promptText="Address" />
+                                                            <TextField fx:id="addGuestTelephone" prefWidth="310.0" promptText="Telephone number" />
+                                                            <TextField fx:id="addGuestCreditCard" prefWidth="310.0" promptText="Credit card" />
+                                                            <TextField fx:id="addGuestPassport" prefWidth="310.0" promptText="Passport number" />
+                                                            <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" text="Add" />
+                                                         </children>
+                                                      </FlowPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <FlowPane.margin>
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                           <TitledPane fx:id="resultsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Results">
                                              <content>
-                                                <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
+                                                <AnchorPane>
                                                    <children>
-                                                      <TableView fx:id="searchResultTable" layoutX="14.0" layoutY="14.0" prefHeight="556.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TableView fx:id="searchResultTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#checkSingularGuest" prefHeight="520.0" prefWidth="1030.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                         <columns>
-                                                          <TableColumn fx:id="firstNameCol" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="First name" />
-                                                          <TableColumn fx:id="lastNameCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Last name" />
-                                                            <TableColumn fx:id="passportCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Passport number" />
-                                                            <TableColumn fx:id="telephoneCol" editable="false" prefWidth="260.0" resizable="false" text="Telephone" />
+                                                          <TableColumn fx:id="firstNameCol" editable="false" minWidth="-1.0" prefWidth="255.0" resizable="false" text="First name" />
+                                                          <TableColumn fx:id="lastNameCol" editable="false" minWidth="0.0" prefWidth="255.0" resizable="false" text="Last name" />
+                                                            <TableColumn fx:id="passportCol" editable="false" minWidth="0.0" prefWidth="255.0" resizable="false" text="Passport number" />
+                                                            <TableColumn fx:id="telephoneCol" editable="false" prefWidth="255.0" resizable="false" text="Telephone" />
                                                         </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -212,7 +220,7 @@
                                                 </AnchorPane>
                                              </content>
                                              <FlowPane.margin>
-                                                <Insets bottom="10.0" right="10.0" />
+                                                <Insets />
                                              </FlowPane.margin>
                                           </TitledPane>
                                        </children>
