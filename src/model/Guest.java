@@ -77,7 +77,7 @@ public class Guest {
 	
 	@Override
 	public String toString() {
-		return this.firstName;
+		return this.firstName + " " + this.lastName + " " + this.passportNumber;
 	}
 
 }
