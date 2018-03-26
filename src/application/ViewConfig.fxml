@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="600.0" minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
    <top>
@@ -63,57 +64,81 @@
                 </Tab>
                   <Tab text="Checkin/Checkout Management">
                      <content>
-                        <AnchorPane />
+                        <AnchorPane>
+                           <children>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <content>
+                                    <FlowPane>
+                                       <children>
+                                          <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Check out guests">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="680.0" />
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane fx:id="searchGuestsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Check in guests">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="680.0" />
+                                             </content>
+                                          </TitledPane>
+                                       </children>
+                                    </FlowPane>
+                                 </content>
+                              </ScrollPane>
+                           </children></AnchorPane>
                      </content>
                   </Tab>
                 <Tab text="Guest Management">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                    <AnchorPane>
                            <children>
-                              <Pane prefHeight="1013.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <children>
-                                    <TitledPane fx:id="addGuestBox" animated="false" layoutX="545.0" layoutY="12.0" style="-fx-background-color: f4f4f4;" text="Add guest">
-                                       <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="519.0">
-                                             <children>
-                                                <TextField fx:id="addGuestFirstName" layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
-                                                <TextField fx:id="addGuestLastName" layoutX="14.0" layoutY="57.0" prefWidth="310.0" promptText="Lastname" />
-                                                <TextField fx:id="addGuestAddress" layoutX="14.0" layoutY="96.0" prefWidth="310.0" promptText="Address" />
-                                                <TextField fx:id="addGuestTelephone" layoutX="14.0" layoutY="134.0" prefWidth="310.0" promptText="Telephone number" />
-                                                <TextField fx:id="addGuestCreditCard" layoutX="14.0" layoutY="173.0" prefWidth="310.0" promptText="Credit card" />
-                                                <TextField fx:id="addGuestPassport" layoutX="14.0" layoutY="211.0" prefWidth="310.0" promptText="Passport number" />
-                                                <Button fx:id="addGuestButton" layoutX="275.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#addNewGuest" text="Add" />
-                                             </children>
-                                          </AnchorPane>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="searchGuestsBox" animated="false" layoutX="14.0" layoutY="14.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Search guests">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="287.0" prefWidth="519.0">
-                                             <children>
-                                                <TextField layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
-                                                <TextField layoutX="14.0" layoutY="51.0" prefWidth="310.0" promptText="Lastname" />
-                                                <TextField layoutX="14.0" layoutY="88.0" prefWidth="310.0" promptText="Address" />
-                                                <TextField layoutX="14.0" layoutY="125.0" prefWidth="310.0" promptText="Telephone number" />
-                                                <TextField layoutX="14.0" layoutY="163.0" prefWidth="310.0" promptText="Credit card" />
-                                                <TextField layoutX="14.0" layoutY="203.0" prefWidth="310.0" promptText="Passport number" />
-                                                <Button layoutX="260.0" layoutY="240.0" mnemonicParsing="false" text="Search" />
-                                                <Button fx:id="listAllGuests" layoutX="400.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </TitledPane>
-                                    <TitledPane fx:id="resultsBox" animated="false" layoutX="14.0" layoutY="356.0" onMouseDragged="#dragPane" prefHeight="598.0" prefWidth="1052.0" style="-fx-background-color: f4f4f4;" text="Results">
-                                       <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="562.0" prefWidth="1050.0">
-                                             <children>
-                                                <ListView fx:id="searchResultsList" layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="1021.0" />
-                                             </children>
-                                          </AnchorPane>
-                                       </content>
-                                    </TitledPane>
-                                 </children>
-                              </Pane>
+                              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+                                 <content>
+                                    <FlowPane>
+                                       <children>
+                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" text="Add guest">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="519.0">
+                                                   <children>
+                                                      <TextField fx:id="addGuestFirstName" layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
+                                                      <TextField fx:id="addGuestLastName" layoutX="14.0" layoutY="57.0" prefWidth="310.0" promptText="Lastname" />
+                                                      <TextField fx:id="addGuestAddress" layoutX="14.0" layoutY="96.0" prefWidth="310.0" promptText="Address" />
+                                                      <TextField fx:id="addGuestTelephone" layoutX="14.0" layoutY="134.0" prefWidth="310.0" promptText="Telephone number" />
+                                                      <TextField fx:id="addGuestCreditCard" layoutX="14.0" layoutY="173.0" prefWidth="310.0" promptText="Credit card" />
+                                                      <TextField fx:id="addGuestPassport" layoutX="14.0" layoutY="211.0" prefWidth="310.0" promptText="Passport number" />
+                                                      <Button fx:id="addGuestButton" layoutX="275.0" layoutY="249.0" mnemonicParsing="false" onMouseClicked="#addNewGuest" text="Add" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane fx:id="searchGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" text="Search guests">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="287.0" prefWidth="519.0">
+                                                   <children>
+                                                      <TextField layoutX="14.0" layoutY="14.0" prefWidth="309.0" promptText="Firstname" />
+                                                      <TextField layoutX="14.0" layoutY="51.0" prefWidth="310.0" promptText="Lastname" />
+                                                      <TextField layoutX="14.0" layoutY="88.0" prefWidth="310.0" promptText="Address" />
+                                                      <TextField layoutX="14.0" layoutY="125.0" prefWidth="310.0" promptText="Telephone number" />
+                                                      <TextField layoutX="14.0" layoutY="163.0" prefWidth="310.0" promptText="Credit card" />
+                                                      <TextField layoutX="14.0" layoutY="203.0" prefWidth="310.0" promptText="Passport number" />
+                                                      <Button layoutX="260.0" layoutY="240.0" mnemonicParsing="false" text="Search" />
+                                                      <Button fx:id="listAllGuests" layoutX="400.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </TitledPane>
+                                          <TitledPane fx:id="resultsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" prefHeight="598.0" prefWidth="1052.0" style="-fx-background-color: f4f4f4;" text="Results">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="562.0" prefWidth="1050.0">
+                                                   <children>
+                                                      <ListView fx:id="searchResultsList" layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="1021.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </TitledPane>
+                                       </children>
+                                    </FlowPane>
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </AnchorPane>
                   </content>

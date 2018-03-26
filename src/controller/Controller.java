@@ -136,9 +136,6 @@ public class Controller {
 	
 	@FXML
     void initialize() {
-		DragResizeMod.makeResizable(searchGuestsBox);
-		DragResizeMod.makeResizable(resultsBox);
-		DragResizeMod.makeResizable(addGuestBox);
 	}
 
 }
