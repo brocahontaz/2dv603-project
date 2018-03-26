@@ -9,8 +9,10 @@ import java.util.concurrent.Executors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 
 public class Controller {
@@ -60,6 +62,12 @@ public class Controller {
 
 	@FXML
 	private Button listAllGuests;
+	
+	@FXML
+    private TitledPane searchGuestsBox;
+	
+	@FXML
+    private ListView<model.Guest> searchResultsList = new ListView<model.Guest>();
 
 	@FXML
 	void addNewGuest(MouseEvent event) {
@@ -93,6 +101,11 @@ public class Controller {
 	void closeSystem(ActionEvent event) {
 		System.exit(0);
 	}
+	
+	@FXML
+    void dragPane(MouseEvent event) {
+		
+    }
 
 	@FXML
 	void skrivHejIKonsolen(MouseEvent event) {
@@ -104,8 +117,12 @@ public class Controller {
 
 		executor.submit(() -> {
 			guests = dbParser.getAllGuests();
+			searchResultsList.getItems().addAll(guests);
 			for (model.Guest guest : guests) {
 				System.out.println(guest.getFirstName() + " " + guest.getLastName());
+				
+				
+				
 			}
 		});
 
