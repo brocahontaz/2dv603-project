@@ -21,9 +21,9 @@ import test.testTableClass;
 public class DBParser {
 
 	private Connection connection;
-	private String url = "jdbc:mysql://soggarna.se:3306/2dv603";
-	private String user = "2dv603";
-	private String password = "gmU<B44SWnhdjATJ";
+	private String url = ConnectInfo.getURL();
+	private String user = ConnectInfo.getUser();
+	private String password = ConnectInfo.getPassword();
 
 	private PreparedStatement ps = null;
 	private CachedRowSetImpl crs;
