@@ -72,7 +72,7 @@
                            <children>
                               <Pane prefHeight="1013.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TitledPane animated="false" layoutX="545.0" layoutY="12.0" style="-fx-background-color: f4f4f4;" text="Add guest">
+                                    <TitledPane fx:id="addGuestBox" animated="false" layoutX="545.0" layoutY="12.0" style="-fx-background-color: f4f4f4;" text="Add guest">
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="519.0">
                                              <children>
@@ -103,7 +103,7 @@
                                           </AnchorPane>
                                       </content>
                                     </TitledPane>
-                                    <TitledPane fx:id="searchGuestsBox1" animated="false" layoutX="14.0" layoutY="356.0" onMouseDragged="#dragPane" prefHeight="598.0" prefWidth="1052.0" style="-fx-background-color: f4f4f4;" text="Results">
+                                    <TitledPane fx:id="resultsBox" animated="false" layoutX="14.0" layoutY="356.0" onMouseDragged="#dragPane" prefHeight="598.0" prefWidth="1052.0" style="-fx-background-color: f4f4f4;" text="Results">
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="562.0" prefWidth="1050.0">
                                              <children>

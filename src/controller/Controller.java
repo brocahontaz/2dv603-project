@@ -67,6 +67,12 @@ public class Controller {
     private TitledPane searchGuestsBox;
 	
 	@FXML
+    private TitledPane resultsBox;
+	
+	@FXML
+    private TitledPane addGuestBox;
+	
+	@FXML
     private ListView<model.Guest> searchResultsList = new ListView<model.Guest>();
 
 	@FXML
@@ -126,6 +132,13 @@ public class Controller {
 			}
 		});
 
+	}
+	
+	@FXML
+    void initialize() {
+		DragResizeMod.makeResizable(searchGuestsBox);
+		DragResizeMod.makeResizable(resultsBox);
+		DragResizeMod.makeResizable(addGuestBox);
 	}
 
 }
