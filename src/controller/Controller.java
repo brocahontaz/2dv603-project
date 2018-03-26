@@ -6,18 +6,24 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import model.Guest;
 
 public class Controller {
 
-	private ArrayList<model.Guest> guests;
+	private ObservableList<Guest> guests;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -62,18 +68,33 @@ public class Controller {
 
 	@FXML
 	private Button listAllGuests;
-	
+
 	@FXML
-    private TitledPane searchGuestsBox;
-	
+	private TitledPane searchGuestsBox;
+
 	@FXML
-    private TitledPane resultsBox;
-	
+	private TitledPane resultsBox;
+
 	@FXML
-    private TitledPane addGuestBox;
-	
+	private TitledPane addGuestBox;
+
 	@FXML
-    private ListView<model.Guest> searchResultsList = new ListView<model.Guest>();
+	private TableView<model.Guest> searchResultTable;
+
+	@FXML
+	private TableColumn<model.Guest, String> firstNameCol;
+
+	@FXML
+	private TableColumn<model.Guest, String> lastNameCol;
+
+	@FXML
+	private TableColumn<model.Guest, String> passportCol;
+
+	@FXML
+	private TableColumn<model.Guest, String> telephoneCol;
+
+	@FXML
+	private ListView<model.Guest> searchResultsList = new ListView<model.Guest>();
 
 	@FXML
 	void addNewGuest(MouseEvent event) {
@@ -107,11 +128,11 @@ public class Controller {
 	void closeSystem(ActionEvent event) {
 		System.exit(0);
 	}
-	
+
 	@FXML
-    void dragPane(MouseEvent event) {
-		
-    }
+	void dragPane(MouseEvent event) {
+
+	}
 
 	@FXML
 	void skrivHejIKonsolen(MouseEvent event) {
@@ -122,20 +143,20 @@ public class Controller {
 	void listAllGuests(MouseEvent event) {
 
 		executor.submit(() -> {
-			guests = dbParser.getAllGuests();
-			searchResultsList.getItems().addAll(guests);
-			for (model.Guest guest : guests) {
-				System.out.println(guest.getFirstName() + " " + guest.getLastName());
-				
-				
-				
-			}
+			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
+			searchResultTable.setItems(guests);
 		});
 
 	}
-	
+
 	@FXML
-    void initialize() {
+	void initialize() {
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("firstName"));
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
+		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
+		//guests = FXCollections.observableArrayList(dbParser.getAllGuests());
+		//searchResultTable.setItems(guests);
 	}
 
 }
