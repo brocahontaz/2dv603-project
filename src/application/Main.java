@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
@@ -21,6 +22,10 @@ public class Main extends Application {
 			primaryStage.setMaxHeight(1080);
 			primaryStage.setMaxWidth(1920);
 			primaryStage.show();
+			//primaryStage.getIcons().add(new Image("/apeemoji.png"));
+			//primaryStage.getIcons().add(new Image(getClass().getResource("/apeemoji.png").toExternalForm()));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
+			primaryStage.setTitle("HotelFX");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
