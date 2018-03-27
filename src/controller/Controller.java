@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -23,6 +25,8 @@ import model.Guest;
 public class Controller {
 
 	private ObservableList<Guest> guests;
+	private ObservableList<String> roomQualityChoices;
+	private ObservableList<String> discountChoices;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -94,6 +98,12 @@ public class Controller {
 
 	@FXML
 	private ListView<model.Guest> searchResultsList = new ListView<model.Guest>();
+	
+	@FXML
+    private ComboBox<String> roomQualityChoice;
+	
+	@FXML
+    private ComboBox<String> discountChoice;
 
 	@FXML
 	void addNewGuest(MouseEvent event) {
@@ -160,6 +170,15 @@ public class Controller {
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
+		
+		roomQualityChoices = FXCollections.observableArrayList(
+			    "Single", "Double", "Suite");
+		discountChoices = FXCollections.observableArrayList(
+			    "5%", "10%", "15%", "20%");
+		
+		roomQualityChoice.setItems(roomQualityChoices);
+		discountChoice.setItems(discountChoices);
+		
 		// guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 		// searchResultTable.setItems(guests);
 	}
