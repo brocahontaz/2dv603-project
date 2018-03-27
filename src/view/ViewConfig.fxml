@@ -21,6 +21,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="600.0" minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
    <top>
@@ -80,6 +81,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox11" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
                                              <content>
@@ -96,6 +100,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox111" animated="false" collapsible="false" layoutX="712.0" layoutY="20.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Rooms">
                                              <content>
@@ -112,6 +119,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="resultsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
@@ -131,6 +141,9 @@
                                                    </children>
                                                 </AnchorPane>
                                              </content>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                        </children>
                                        <padding>
@@ -167,6 +180,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="danger" text="Check out guests">
                                              <content>
@@ -175,6 +191,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                        </children>
                                        <padding>
@@ -236,6 +255,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Add guest">
                                              <content>
@@ -266,6 +288,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                           <TitledPane fx:id="resultsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
@@ -288,6 +313,9 @@
                                              <FlowPane.margin>
                                                 <Insets />
                                              </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
                                           </TitledPane>
                                        </children>
                                        <padding>
