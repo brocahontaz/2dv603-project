@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -65,7 +66,15 @@
                                        <children>
                                           <TitledPane fx:id="addGuestBox11" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Make Reservation">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
+                                                   <children>
+                                                      <VBox layoutX="143.0" layoutY="55.0" prefHeight="430.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TextField promptText="Passport number" />
+                                                            <TextField />
+                                                         </children>
+                                                      </VBox>
+                                                   </children></AnchorPane>
                                              </content>
                                              <FlowPane.margin>
                                                 <Insets />
@@ -182,15 +191,23 @@
                                                             <TextField prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button alignment="CENTER" mnemonicParsing="false" styleClass="success" text="Search">
+                                                                  <Button alignment="CENTER" minWidth="70.0" mnemonicParsing="false" text="Search">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
+                                                                     <styleClass>
+                                                                        <String fx:value="success" />
+                                                                        <String fx:value="first" />
+                                                                     </styleClass>
                                                                   </Button>
-                                                                  <Button fx:id="listAllGuests" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#listAllGuests" styleClass="info" text="List all guests">
+                                                                  <Button fx:id="listAllGuests" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
+                                                                     <styleClass>
+                                                                        <String fx:value="info" />
+                                                                        <String fx:value="last" />
+                                                                     </styleClass>
                                                                   </Button>
                                                                </buttons>
                                                             </ButtonBar>
@@ -217,7 +234,11 @@
                                                             <TextField fx:id="addGuestPassport" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                                                <buttons>
-                                                                  <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add" />
+                                                                  <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
                                                                </buttons>
                                                             </ButtonBar>
                                                          </children>
