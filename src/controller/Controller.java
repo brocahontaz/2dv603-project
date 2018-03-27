@@ -1,7 +1,6 @@
 package controller;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -148,11 +147,12 @@ public class Controller {
 		});
 
 	}
-	
+
 	@FXML
-    void checkSingularGuest(MouseEvent event) {
+	void checkSingularGuest(MouseEvent event) {
 		System.out.println(searchResultTable.getSelectionModel().getSelectedItem().getFirstName());
-    }
+		
+	}
 
 	@FXML
 	void initialize() {
@@ -160,8 +160,8 @@ public class Controller {
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
-		//guests = FXCollections.observableArrayList(dbParser.getAllGuests());
-		//searchResultTable.setItems(guests);
+		// guests = FXCollections.observableArrayList(dbParser.getAllGuests());
+		// searchResultTable.setItems(guests);
 	}
 
 }
