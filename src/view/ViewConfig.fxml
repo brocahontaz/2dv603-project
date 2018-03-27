@@ -207,11 +207,48 @@
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
-                                                      <VBox layoutX="42.0" layoutY="34.0" prefHeight="340.0" prefWidth="377.0" spacing="10.0">
+                                                      <VBox layoutX="42.0" layoutY="34.0" prefHeight="340.0" prefWidth="377.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField styleClass="first" />
-                                                            <TextField styleClass="middle" />
-                                                            <TextField styleClass="last" />
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <Button mnemonicParsing="false" text="Choose Reservation" HBox.hgrow="ALWAYS">
+                                                                     <styleClass>
+                                                                        <String fx:value="last" />
+                                                                        <String fx:value="info" />
+                                                                     </styleClass>
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
+                                                            <TextField editable="false" promptText="Address" />
+                                                            <TextField editable="false" promptText="Telephone number" />
+                                                            <TextField editable="false" promptText="Credit card" />
+                                                            <TextField editable="false" promptText="Passport number" />
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox VBox.vgrow="ALWAYS" />
+                                                            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                                                              <buttons>
+                                                                <Button mnemonicParsing="false" styleClass="primary" text="Check in">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                              </buttons>
+                                                            </ButtonBar>
                                                          </children>
                                                       </VBox>
                                                    </children></AnchorPane>
@@ -223,9 +260,55 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="danger" text="Check out guests">
+                                          <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="warning" text="Check out guests">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0" />
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
+                                                   <children>
+                                                      <VBox prefHeight="430.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <Button mnemonicParsing="false" text="Choose Reservation" HBox.hgrow="ALWAYS">
+                                                                     <styleClass>
+                                                                        <String fx:value="last" />
+                                                                        <String fx:value="info" />
+                                                                     </styleClass>
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
+                                                            <TextField editable="false" promptText="Address" />
+                                                            <TextField editable="false" promptText="Telephone number" />
+                                                            <TextField editable="false" promptText="Credit card" />
+                                                            <TextField editable="false" promptText="Passport number" />
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox VBox.vgrow="ALWAYS" />
+                                                            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                                                               <buttons>
+                                                                  <Button mnemonicParsing="false" styleClass="danger" text="Check out">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </buttons>
+                                                            </ButtonBar>
+                                                         </children>
+                                                      </VBox>
+                                                   </children></AnchorPane>
                                              </content>
                                              <FlowPane.margin>
                                                 <Insets />
