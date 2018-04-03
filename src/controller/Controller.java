@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,6 +29,9 @@ public class Controller {
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
+	@FXML
+    private ProgressIndicator dbLoad;
+	
 	@FXML
 	private TitledPane makeReservationBox;
 
@@ -322,7 +326,7 @@ public class Controller {
 
 	@FXML
 	void listAllGuests(MouseEvent event) {
-
+		
 		executor.submit(() -> {
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
