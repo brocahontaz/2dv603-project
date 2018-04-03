@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.ComboBox;
@@ -18,7 +20,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Guest;
 
 public class Controller {
@@ -267,12 +273,40 @@ public class Controller {
 
 	@FXML
 	void pickGuest(MouseEvent event) {
-
+		try {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
+		Scene scene = new Scene(root,800,600);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(600);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(600);
+		popup.show();
+		popup.setTitle("Guests");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
-
+		try {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
+		Scene scene = new Scene(root,800,600);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(600);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(600);
+		popup.show();
+		popup.setTitle("Rooms");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
