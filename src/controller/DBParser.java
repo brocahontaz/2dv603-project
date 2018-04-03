@@ -38,6 +38,37 @@ public class DBParser {
 
 	}
 
+	public boolean checkIn(int reservationID) {
+		return false;
+	}
+
+	public boolean checkOut(int reservationID) {
+		return false;
+	}
+
+	public boolean makeReservation() {
+		return false;
+	}
+
+	public model.Room getAllAvailableRooms() {
+		return null;
+	}
+
+	public model.Guest getGuest(String passportNumber) {
+		return null;
+	}
+
+	public model.Room getRoom(int roomNumber) {
+		return null;
+	}
+
+	public ArrayList<model.Guest> searchGuests(String firstName, String lastName, String address,
+			String telephoneNumber, String creditCard, String passportNumber) {
+		
+		
+		return null;
+	}
+
 	public void addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber) {
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };

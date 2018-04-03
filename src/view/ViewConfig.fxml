@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -22,40 +23,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="1080.0" maxWidth="1920.0" minHeight="600.0" minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
-   <top>
-      <MenuBar maxWidth="1920.0" minWidth="800.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem fx:id="vaxjoChange" mnemonicParsing="false" text="Växjö" />
-                  <MenuItem fx:id="kalmarChange" mnemonicParsing="false" text="Kalmar" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="closeSystem" mnemonicParsing="false" onAction="#closeSystem" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Preferences" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Fullscreen">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Toggle" />
-               </items>
-            </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <left>
+   <center>
       <BorderPane minWidth="800.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <center>
             <TabPane minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0" styleClass="plain" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
@@ -106,7 +79,7 @@
                                                             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button mnemonicParsing="false" styleClass="primary" text="Make Reservation">
+                                                                  <Button mnemonicParsing="false" onMouseClicked="#makeReservation" styleClass="primary" text="Make Reservation">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -168,10 +141,10 @@
                                                    <children>
                                                       <TableView fx:id="searchResultTable1" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <columns>
-                                                            <TableColumn fx:id="firstNameCol1" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="First name" />
-                                                            <TableColumn fx:id="lastNameCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Last name" />
-                                                            <TableColumn fx:id="passportCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Passport number" />
-                                                            <TableColumn fx:id="telephoneCol1" editable="false" prefWidth="260.0" resizable="false" text="Telephone" />
+                                                            <TableColumn fx:id="firstNameCol1" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="Room number" />
+                                                            <TableColumn fx:id="lastNameCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Quality" />
+                                                            <TableColumn fx:id="passportCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Price" />
+                                                            <TableColumn fx:id="telephoneCol1" editable="false" prefWidth="260.0" resizable="false" text="Reserved (id)" />
                                                          </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -242,7 +215,7 @@
                                                             <HBox VBox.vgrow="ALWAYS" />
                                                             <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                                               <buttons>
-                                                                <Button mnemonicParsing="false" styleClass="primary" text="Check in">
+                                                                <Button mnemonicParsing="false" onMouseClicked="#checkInGuest" styleClass="primary" text="Check in">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -299,7 +272,7 @@
                                                             <HBox VBox.vgrow="ALWAYS" />
                                                             <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                                                <buttons>
-                                                                  <Button mnemonicParsing="false" styleClass="danger" text="Check out">
+                                                                  <Button mnemonicParsing="false" onMouseClicked="#checkOutGuest" styleClass="danger" text="Check out">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -451,5 +424,63 @@
             </TabPane>
          </center>
       </BorderPane>
-   </left>
+   </center>
+   <top>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <VBox style="-fx-background-color: white;">
+               <children>
+                  <HBox>
+                     <children>
+                        <MenuBar>
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                <MenuItem fx:id="vaxjoChange" mnemonicParsing="false" text="Växjö" />
+                                    <MenuItem fx:id="kalmarChange" mnemonicParsing="false" text="Kalmar" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem fx:id="closeSystem" mnemonicParsing="false" onAction="#closeSystem" text="Close" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Preferences" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                              </items>
+                            </Menu>
+                              <Menu mnemonicParsing="false" text="Fullscreen">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Toggle" />
+                                 </items>
+                              </Menu>
+                          </menus>
+                        </MenuBar>
+                        <HBox HBox.hgrow="ALWAYS" />
+                        <HBox visible="false">
+                           <children>
+                              <Button mnemonicParsing="false" style="-fx-border-radius: 0;" text="-" />
+                              <Button mnemonicParsing="false" style="-fx-border-radius: 0;" text="+" />
+                            <Button mnemonicParsing="false" style="-fx-border-radius: 0;" styleClass="danger" text="X" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <BorderPane VBox.vgrow="ALWAYS">
+                     <center>
+                        <Label text="HotelFX" textAlignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </top>
 </BorderPane>

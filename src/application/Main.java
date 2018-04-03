@@ -2,6 +2,7 @@ package application;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,7 @@ public class Main extends Application {
 			primaryStage.setMinWidth(800);
 			primaryStage.setMaxHeight(1080);
 			primaryStage.setMaxWidth(1920);
+			//primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.show();
 			//primaryStage.getIcons().add(new Image("/apeemoji.png"));
 			//primaryStage.getIcons().add(new Image(getClass().getResource("/apeemoji.png").toExternalForm()));

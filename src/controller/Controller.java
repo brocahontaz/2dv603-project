@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -160,9 +160,24 @@ public class Controller {
 
 	@FXML
 	void checkSingularGuest(MouseEvent event) {
-		System.out.println(searchResultTable.getSelectionModel().getSelectedItem().getFirstName());
+		//System.out.println(searchResultTable.getSelectionModel().getSelectedItem().getFirstName());
 		
 	}
+	
+	@FXML
+    void checkInGuest(MouseEvent event) {
+
+    }
+
+    @FXML
+    void checkOutGuest(MouseEvent event) {
+    	
+    }
+    
+    @FXML
+    void makeReservation(MouseEvent event) {
+
+    }
 
 	@FXML
 	void initialize() {
