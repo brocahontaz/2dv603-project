@@ -29,254 +29,259 @@ public class Controller {
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
 	@FXML
-    private TitledPane makeReservationBox;
+	private TitledPane makeReservationBox;
 
-    @FXML
-    private Button pickGuestButton;
+	@FXML
+	private Button pickGuestButton;
 
-    @FXML
-    private Button pickSpecificRoomButton;
+	@FXML
+	private Button pickSpecificRoomButton;
 
-    @FXML
-    private DatePicker arrivalDate;
+	@FXML
+	private DatePicker arrivalDate;
 
-    @FXML
-    private DatePicker departureDate;
+	@FXML
+	private DatePicker departureDate;
 
-    @FXML
-    private ComboBox<String> roomQualityChoice;
+	@FXML
+	private ComboBox<String> roomQualityChoice;
 
-    @FXML
-    private ComboBox<String> discountChoice;
+	@FXML
+	private ComboBox<String> discountChoice;
 
-    @FXML
-    private Button makeReservationButton;
+	@FXML
+	private Button makeReservationButton;
 
-    @FXML
-    private TitledPane checkReservationsBox;
+	@FXML
+	private TitledPane checkReservationsBox;
 
-    @FXML
-    private TitledPane checkRoomsBox;
+	@FXML
+	private TitledPane checkRoomsBox;
 
-    @FXML
-    private TitledPane resultsBox2;
+	@FXML
+	private TitledPane resultsBox2;
 
-    @FXML
-    private TableView<?> searchResultTable2;
+	@FXML
+	private TableView<?> searchResultTable2;
 
-    @FXML
-    private TableColumn<?, ?> roomNumberCol;
+	@FXML
+	private TableColumn<?, ?> roomNumberCol;
 
-    @FXML
-    private TableColumn<?, ?> qualityCol;
+	@FXML
+	private TableColumn<?, ?> qualityCol;
 
-    @FXML
-    private TableColumn<?, ?> priceCol;
+	@FXML
+	private TableColumn<?, ?> priceCol;
 
-    @FXML
-    private TableColumn<?, ?> reservedCol;
+	@FXML
+	private TableColumn<?, ?> reservedCol;
 
-    @FXML
-    private TitledPane checkInGuestsBox;
+	@FXML
+	private TitledPane checkInGuestsBox;
 
-    @FXML
-    private TextField checkInReservationID;
+	@FXML
+	private TextField checkInReservationID;
 
-    @FXML
-    private Button chooseReservationButtonCheckIn;
+	@FXML
+	private Button chooseReservationButtonCheckIn;
 
-    @FXML
-    private TextField checkInFirstName;
+	@FXML
+	private TextField checkInFirstName;
 
-    @FXML
-    private TextField checkInLastName;
+	@FXML
+	private TextField checkInLastName;
 
-    @FXML
-    private TextField checkInAddress;
+	@FXML
+	private TextField checkInAddress;
 
-    @FXML
-    private TextField checkInTelephone;
+	@FXML
+	private TextField checkInTelephone;
 
-    @FXML
-    private TextField checkInCreditCard;
+	@FXML
+	private TextField checkInCreditCard;
 
-    @FXML
-    private TextField checkInPassportNumber;
+	@FXML
+	private TextField checkInPassportNumber;
 
-    @FXML
-    private TextField checkInArrivalDate;
+	@FXML
+	private TextField checkInArrivalDate;
 
-    @FXML
-    private TextField checkInDepartureDate;
+	@FXML
+	private TextField checkInDepartureDate;
 
-    @FXML
-    private Button checkInButton;
+	@FXML
+	private Button checkInButton;
 
-    @FXML
-    private TitledPane checkOutGuestsBox;
+	@FXML
+	private TitledPane checkOutGuestsBox;
 
-    @FXML
-    private TextField checkOutReservationID;
+	@FXML
+	private TextField checkOutReservationID;
 
-    @FXML
-    private Button chooseReservationButtonCheckOut;
+	@FXML
+	private Button chooseReservationButtonCheckOut;
 
-    @FXML
-    private TextField checkOutFirstName;
+	@FXML
+	private TextField checkOutFirstName;
 
-    @FXML
-    private TextField checkOutLastName;
+	@FXML
+	private TextField checkOutLastName;
 
-    @FXML
-    private TextField checkOutAddress;
+	@FXML
+	private TextField checkOutAddress;
 
-    @FXML
-    private TextField checkOutTelephone;
+	@FXML
+	private TextField checkOutTelephone;
 
-    @FXML
-    private TextField checkOutCreditCard;
+	@FXML
+	private TextField checkOutCreditCard;
 
-    @FXML
-    private TextField checkOutPassportNumber;
+	@FXML
+	private TextField checkOutPassportNumber;
 
-    @FXML
-    private TextField checkOutArrivalDate;
+	@FXML
+	private TextField checkOutArrivalDate;
 
-    @FXML
-    private TextField checkOutDepartureDate;
+	@FXML
+	private TextField checkOutDepartureDate;
 
-    @FXML
-    private Button checkOutButton;
+	@FXML
+	private Button checkOutButton;
 
-    @FXML
-    private TitledPane searchGuestsBox;
+	@FXML
+	private TitledPane searchGuestsBox;
 
-    @FXML
-    private TextField searchGuestFirstName;
+	@FXML
+	private TextField searchGuestFirstName;
 
-    @FXML
-    private TextField searchGuestLastName;
+	@FXML
+	private TextField searchGuestLastName;
 
-    @FXML
-    private TextField searchGuestAddress;
+	@FXML
+	private TextField searchGuestAddress;
 
-    @FXML
-    private TextField searchGuestTelephone;
+	@FXML
+	private TextField searchGuestTelephone;
 
-    @FXML
-    private TextField searchGuestCreditCard;
+	@FXML
+	private TextField searchGuestCreditCard;
 
-    @FXML
-    private TextField searchGuestPassportNumber;
+	@FXML
+	private TextField searchGuestPassportNumber;
 
-    @FXML
-    private Button searchGuestButton;
+	@FXML
+	private Button searchGuestButton;
 
-    @FXML
-    private Button listAllGuestsButton;
+	@FXML
+	private Button listAllGuestsButton;
 
-    @FXML
-    private TitledPane addGuestBox;
+	@FXML
+	private TitledPane addGuestBox;
 
-    @FXML
-    private TextField addGuestFirstName;
+	@FXML
+	private TextField addGuestFirstName;
 
-    @FXML
-    private TextField addGuestLastName;
+	@FXML
+	private TextField addGuestLastName;
 
-    @FXML
-    private TextField addGuestAddress;
+	@FXML
+	private TextField addGuestAddress;
 
-    @FXML
-    private TextField addGuestTelephone;
+	@FXML
+	private TextField addGuestTelephone;
 
-    @FXML
-    private TextField addGuestCreditCard;
+	@FXML
+	private TextField addGuestCreditCard;
 
-    @FXML
-    private TextField addGuestPassport;
+	@FXML
+	private TextField addGuestPassport;
 
-    @FXML
-    private Button addGuestButton;
+	@FXML
+	private Button addGuestButton;
 
-    @FXML
-    private TitledPane resultsBox;
+	@FXML
+	private TitledPane resultsBox;
 
-    @FXML
-    private TableView<model.Guest> searchResultTable;
+	@FXML
+	private TableView<model.Guest> searchResultTable;
 
-    @FXML
-    private TableColumn<model.Guest, String> firstNameCol;
+	@FXML
+	private TableColumn<model.Guest, String> firstNameCol;
 
-    @FXML
-    private TableColumn<model.Guest, String> lastNameCol;
+	@FXML
+	private TableColumn<model.Guest, String> lastNameCol;
 
-    @FXML
-    private TableColumn<model.Guest, String> passportCol;
+	@FXML
+	private TableColumn<model.Guest, String> passportCol;
 
-    @FXML
-    private TableColumn<model.Guest, String> telephoneCol;
+	@FXML
+	private TableColumn<model.Guest, String> telephoneCol;
 
-    @FXML
-    private MenuItem vaxjoChange;
+	@FXML
+	private MenuItem vaxjoChange;
 
-    @FXML
-    private MenuItem kalmarChange;
+	@FXML
+	private MenuItem kalmarChange;
 
-    @FXML
-    private MenuItem closeSystem;
+	@FXML
+	private MenuItem closeSystem;
 
-    @FXML
-    void checkInGuest(MouseEvent event) {
+	@FXML
+	void checkInGuest(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void checkOutGuest(MouseEvent event) {
+	@FXML
+	void checkOutGuest(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void checkSingularGuest(MouseEvent event) {
+	@FXML
+	void checkSingularGuest(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void chooseReservationCheckIn(MouseEvent event) {
+	@FXML
+	void chooseReservationCheckIn(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void chooseReservationCheckOut(MouseEvent event) {
+	@FXML
+	void chooseReservationCheckOut(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void dragPane(MouseEvent event) {
+	@FXML
+	void dragPane(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void makeReservation(MouseEvent event) {
+	@FXML
+	void makeReservation(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void pickGuest(MouseEvent event) {
+	@FXML
+	void pickGuest(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void pickSpecificRoom(MouseEvent event) {
+	@FXML
+	void pickSpecificRoom(MouseEvent event) {
 
-    }
+	}
 
-    @FXML
-    void searchGuests(MouseEvent event) {
+	@FXML
+	void searchGuests(MouseEvent event) {
+		executor.submit(() -> {
+			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
+					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
+					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
+			searchResultTable.setItems(guests);
+		});
 
-    }
-    
-    
+	}
+
 	@FXML
 	void addNewGuest(MouseEvent event) {
 		if (addGuestFirstName.getText().isEmpty()) {
@@ -331,15 +336,13 @@ public class Controller {
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
-		
-		roomQualityChoices = FXCollections.observableArrayList(
-			    "Single", "Double", "Suite");
-		discountChoices = FXCollections.observableArrayList(
-			    "5%", "10%", "15%", "20%");
-		
+
+		roomQualityChoices = FXCollections.observableArrayList("Single", "Double", "Suite");
+		discountChoices = FXCollections.observableArrayList("5%", "10%", "15%", "20%");
+
 		roomQualityChoice.setItems(roomQualityChoices);
 		discountChoice.setItems(discountChoices);
-		
+
 		// guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 		// searchResultTable.setItems(guests);
 	}

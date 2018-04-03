@@ -62,20 +62,69 @@ public class DBParser {
 		return null;
 	}
 
+	/**
+	 * Search for guests
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param address the address
+	 * @param telephoneNumber the telephone number
+	 * @param creditCard the credit card
+	 * @param passportNumber the passport number
+	 * @return
+	 */
 	public ArrayList<model.Guest> searchGuests(String firstName, String lastName, String address,
 			String telephoneNumber, String creditCard, String passportNumber) {
+		if (firstName.isEmpty() || firstName == null) {
+			firstName = "*";
+		}
+		if (lastName.isEmpty() || lastName == null) {
+			lastName = "*";
+		}
+		if (address.isEmpty() || address == null) {
+			address = "*";
+		}
+		if (telephoneNumber.isEmpty() || telephoneNumber == null) {
+			telephoneNumber = "*";
+		}
+		if (creditCard.isEmpty() || creditCard == null) {
+			creditCard = "*";
+		}
+		if (passportNumber.isEmpty() || passportNumber == null) {
+			passportNumber = "*";
+		}
 		
+		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		String[] temp = {firstName, lastName, address, telephoneNumber, creditCard, passportNumber};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_GUESTS, temp);
+
+		populateGuestArray(guests, crsTemp);
 		
-		return null;
+		return guests;
 	}
 
+	/**
+	 * Add a new guest to the database
+	 * @param firstName the first name of the guest
+	 * @param lastName the last name of the guest
+	 * @param address the address of the guest
+	 * @param telephoneNumber the telephone number of the guest
+	 * @param creditCard the credit card number of the guest
+	 * @param passportNumber the passport number of the guest
+	 */
 	public void addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber) {
+		
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
 		this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
 
+	/**
+	 * Get all the guests in the database
+	 * 
+	 * @return ArrayList<model.Guest> the guests
+	 */
 	public ArrayList<model.Guest> getAllGuests() {
+		
 		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
 		String[] temp = {};
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_GUESTS, temp);
@@ -102,11 +151,16 @@ public class DBParser {
 		populateGuestArray(guests, crsTemp);
 
 		return guests;
-
-		// return executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME.toString(),
-		// lastname);
 	}
 
+	/**
+	 * Private help method to populate ArrayList with guests from cached row set
+	 * 
+	 * @param list
+	 *            the ArrayList to be populated
+	 * @param crsTemp
+	 *            the cached row set
+	 */
 	private void populateGuestArray(ArrayList<model.Guest> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
