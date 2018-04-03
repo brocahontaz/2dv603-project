@@ -23,8 +23,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import model.Guest;
 
 public class Controller {
@@ -342,15 +344,16 @@ public class Controller {
 	void pickGuest(MouseEvent event) {
 		try {
 		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
-		Scene scene = new Scene(root,615,400);		
+		Scene scene = new Scene(root,600,400);		
 		Stage popup = new Stage();
 		popup.initModality(Modality.APPLICATION_MODAL);
 		popup.setScene(scene);
 		popup.setMinHeight(400);
-		popup.setMinWidth(615);
-		popup.setMaxHeight(400);
-		popup.setMaxWidth(615);
+		popup.setMinWidth(600);
+		popup.setResizable(false);
+		popup.initStyle(StageStyle.UNDECORATED);
 		popup.show();
+		root.getScene().getWindow().sizeToScene();
 		popup.setTitle("Guests");
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -366,7 +369,7 @@ public class Controller {
 	void pickSpecificRoom(MouseEvent event) {
 		try {
 		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
-		Scene scene = new Scene(root,615,400);		
+		Scene scene = new Scene(root,600,415);		
 		Stage popup = new Stage();
 		popup.initModality(Modality.APPLICATION_MODAL);
 		popup.setScene(scene);
