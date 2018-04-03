@@ -35,101 +35,45 @@ public class Controller {
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	@FXML
-    private ProgressIndicator dbLoad;
-	
-	@FXML
-	private TitledPane makeReservationBox;
+	/**
+	 * TEXT FIELDS
+	 */
 
 	@FXML
-	private Button pickGuestButton;
+	private TextField searchGuestFirstName;
 
 	@FXML
-	private Button pickSpecificRoomButton;
+	private TextField searchGuestLastName;
 
 	@FXML
-	private DatePicker arrivalDate;
+	private TextField searchGuestAddress;
 
 	@FXML
-	private DatePicker departureDate;
+	private TextField searchGuestTelephone;
 
 	@FXML
-	private ComboBox<String> roomQualityChoice;
+	private TextField searchGuestCreditCard;
 
 	@FXML
-	private ComboBox<String> discountChoice;
+	private TextField searchGuestPassportNumber;
 
 	@FXML
-	private Button makeReservationButton;
+	private TextField addGuestFirstName;
 
 	@FXML
-	private TitledPane checkReservationsBox;
+	private TextField addGuestLastName;
 
 	@FXML
-	private TitledPane checkRoomsBox;
+	private TextField addGuestAddress;
 
 	@FXML
-	private TitledPane resultsBox2;
+	private TextField addGuestTelephone;
 
 	@FXML
-	private TableView<?> searchResultTable2;
+	private TextField addGuestCreditCard;
 
 	@FXML
-	private TableColumn<?, ?> roomNumberCol;
-
-	@FXML
-	private TableColumn<?, ?> qualityCol;
-
-	@FXML
-	private TableColumn<?, ?> priceCol;
-
-	@FXML
-	private TableColumn<?, ?> reservedCol;
-
-	@FXML
-	private TitledPane checkInGuestsBox;
-
-	@FXML
-	private TextField checkInReservationID;
-
-	@FXML
-	private Button chooseReservationButtonCheckIn;
-
-	@FXML
-	private TextField checkInFirstName;
-
-	@FXML
-	private TextField checkInLastName;
-
-	@FXML
-	private TextField checkInAddress;
-
-	@FXML
-	private TextField checkInTelephone;
-
-	@FXML
-	private TextField checkInCreditCard;
-
-	@FXML
-	private TextField checkInPassportNumber;
-
-	@FXML
-	private TextField checkInArrivalDate;
-
-	@FXML
-	private TextField checkInDepartureDate;
-
-	@FXML
-	private Button checkInButton;
-
-	@FXML
-	private TitledPane checkOutGuestsBox;
-
-	@FXML
-	private TextField checkOutReservationID;
-
-	@FXML
-	private Button chooseReservationButtonCheckOut;
+	private TextField addGuestPassport;
 
 	@FXML
 	private TextField checkOutFirstName;
@@ -156,28 +100,38 @@ public class Controller {
 	private TextField checkOutDepartureDate;
 
 	@FXML
-	private Button checkOutButton;
+	private TextField checkOutReservationID;
 
 	@FXML
-	private TitledPane searchGuestsBox;
+	private TextField checkInFirstName;
 
 	@FXML
-	private TextField searchGuestFirstName;
+	private TextField checkInLastName;
 
 	@FXML
-	private TextField searchGuestLastName;
+	private TextField checkInAddress;
 
 	@FXML
-	private TextField searchGuestAddress;
+	private TextField checkInTelephone;
 
 	@FXML
-	private TextField searchGuestTelephone;
+	private TextField checkInCreditCard;
 
 	@FXML
-	private TextField searchGuestCreditCard;
+	private TextField checkInPassportNumber;
 
 	@FXML
-	private TextField searchGuestPassportNumber;
+	private TextField checkInArrivalDate;
+
+	@FXML
+	private TextField checkInDepartureDate;
+
+	@FXML
+	private TextField checkInReservationID;
+
+	/**
+	 * BUTTONS
+	 */
 
 	@FXML
 	private Button searchGuestButton;
@@ -186,31 +140,105 @@ public class Controller {
 	private Button listAllGuestsButton;
 
 	@FXML
-	private TitledPane addGuestBox;
+	private Button pickGuestButton;
 
 	@FXML
-	private TextField addGuestFirstName;
+	private Button pickSpecificRoomButton;
 
 	@FXML
-	private TextField addGuestLastName;
+	private Button makeReservationButton;
 
 	@FXML
-	private TextField addGuestAddress;
+	private Button chooseReservationButtonCheckIn;
 
 	@FXML
-	private TextField addGuestTelephone;
+	private Button checkInButton;
 
 	@FXML
-	private TextField addGuestCreditCard;
+	private Button checkOutButton;
 
 	@FXML
-	private TextField addGuestPassport;
+	private Button chooseReservationButtonCheckOut;
 
 	@FXML
 	private Button addGuestButton;
 
+	/**
+	 * TITLED PANES
+	 */
+
+	@FXML
+	private TitledPane addGuestBox;
+
+	@FXML
+	private TitledPane makeReservationBox;
+
+	@FXML
+	private TitledPane checkReservationsBox;
+
+	@FXML
+	private TitledPane checkRoomsBox;
+
+	@FXML
+	private TitledPane resultsBox2;
+
+	@FXML
+	private TitledPane checkInGuestsBox;
+
+	@FXML
+	private TitledPane checkOutGuestsBox;
+
+	@FXML
+	private TitledPane searchGuestsBox;
+
 	@FXML
 	private TitledPane resultsBox;
+
+	/**
+	 * COMBO BOXES
+	 */
+
+	@FXML
+	private ComboBox<String> roomQualityChoice;
+
+	@FXML
+	private ComboBox<String> discountChoice;
+
+	/**
+	 * PROGRESS INDICATORS
+	 */
+
+	@FXML
+	private ProgressIndicator dbLoad;
+
+	/**
+	 * DATE PICKERS
+	 */
+
+	@FXML
+	private DatePicker arrivalDate;
+
+	@FXML
+	private DatePicker departureDate;
+
+	/**
+	 * TABLE VIEWS
+	 */
+
+	@FXML
+	private TableView<?> searchResultTable2;
+
+	@FXML
+	private TableColumn<?, ?> roomNumberCol;
+
+	@FXML
+	private TableColumn<?, ?> qualityCol;
+
+	@FXML
+	private TableColumn<?, ?> priceCol;
+
+	@FXML
+	private TableColumn<?, ?> reservedCol;
 
 	@FXML
 	private TableView<model.Guest> searchResultTable;
@@ -227,6 +255,10 @@ public class Controller {
 	@FXML
 	private TableColumn<model.Guest, String> telephoneCol;
 
+	/**
+	 * MENU ITEMS
+	 */
+
 	@FXML
 	private MenuItem vaxjoChange;
 
@@ -236,11 +268,21 @@ public class Controller {
 	@FXML
 	private MenuItem closeSystem;
 
+	/**
+	 * Check in guest
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void checkInGuest(MouseEvent event) {
 
 	}
 
+	/**
+	 * Check out guest
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void checkOutGuest(MouseEvent event) {
 
@@ -251,64 +293,99 @@ public class Controller {
 
 	}
 
+	/**
+	 * Choose reservation to check in
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
 
 	}
 
+	/**
+	 * Choose reservation to check out
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
 
 	}
 
+	/**
+	 * Drag a pane
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void dragPane(MouseEvent event) {
 
 	}
 
+	/**
+	 * Make a reservation
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
 
 	}
 
+	/**
+	 * Pick a guest
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
 		try {
-		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
-		Scene scene = new Scene(root,800,600);		
-		Stage popup = new Stage();
-		popup.initModality(Modality.APPLICATION_MODAL);
-		popup.setScene(scene);
-		popup.setMinHeight(400);
-		popup.setMinWidth(600);
-		popup.setMaxHeight(400);
-		popup.setMaxWidth(600);
-		popup.show();
-		popup.setTitle("Guests");
-		} catch(Exception e) {
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
+			Scene scene = new Scene(root, 800, 600);
+			Stage popup = new Stage();
+			popup.initModality(Modality.APPLICATION_MODAL);
+			popup.setScene(scene);
+			popup.setMinHeight(400);
+			popup.setMinWidth(600);
+			popup.setMaxHeight(400);
+			popup.setMaxWidth(600);
+			popup.show();
+			popup.setTitle("Guests");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Pick a room
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
 		try {
-		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
-		Scene scene = new Scene(root,800,600);		
-		Stage popup = new Stage();
-		popup.initModality(Modality.APPLICATION_MODAL);
-		popup.setScene(scene);
-		popup.setMinHeight(400);
-		popup.setMinWidth(600);
-		popup.setMaxHeight(400);
-		popup.setMaxWidth(600);
-		popup.show();
-		popup.setTitle("Rooms");
-		} catch(Exception e) {
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
+			Scene scene = new Scene(root, 800, 600);
+			Stage popup = new Stage();
+			popup.initModality(Modality.APPLICATION_MODAL);
+			popup.setScene(scene);
+			popup.setMinHeight(400);
+			popup.setMinWidth(600);
+			popup.setMaxHeight(400);
+			popup.setMaxWidth(600);
+			popup.show();
+			popup.setTitle("Rooms");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Search guests, filtered
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
@@ -320,6 +397,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Add a new guest
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
 		if (addGuestFirstName.getText().isEmpty()) {
@@ -348,19 +430,34 @@ public class Controller {
 
 	}
 
+	/**
+	 * Close the software
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void closeSystem(ActionEvent event) {
 		System.exit(0);
 	}
 
+	/**
+	 * Write "HejIKonsolen" in the console
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void skrivHejIKonsolen(MouseEvent event) {
 		System.out.println("HejIKonsolen");
 	}
 
+	/**
+	 * List all guests
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void listAllGuests(MouseEvent event) {
-		
+
 		executor.submit(() -> {
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
@@ -368,6 +465,9 @@ public class Controller {
 
 	}
 
+	/**
+	 * Initialize
+	 */
 	@FXML
 	void initialize() {
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("firstName"));
