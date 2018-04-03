@@ -341,18 +341,18 @@ public class Controller {
 	@FXML
 	void pickGuest(MouseEvent event) {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
-			Scene scene = new Scene(root, 800, 600);
-			Stage popup = new Stage();
-			popup.initModality(Modality.APPLICATION_MODAL);
-			popup.setScene(scene);
-			popup.setMinHeight(400);
-			popup.setMinWidth(600);
-			popup.setMaxHeight(400);
-			popup.setMaxWidth(600);
-			popup.show();
-			popup.setTitle("Guests");
-		} catch (Exception e) {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
+		Scene scene = new Scene(root,615,400);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(615);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(615);
+		popup.show();
+		popup.setTitle("Guests");
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -365,22 +365,21 @@ public class Controller {
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
-			Scene scene = new Scene(root, 800, 600);
-			Stage popup = new Stage();
-			popup.initModality(Modality.APPLICATION_MODAL);
-			popup.setScene(scene);
-			popup.setMinHeight(400);
-			popup.setMinWidth(600);
-			popup.setMaxHeight(400);
-			popup.setMaxWidth(600);
-			popup.show();
-			popup.setTitle("Rooms");
-		} catch (Exception e) {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
+		Scene scene = new Scene(root,615,400);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(615);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(615);
+		popup.show();
+		popup.setTitle("Rooms");
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 * Search guests, filtered
 	 * 

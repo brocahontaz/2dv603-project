@@ -2,18 +2,22 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <TitledPane animated="false" collapsible="false" text="Rooms" BorderPane.alignment="CENTER">
+      <TitledPane animated="false" collapsible="false" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" text="Rooms" BorderPane.alignment="CENTER">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="598.0">
+          <AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <AnchorPane layoutY="-44.0" prefHeight="200.0" prefWidth="200.0" />
-                  <TableView layoutX="-2.0" layoutY="-1.0" prefHeight="377.0" prefWidth="600.0">
+                  <AnchorPane layoutY="-44.0" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TextField layoutX="2.0" layoutY="49.0" prefHeight="25.0" prefWidth="594.0" promptText="Search for room..." />
+                     </children></AnchorPane>
+                  <TableView layoutX="-2.0" layoutY="31.0" minWidth="400.0" prefHeight="345.0" prefWidth="600.0">
                     <columns>
                       <TableColumn prefWidth="150.0" text="Room number" />
                       <TableColumn prefWidth="150.0" text="Quality" />
