@@ -70,27 +70,29 @@ public class DBParser {
 	 * @param telephoneNumber the telephone number
 	 * @param creditCard the credit card
 	 * @param passportNumber the passport number
-	 * @return
+	 * @return <ArrayList> the guests
 	 */
 	public ArrayList<model.Guest> searchGuests(String firstName, String lastName, String address,
 			String telephoneNumber, String creditCard, String passportNumber) {
+		
 		if (firstName.isEmpty() || firstName == null) {
-			firstName = "*";
+			firstName = "%";
+			System.out.println("tomt");
 		}
 		if (lastName.isEmpty() || lastName == null) {
-			lastName = "*";
+			lastName = "%";
 		}
 		if (address.isEmpty() || address == null) {
-			address = "*";
+			address = "%";
 		}
 		if (telephoneNumber.isEmpty() || telephoneNumber == null) {
-			telephoneNumber = "*";
+			telephoneNumber = "%";
 		}
 		if (creditCard.isEmpty() || creditCard == null) {
-			creditCard = "*";
+			creditCard = "%";
 		}
 		if (passportNumber.isEmpty() || passportNumber == null) {
-			passportNumber = "*";
+			passportNumber = "%";
 		}
 		
 		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
