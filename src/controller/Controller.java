@@ -253,12 +253,40 @@ public class Controller {
 
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
-
+		try {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/ReservationsPopup.fxml"));
+		Scene scene = new Scene(root,800,600);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(600);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(600);
+		popup.show();
+		popup.setTitle("Reservations");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
-
+		try {
+		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/ReservationsPopup.fxml"));
+		Scene scene = new Scene(root,800,600);		
+		Stage popup = new Stage();
+		popup.initModality(Modality.APPLICATION_MODAL);
+		popup.setScene(scene);
+		popup.setMinHeight(400);
+		popup.setMinWidth(600);
+		popup.setMaxHeight(400);
+		popup.setMaxWidth(600);
+		popup.show();
+		popup.setTitle("Reservations");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
