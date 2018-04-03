@@ -41,7 +41,7 @@
                                  <content>
                                     <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
-                                          <TitledPane fx:id="addGuestBox11" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Make Reservation">
+                                          <TitledPane fx:id="makeReservationBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Make Reservation">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -50,7 +50,21 @@
                                                             <HBox>
                                                                <children>
                                                                   <TextField editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                <Button mnemonicParsing="false" text="Pick Guest" HBox.hgrow="ALWAYS">
+                                                                <Button fx:id="pickGuestButton" mnemonicParsing="false" onMouseClicked="#pickGuest" text="Pick Guest" HBox.hgrow="ALWAYS">
+                                                                     <styleClass>
+                                                                        <String fx:value="last" />
+                                                                        <String fx:value="info" />
+                                                                     </styleClass>
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox layoutX="10.0" layoutY="10.0">
+                                                               <children>
+                                                                  <TextField editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <Button fx:id="pickSpecificRoomButton" mnemonicParsing="false" onMouseClicked="#pickSpecificRoom" text="Pick specific room" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
                                                                         <String fx:value="info" />
@@ -64,9 +78,9 @@
                                                             <TextField />
                                                             <HBox>
                                                                <children>
-                                                                  <DatePicker promptText="Arrival" />
+                                                                  <DatePicker fx:id="arrivalDate" promptText="Arrival" />
                                                                   <VBox prefWidth="50.0" />
-                                                                  <DatePicker promptText="Departure" />
+                                                                  <DatePicker fx:id="departureDate" promptText="Departure" />
                                                                </children>
                                                             </HBox>
                                                             <HBox>
@@ -79,7 +93,7 @@
                                                             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button mnemonicParsing="false" onMouseClicked="#makeReservation" styleClass="primary" text="Make Reservation">
+                                                                  <Button fx:id="makeReservationButton" mnemonicParsing="false" onMouseClicked="#makeReservation" styleClass="primary" text="Make Reservation">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -97,7 +111,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="searchGuestsBox11" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
+                                          <TitledPane fx:id="checkReservationsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -116,7 +130,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="searchGuestsBox111" animated="false" collapsible="false" layoutX="712.0" layoutY="20.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Rooms">
+                                          <TitledPane fx:id="checkRoomsBox" animated="false" collapsible="false" layoutX="712.0" layoutY="20.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Rooms">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -135,16 +149,16 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="resultsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
+                                          <TitledPane fx:id="resultsBox2" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
                                                 <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
                                                    <children>
-                                                      <TableView fx:id="searchResultTable1" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TableView fx:id="searchResultTable2" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <columns>
-                                                            <TableColumn fx:id="firstNameCol1" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="Room number" />
-                                                            <TableColumn fx:id="lastNameCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Quality" />
-                                                            <TableColumn fx:id="passportCol1" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Price" />
-                                                            <TableColumn fx:id="telephoneCol1" editable="false" prefWidth="260.0" resizable="false" text="Reserved (id)" />
+                                                            <TableColumn fx:id="roomNumberCol" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="Room number" />
+                                                            <TableColumn fx:id="qualityCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Quality" />
+                                                            <TableColumn fx:id="priceCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Price" />
+                                                            <TableColumn fx:id="reservedCol" editable="false" prefWidth="260.0" resizable="false" text="Reserved (id)" />
                                                          </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -176,7 +190,7 @@
                                  <content>
                                     <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
-                                          <TitledPane fx:id="searchGuestsBox1" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Check in guests">
+                                          <TitledPane fx:id="checkInGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Check in guests">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -184,8 +198,8 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <Button mnemonicParsing="false" text="Choose Reservation" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="checkInReservationID" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <Button fx:id="chooseReservationButtonCheckIn" mnemonicParsing="false" onMouseClicked="#chooseReservationCheckIn" text="Choose Reservation" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
                                                                         <String fx:value="info" />
@@ -198,24 +212,24 @@
                                                             </HBox>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <TextField editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkInFirstName" editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkInLastName" editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
-                                                            <TextField editable="false" promptText="Address" />
-                                                            <TextField editable="false" promptText="Telephone number" />
-                                                            <TextField editable="false" promptText="Credit card" />
-                                                            <TextField editable="false" promptText="Passport number" />
+                                                            <TextField fx:id="checkInAddress" editable="false" promptText="Address" />
+                                                            <TextField fx:id="checkInTelephone" editable="false" promptText="Telephone number" />
+                                                            <TextField fx:id="checkInCreditCard" editable="false" promptText="Credit card" />
+                                                            <TextField fx:id="checkInPassportNumber" editable="false" promptText="Passport number" />
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <TextField editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkInArrivalDate" editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkInDepartureDate" editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox VBox.vgrow="ALWAYS" />
                                                             <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                                               <buttons>
-                                                                <Button mnemonicParsing="false" onMouseClicked="#checkInGuest" styleClass="primary" text="Check in">
+                                                                <Button fx:id="checkInButton" mnemonicParsing="false" onMouseClicked="#checkInGuest" styleClass="primary" text="Check in">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -233,7 +247,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="addGuestBox1" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="warning" text="Check out guests">
+                                          <TitledPane fx:id="checkOutGuestsBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="warning" text="Check out guests">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -241,8 +255,8 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <Button mnemonicParsing="false" text="Choose Reservation" HBox.hgrow="ALWAYS">
+                                                                  <TextField fx:id="checkOutReservationID" promptText="Reservation ID" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <Button fx:id="chooseReservationButtonCheckOut" mnemonicParsing="false" onMouseClicked="#chooseReservationCheckOut" text="Choose Reservation" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
                                                                         <String fx:value="info" />
@@ -255,24 +269,24 @@
                                                             </HBox>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <TextField editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkOutFirstName" editable="false" promptText="Firstname" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkOutLastName" editable="false" promptText="Lastname" styleClass="last" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
-                                                            <TextField editable="false" promptText="Address" />
-                                                            <TextField editable="false" promptText="Telephone number" />
-                                                            <TextField editable="false" promptText="Credit card" />
-                                                            <TextField editable="false" promptText="Passport number" />
+                                                            <TextField fx:id="checkOutAddress" editable="false" promptText="Address" />
+                                                            <TextField fx:id="checkOutTelephone" editable="false" promptText="Telephone number" />
+                                                            <TextField fx:id="checkOutCreditCard" editable="false" promptText="Credit card" />
+                                                            <TextField fx:id="checkOutPassportNumber" editable="false" promptText="Passport number" />
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <TextField editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkOutArrivalDate" editable="false" promptText="Arrival date" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkOutDepartureDate" editable="false" promptText="Departure date" styleClass="last" HBox.hgrow="ALWAYS" />
                                                                </children>
                                                             </HBox>
                                                             <HBox VBox.vgrow="ALWAYS" />
                                                             <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                                                <buttons>
-                                                                  <Button mnemonicParsing="false" onMouseClicked="#checkOutGuest" styleClass="danger" text="Check out">
+                                                                  <Button fx:id="checkOutButton" mnemonicParsing="false" onMouseClicked="#checkOutGuest" styleClass="danger" text="Check out">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -314,15 +328,15 @@
                                                    <children>
                                                       <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField prefWidth="309.0" promptText="Firstname" styleClass="first" />
-                                                            <TextField prefWidth="310.0" promptText="Lastname" styleClass="middle" />
-                                                            <TextField prefWidth="310.0" promptText="Address" styleClass="middle" />
-                                                            <TextField prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
-                                                            <TextField prefWidth="310.0" promptText="Credit card" styleClass="middle" />
-                                                            <TextField prefWidth="310.0" promptText="Passport number" styleClass="last" />
+                                                            <TextField fx:id="searchGuestFirstName" prefWidth="309.0" promptText="Firstname" styleClass="first" />
+                                                            <TextField fx:id="searchGuestLastName" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestAddress" prefWidth="310.0" promptText="Address" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestTelephone" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestCreditCard" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestPassportNumber" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button alignment="CENTER" minWidth="70.0" mnemonicParsing="false" text="Search">
+                                                                  <Button fx:id="searchGuestButton" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#searchGuests" text="Search">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -331,7 +345,7 @@
                                                                         <String fx:value="first" />
                                                                      </styleClass>
                                                                   </Button>
-                                                                  <Button fx:id="listAllGuests" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests">
+                                                                  <Button fx:id="listAllGuestsButton" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
@@ -354,7 +368,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Add guest">
+                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Add guest">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
@@ -428,6 +442,15 @@
    <top>
       <StackPane BorderPane.alignment="CENTER">
          <children>
+            <VBox>
+               <children>
+                  <BorderPane VBox.vgrow="ALWAYS">
+                     <center>
+                        <Label text="HotelFX" textAlignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </children>
+            </VBox>
             <VBox style="-fx-background-color: white;">
                <children>
                   <HBox>
@@ -469,15 +492,6 @@
                         </HBox>
                      </children>
                   </HBox>
-               </children>
-            </VBox>
-            <VBox>
-               <children>
-                  <BorderPane VBox.vgrow="ALWAYS">
-                     <center>
-                        <Label text="HotelFX" textAlignment="CENTER" />
-                     </center>
-                  </BorderPane>
                </children>
             </VBox>
          </children>
