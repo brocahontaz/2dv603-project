@@ -349,7 +349,8 @@ public class Controller {
 	
 	private void setupGuestPopUp() {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
+			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 600, 400);
 			guestPopup = new Stage();
 			guestPopup.initModality(Modality.APPLICATION_MODAL);
@@ -360,7 +361,7 @@ public class Controller {
 			guestPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			guestPopup.setTitle("Guests");
-			//guestPopup.show();
+			loader.<PickGuestPopupController>getController().injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -378,7 +379,8 @@ public class Controller {
 
 	private void setupRoomPopUp() {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickRoomPopup.fxml"));
+			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 600, 400);
 			roomPopup = new Stage();
 			roomPopup.initModality(Modality.APPLICATION_MODAL);
@@ -389,7 +391,7 @@ public class Controller {
 			roomPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			roomPopup.setTitle("Rooms");
-			//roomPopup.show();
+			loader.<PickRoomPopupController>getController().injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
