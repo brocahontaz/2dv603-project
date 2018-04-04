@@ -36,6 +36,8 @@ public class Controller {
 	private ObservableList<String> discountChoices;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	private Stage roomPopup;
+	private Stage guestPopup;
 
 	/**
 	 * TEXT FIELDS
@@ -342,20 +344,24 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
+		guestPopup.show();
+	}
+	
+	private void setupGuestPopUp() {
 		try {
-		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
-		Scene scene = new Scene(root,600,400);		
-		Stage popup = new Stage();
-		popup.initModality(Modality.APPLICATION_MODAL);
-		popup.setScene(scene);
-		popup.setMinHeight(400);
-		popup.setMinWidth(600);
-		popup.setResizable(false);
-		popup.initStyle(StageStyle.UNDECORATED);
-		root.getScene().getWindow().sizeToScene();
-		popup.setTitle("Guests");
-		popup.show();
-		} catch(Exception e) {
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickGuestPopup.fxml"));
+			Scene scene = new Scene(root, 600, 400);
+			guestPopup = new Stage();
+			guestPopup.initModality(Modality.APPLICATION_MODAL);
+			guestPopup.setScene(scene);
+			guestPopup.setMinHeight(400);
+			guestPopup.setMinWidth(600);
+			guestPopup.setResizable(false);
+			guestPopup.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			guestPopup.setTitle("Guests");
+			//guestPopup.show();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -367,23 +373,28 @@ public class Controller {
 	 */
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
+		roomPopup.show();
+	}
+
+	private void setupRoomPopUp() {
 		try {
-		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
-		Scene scene = new Scene(root,600,400);		
-		Stage popup = new Stage();
-		popup.initModality(Modality.APPLICATION_MODAL);
-		popup.setScene(scene);
-		popup.setMinHeight(400);
-		popup.setMinWidth(600);
-		popup.setResizable(false);
-		popup.initStyle(StageStyle.UNDECORATED);
-		root.getScene().getWindow().sizeToScene();
-		popup.setTitle("Rooms");
-		popup.show();
-		} catch(Exception e) {
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
+			Scene scene = new Scene(root, 600, 400);
+			roomPopup = new Stage();
+			roomPopup.initModality(Modality.APPLICATION_MODAL);
+			roomPopup.setScene(scene);
+			roomPopup.setMinHeight(400);
+			roomPopup.setMinWidth(600);
+			roomPopup.setResizable(false);
+			roomPopup.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			roomPopup.setTitle("Rooms");
+			//roomPopup.show();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Search guests, filtered
 	 * 
@@ -483,6 +494,9 @@ public class Controller {
 
 		roomQualityChoice.setItems(roomQualityChoices);
 		discountChoice.setItems(discountChoices);
+		
+		setupRoomPopUp();
+		setupGuestPopUp();
 
 		// guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 		// searchResultTable.setItems(guests);

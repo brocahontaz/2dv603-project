@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 public class PickRoomPopupController {
+	
+	private Controller controller;
 
 	@FXML
 	private TextField popupRoomSearch;
@@ -43,6 +45,10 @@ public class PickRoomPopupController {
 	@FXML
 	void popupRoomSearch(ActionEvent event) {
 
+	}
+	
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
 	}
 
 }

@@ -21,6 +21,7 @@ public class PickGuestPopupController {
 	private ObservableList<Guest> guests;
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private DBParser dbParser = new DBParser();
+	private Controller controller;
 
 	@FXML
 	private Button popupGuestSearchButton;
@@ -105,5 +106,9 @@ public class PickGuestPopupController {
 			guestsResultTable.setItems(guests);
 
 		});
+	}
+	
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
 	}
 }
