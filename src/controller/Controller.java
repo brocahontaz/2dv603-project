@@ -352,9 +352,9 @@ public class Controller {
 		popup.setMinWidth(600);
 		popup.setResizable(false);
 		popup.initStyle(StageStyle.UNDECORATED);
-		popup.show();
 		root.getScene().getWindow().sizeToScene();
 		popup.setTitle("Guests");
+		popup.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -369,16 +369,17 @@ public class Controller {
 	void pickSpecificRoom(MouseEvent event) {
 		try {
 		BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/PickRoomPopup.fxml"));
-		Scene scene = new Scene(root,600,415);		
+		Scene scene = new Scene(root,600,400);		
 		Stage popup = new Stage();
 		popup.initModality(Modality.APPLICATION_MODAL);
 		popup.setScene(scene);
 		popup.setMinHeight(400);
-		popup.setMinWidth(615);
-		popup.setMaxHeight(400);
-		popup.setMaxWidth(615);
-		popup.show();
+		popup.setMinWidth(600);
+		popup.setResizable(false);
+		popup.initStyle(StageStyle.UNDECORATED);
+		root.getScene().getWindow().sizeToScene();
 		popup.setTitle("Rooms");
+		popup.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
