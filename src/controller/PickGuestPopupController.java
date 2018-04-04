@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -50,10 +51,20 @@ public class PickGuestPopupController {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
+	/**
+	 * Clear the TableView and return the result of the search. Temporarily
+	 * using firstname for testing.
+	 */
 	@FXML
-	void popupGuestSearch(MouseEvent event) {
+	void popupGuestSearch(ActionEvent event) {
+		executor.submit(() -> {
+			guestsResultTable.getItems().clear();
+			String firstname = popupGuestSearch.getText();
+			guests = FXCollections.observableArrayList(dbParser.searchGuests(firstname, "", "", "", "", ""));
+			guestsResultTable.setItems(guests);
+		});
 	}
-	
+
 	/**
 	 * Get the Guest when double clicking on row.
 	 */
@@ -61,10 +72,18 @@ public class PickGuestPopupController {
 	private void getGuestData(MouseEvent event) {
 		if (event.getClickCount() == 2) {
 			Guest guest = guestsResultTable.getSelectionModel().getSelectedItem();
-			System.out.println(guest);		
+			System.out.println(guest);
 		}
 	}
 	
+	/**
+	 * Fire Search-button event when clicking ENTER in TextField.
+	 */
+    @FXML
+    void onEnterClick(ActionEvent event) {
+    	popupGuestSearchButton.fire();
+    }
+
 	/**
 	 * Load Guest(s) upon opening of the window.
 	 */
@@ -74,7 +93,7 @@ public class PickGuestPopupController {
 		popLastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		popPassportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		popTelephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
-		
+
 		executor.submit(() -> {
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			guestsResultTable.setItems(guests);

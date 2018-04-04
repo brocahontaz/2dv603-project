@@ -27,8 +27,8 @@
                      <children>
                         <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <TextField fx:id="popupGuestSearch" promptText="Search for guest..." styleClass="first" HBox.hgrow="ALWAYS" />
-                              <Button fx:id="popupGuestSearchButton" mnemonicParsing="false" onMouseClicked="#popupGuestSearch" text="Search" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="popupGuestSearch" onAction="#onEnterClick" promptText="Search for guest..." styleClass="first" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="popupGuestSearchButton" mnemonicParsing="false" onAction="#popupGuestSearch" text="Search" HBox.hgrow="ALWAYS">
                                  <styleClass>
                                     <String fx:value="last" />
                                     <String fx:value="primary" />
