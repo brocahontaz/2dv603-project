@@ -59,8 +59,14 @@ public class PickGuestPopupController {
 	void popupGuestSearch(ActionEvent event) {
 		executor.submit(() -> {
 			guestsResultTable.getItems().clear();
-			String firstname = popupGuestSearch.getText();
-			guests = FXCollections.observableArrayList(dbParser.searchGuests(firstname, "", "", "", "", ""));
+			String searchInput = popupGuestSearch.getText();
+			
+			// If search-box input is all numeric, search by passport number, else search by first name.
+			if (searchInput.matches("^[0-9]*$")) {
+				guests = FXCollections.observableArrayList(dbParser.searchGuests("", "", "", "", "", searchInput));
+			} else {				
+				guests = FXCollections.observableArrayList(dbParser.searchGuests(searchInput, "", "", "", "", ""));
+			}			
 			guestsResultTable.setItems(guests);
 		});
 	}
