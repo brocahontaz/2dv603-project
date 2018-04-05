@@ -442,9 +442,17 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
-		addGuestBox.setStyle("-fx-text-fill: red");
-		//addGuestBox.setStyle("-fx-border-color: green");
-		//addGuestBox.setText("Error");
+		executor.submit(() -> {
+			try {
+				addGuestBox.getStyleClass().remove("info");
+				addGuestBox.getStyleClass().add("success");
+				Thread.sleep(3000);
+				addGuestBox.getStyleClass().add("info");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 		if (addGuestFirstName.getText().isEmpty()) {
 			return;
 		}
