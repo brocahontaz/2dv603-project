@@ -1,8 +1,6 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,7 +28,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -154,6 +152,13 @@ public class Controller {
 
 	@FXML
 	private TextField makeReservationRoom;
+
+	/**
+	 * TEXT
+	 */
+
+	@FXML
+	private Text estimatedPrice;
 
 	/**
 	 * BUTTONS
@@ -580,7 +585,7 @@ public class Controller {
 			setHotelDiscounts(hotel);
 
 		}
-		
+
 		displayAllQualities();
 		displayAllDiscounts();
 
@@ -596,6 +601,18 @@ public class Controller {
 			}
 
 		});
+
+		roomQualityChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RoomQuality>() {
+			@Override
+			public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
+					RoomQuality newValue) {
+				if (newValue != null) {
+					estimatedPrice.setText(Integer.toString((newValue.getPrice())));
+				}
+			}
+
+		});
+
 		System.out.println("#Hotels initialized!");
 	}
 
@@ -665,7 +682,7 @@ public class Controller {
 	private void displayHotelDiscounts(Hotel hotel) {
 		discountChoice.setItems(FXCollections.observableArrayList(hotel.getDiscounts()));
 	}
-	
+
 	private void displayAllDiscounts() {
 		displayHotelDiscounts(defaultHotel);
 	}
