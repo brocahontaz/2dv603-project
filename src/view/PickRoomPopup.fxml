@@ -23,7 +23,7 @@
                      <children>
                         <HBox>
                            <children>
-                              <TextField fx:id="popupRoomSearch" promptText="Search for room..." styleClass="first" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="popupRoomSearch" onAction="#onEnterClick" promptText="Search for room..." styleClass="first" HBox.hgrow="ALWAYS" />
                               <Button fx:id="popupRoomSearchButton" mnemonicParsing="false" onAction="#popupRoomSearch" text="Search">
                                  <styleClass>
                                     <String fx:value="primary" />
@@ -35,12 +35,11 @@
                               </Button>
                            </children>
                         </HBox>
-                        <TableView fx:id="roomsResultTable" minWidth="400.0" prefHeight="345.0" prefWidth="600.0">
+                        <TableView fx:id="roomsResultTable" minWidth="400.0" onMouseClicked="#getRoomData" prefHeight="345.0" prefWidth="600.0">
                           <columns>
-                            <TableColumn fx:id="popRoomCol" editable="false" prefWidth="150.0" resizable="false" text="Room number" />
-                            <TableColumn fx:id="popQualityCol" editable="false" prefWidth="150.0" resizable="false" text="Quality" />
-                              <TableColumn fx:id="popPriceCol" editable="false" prefWidth="150.0" resizable="false" text="Price" />
-                              <TableColumn fx:id="popReservedCol" editable="false" prefWidth="150.0" resizable="false" text="Reserved (id)" />
+                            <TableColumn fx:id="popRoomCol" editable="false" prefWidth="195.0" resizable="false" text="Room number" />
+                              <TableColumn fx:id="popBedsCol" editable="false" prefWidth="195.0" resizable="false" text="Number of beds" />
+                              <TableColumn fx:id="popReservedCol" editable="false" prefWidth="195.0" resizable="false" text="Reserved" />
                           </columns>
                         </TableView>
                      </children>

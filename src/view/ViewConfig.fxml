@@ -64,7 +64,7 @@
                                                             </HBox>
                                                             <HBox layoutX="10.0" layoutY="10.0">
                                                                <children>
-                                                                  <TextField editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="makeReservationRoom" editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
                                                                   <Button fx:id="pickSpecificRoomButton" mnemonicParsing="false" onMouseClicked="#pickSpecificRoom" text="Pick specific room" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
