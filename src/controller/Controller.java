@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -47,13 +48,14 @@ public class Controller {
 	private ObservableList<String> roomQualityChoices;
 	private ObservableList<String> discountChoices;
 	private ObservableList<String> hotelChoices;
+	private ArrayList<RoomQuality> roomQualities;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage roomPopup;
 	private Stage guestPopup;
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
-	private HashMap<String, ArrayList<String>> hotelQualities = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, ArrayList<RoomQuality>> hotelQualities = new HashMap<String, ArrayList<RoomQuality>>();
 	private HashMap<String, ArrayList<String>> hotelDiscounts = new HashMap<String, ArrayList<String>>();
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 
@@ -565,12 +567,19 @@ public class Controller {
 		hotelChoice.setItems(hotels);
 		hotelChoice.getSelectionModel().selectFirst();
 		
-		/*for (Hotel hotel : hotels) {
+		initializeHotelQualities();
+		
+		for (Hotel hotel : hotels) {
+			
+			setHotelQualities(hotel);
+			
+			/*
 			initializeHotelQualities(hotel);
 			initializeHotelDiscounts(hotel);
-		}*/
+			*/
+		}
 		
-		initializeHotelQualities();
+		
 		
 		/*setDefaultHotelQualities();
 		setDefaultHotelDiscounts();*/
@@ -579,6 +588,9 @@ public class Controller {
 			@Override
 			public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
 				if (newValue != null) {
+					
+					getHotelQualities(newValue);
+					
 					/*roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(newValue.getName()));
 					roomQualityChoice.setItems(roomQualityChoices);
 					
@@ -592,11 +604,35 @@ public class Controller {
 	}
 	
 	private void initializeHotelQualities() {
-		qualities = FXCollections.observableArrayList(dbParser.getQualities());
+		roomQualities = dbParser.getQualities();
+	}
+	
+	private void setHotelQualities(Hotel hotel) {
+		
+		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
+		
+		if (!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
+			
+			for (RoomQuality rq : roomQualities) {
+				if (rq.getHotelName().equals(hotel.getName())) {
+					temp.add(rq);
+				}
+			}
+					
+		} else {
+			
+		}
+		
+		hotelQualities.put(hotel.getName(), temp);
+		
+	}
+	
+	private void getHotelQualities(Hotel hotel) {
+		qualities = FXCollections.observableArrayList(hotelQualities.get(hotel.getName()));
 		roomQualityChoice.setItems(qualities);
 	}
 
-	private void initializeHotelQualities(Hotel hotel) {
+	/*private void initializeHotelQualities(Hotel hotel) {
 		
 		System.out.print("--Initializing hotel qualities.. ");
 		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
@@ -606,14 +642,19 @@ public class Controller {
 		}
 		System.out.print("done!\r");
 
-	}
+	}*/
 	
 	private void setDefaultHotelQualities() {
-		roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(DEFAULT_HOTEL_CHOICE));
+		//roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(DEFAULT_HOTEL_CHOICE));
 		//roomQualityChoice.setItems(roomQualityChoices);
+		
 	}
 	
-	private void initializeHotelDiscounts(Hotel hotel) {
+	private void initializeHotelDiscounts() {
+		
+	}
+	
+	/*private void initializeHotelDiscounts(Hotel hotel) {
 		System.out.print("--Initializing hotel discounts.. ");
 		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
 			hotelDiscounts.put(hotel.getName(), dbParser.getHotelsDiscounts(hotel.getName()));
@@ -621,7 +662,7 @@ public class Controller {
 			hotelDiscounts.put(hotel.getName(), dbParser.getAllDiscounts());
 		}
 		System.out.print("done!\r");
-	}
+	}*/
 	
 	private void setDefaultHotelDiscounts() {
 		discountChoices = FXCollections.observableArrayList(hotelDiscounts.get(DEFAULT_HOTEL_CHOICE));

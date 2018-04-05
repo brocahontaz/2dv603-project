@@ -1,9 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Hotel {
-	
+
 	private String name;
 	private String address;
 	private ArrayList<String> qualities;
@@ -45,6 +46,26 @@ public class Hotel {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		
+		if (!(obj instanceof Hotel)) {
+			return false;
+		}
+		
+		Hotel other = (Hotel) obj;
+		
+		return this.getName().equals(other.getName());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.name);
 	}
 
 }

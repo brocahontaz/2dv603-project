@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Reservation {
 	
@@ -71,6 +72,26 @@ public class Reservation {
 	public String toString() {
 		return null;
 		// TODO - What should be returned? id+passport+name+duration dates?
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		
+		if (!(obj instanceof Guest)) {
+			return false;
+		}
+		
+		Reservation other = (Reservation) obj;
+		
+		return this.getId() == other.getId();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getId());
 	}
 
 }

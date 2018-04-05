@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 /**
  * Class representing a guest at the hotel
  * @author Johan Andersson
@@ -78,6 +80,26 @@ public class Guest {
 	@Override
 	public String toString() {
 		return this.firstName + " " + this.lastName + " " + this.passportNumber;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		
+		if (!(obj instanceof Guest)) {
+			return false;
+		}
+		
+		Guest other = (Guest) obj;
+		
+		return this.getPassportNumber().equals(other.getPassportNumber());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getPassportNumber());
 	}
 
 }
