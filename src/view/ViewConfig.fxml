@@ -86,7 +86,7 @@
                                                             </HBox>
                                                             <HBox>
                                                                <children>
-                                                                  <ComboBox fx:id="hotelChoice" prefWidth="175.0" promptText="Hotel preference" />
+                                                                  <ComboBox fx:id="hotelChoice" prefWidth="175.0" promptText="Hotel Preference" />
                                                                </children>
                                                             </HBox>
                                                             <HBox>

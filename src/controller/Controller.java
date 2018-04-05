@@ -1,8 +1,11 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,10 +31,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Guest;
+import model.Hotel;
+import model.Room;
 
 public class Controller {
 
 	private ObservableList<Guest> guests;
+	private ObservableList<Hotel> hotels;
 	private ObservableList<String> roomQualityChoices;
 	private ObservableList<String> discountChoices;
 	private ObservableList<String> hotelChoices;
@@ -40,6 +46,7 @@ public class Controller {
 	private Stage roomPopup;
 	private Stage guestPopup;
 	private Guest pickedGuest = null;
+	private Room pickedRoom = null;
 
 	/**
 	 * TEXT FIELDS
@@ -345,7 +352,7 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
-
+		//dbParser.makeReservation(pickedGuest.getPassportNumber(), );
 	}
 	
 	@FXML
@@ -532,6 +539,27 @@ public class Controller {
 		});
 
 	}
+	
+	private void initializeHotels() {
+		hotels = FXCollections.observableArrayList(dbParser.getHotels());
+		ArrayList<String> hotelNames = new ArrayList<String>();
+		hotelNames.add("Both");
+		for (Hotel hotel : hotels) {
+			hotelNames.add(hotel.getName());
+		}
+		hotelChoices = FXCollections.observableArrayList(hotelNames);
+		hotelChoice.setItems(hotelChoices);
+		
+		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				System.out.println(newValue);
+				
+			}
+			
+		});
+	}
 
 	/**
 	 * Initialize
@@ -542,7 +570,10 @@ public class Controller {
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
+		
+		initializeHotels();
 
+		/*
 		roomQualityChoices = FXCollections.observableArrayList("Single", "Double", "Suite");
 		discountChoices = FXCollections.observableArrayList("5%", "10%", "15%", "20%");
 		hotelChoices = FXCollections.observableArrayList("Both", "Växjö", "Kalmar");
@@ -550,6 +581,9 @@ public class Controller {
 		roomQualityChoice.setItems(roomQualityChoices);
 		discountChoice.setItems(discountChoices);
 		hotelChoice.setItems(hotelChoices);
+		*/
+		
+		
 		
 		setupRoomPopUp();
 		setupGuestPopUp();
