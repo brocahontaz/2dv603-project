@@ -103,11 +103,11 @@ public class PickGuestPopupController {
 		popPassportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		popTelephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
 
-		executor.submit(() -> {
+		/*executor.submit(() -> {
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			guestsResultTable.setItems(guests);
 
-		});
+		});*/
 	}
 	
 	public void injectMainController(Controller controller) {

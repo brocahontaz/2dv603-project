@@ -928,3 +928,14 @@ VBox > .split-menu-button.last > .arrow-button {
 .slider:vertical .track {
 	-fx-pref-width: 5;
 }
+
+/*******************************************************************************
+ *                                                                             *
+ * Custom                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.text-field.error {
+  -fx-border-color: red ;
+  -fx-focus-color: red ;
+}
