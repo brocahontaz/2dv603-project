@@ -59,7 +59,6 @@ public class PickGuestPopupController {
 	@FXML
 	void popupGuestSearch(ActionEvent event) {
 		executor.submit(() -> {
-			guestsResultTable.getItems().clear();
 			String searchInput = popupGuestSearch.getText();
 			
 			// If search-box input is all numeric, search by passport number, else search by first name.
