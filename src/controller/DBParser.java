@@ -64,6 +64,30 @@ public class DBParser {
 		return null;
 	}
 	
+	public ArrayList<String> getAllDiscounts() {
+		ArrayList<String> discounts = new ArrayList<String>();
+		String[] temp = {};
+		
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_HOTEL_DISCOUNTS, temp);
+		
+		populateDiscountArray(discounts, crsTemp);
+		
+		return discounts;
+		
+	}
+	
+	public ArrayList<String> getHotelsDiscounts(String hotelName) {
+		ArrayList<String> discounts = new ArrayList<String>();
+		String[] temp = { hotelName };
+		
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTEL_DISCOUNTS, temp);
+		
+		populateDiscountArray(discounts, crsTemp);
+		
+		return discounts;
+		
+	}
+	
 	public ArrayList<String> getAllRoomQualities() {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = {};
@@ -71,8 +95,6 @@ public class DBParser {
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_HOTEL_QUALITIES, temp);
 		
 		populateQualityArray(qualities, crsTemp);
-		
-		System.out.println(qualities);
 		
 		return qualities;
 	}
@@ -84,8 +106,6 @@ public class DBParser {
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTEL_QUALITIES, temp);
 		
 		populateQualityArray(qualities, crsTemp);
-		
-		System.out.println(qualities);
 		
 		return qualities;
 		
@@ -239,6 +259,24 @@ public class DBParser {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Hotel(crsTemp.getString("hotelName"), crsTemp.getString("address")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void populateDiscountArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(crsTemp.getString("discountPercent"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

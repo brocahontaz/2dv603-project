@@ -10,6 +10,8 @@ public enum Queries {
 	GET_HOTELS("SELECT * FROM Hotels"),
 	GET_HOTEL_QUALITIES("SELECT quality FROM RoomQualities where hotelName = ?"),
 	GET_ALL_HOTEL_QUALITIES("SELECT DISTINCT quality FROM RoomQualities"),
+	GET_HOTEL_DISCOUNTS("SELECT discountPercent FROM Discounts where hotelName = ?"),
+	GET_ALL_HOTEL_DISCOUNTS("SELECT DISTINCT discountPercent FROM Discounts"),
 	GET_ALL_GUESTS("SELECT * FROM Guests"),
 	SEARCH_GUESTS("SELECT * FROM Guests WHERE firstName LIKE ? AND lastName LIKE ? AND address LIKE ? AND telephoneNumber LIKE ? AND creditCard LIKE ? AND passportNumber LIKE ?"),
 	FILTERED_SEARCH("SELECT * FROM Guests WHERE "),
