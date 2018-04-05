@@ -1,9 +1,11 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -47,6 +49,7 @@ public class Controller {
 	private Stage guestPopup;
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
+	private HashMap<String, ArrayList<String>> hotelQualities = new HashMap<String, ArrayList<String>>();
 
 	/**
 	 * TEXT FIELDS
@@ -142,8 +145,8 @@ public class Controller {
 	@FXML
 	private TextField checkInReservationID;
 
-    @FXML
-    private TextField makeReservationGuest;
+	@FXML
+	private TextField makeReservationGuest;
 
 	/**
 	 * BUTTONS
@@ -178,9 +181,9 @@ public class Controller {
 
 	@FXML
 	private Button addGuestButton;
-	
+
 	@FXML
-    private Button clearReservationButton;
+	private Button clearReservationButton;
 
 	/**
 	 * TITLED PANES
@@ -222,9 +225,9 @@ public class Controller {
 
 	@FXML
 	private ComboBox<String> discountChoice;
-	
+
 	@FXML
-    private ComboBox<String> hotelChoice;
+	private ComboBox<String> hotelChoice;
 
 	/**
 	 * PROGRESS INDICATORS
@@ -352,11 +355,11 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
-		//dbParser.makeReservation(pickedGuest.getPassportNumber(), );
+		// dbParser.makeReservation(pickedGuest.getPassportNumber(), );
 	}
-	
+
 	@FXML
-    void clearReservation(MouseEvent event) {
+	void clearReservation(MouseEvent event) {
 		pickedGuest = null;
 		makeReservationGuest.setText("");
 		arrivalDate.setValue(null);
@@ -364,7 +367,7 @@ public class Controller {
 		roomQualityChoice.getSelectionModel().clearSelection();
 		discountChoice.getSelectionModel().clearSelection();
 		hotelChoice.getSelectionModel().clearSelection();
-    }
+	}
 
 	/**
 	 * Pick a guest
@@ -375,7 +378,7 @@ public class Controller {
 	void pickGuest(MouseEvent event) {
 		guestPopup.show();
 	}
-	
+
 	private void setupGuestPopUp() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
@@ -395,7 +398,7 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void displayPickedGuest(Guest guest) {
 		pickedGuest = guest;
 		makeReservationGuest.setText(guest.getFirstName() + " " + guest.getLastName());
@@ -430,7 +433,7 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
 		executor.submit(() -> {
 			try {
@@ -535,26 +538,38 @@ public class Controller {
 		});
 
 	}
-	
-	private void initializeHotels() {
-		hotels = FXCollections.observableArrayList(dbParser.getHotels());
-		ArrayList<String> hotelNames = new ArrayList<String>();
-		hotelNames.add("Both");
-		for (Hotel hotel : hotels) {
-			hotelNames.add(hotel.getName());
-		}
-		hotelChoices = FXCollections.observableArrayList(hotelNames);
-		hotelChoice.setItems(hotelChoices);
-		
-		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
+	private void initializeHotels() {
+		//executor.submit(() -> {
+			hotels = FXCollections.observableArrayList(dbParser.getHotels());
+			ArrayList<String> hotelNames = new ArrayList<String>();
+			hotelNames.add("Both");
+			for (Hotel hotel : hotels) {			
+				initializeHotelQualities(hotel.getName());
+				hotelNames.add(hotel.getName());
+			}
+			hotelChoices = FXCollections.observableArrayList(hotelNames);
+			hotelChoice.setItems(hotelChoices);
+		//});
+
+		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				System.out.println(newValue);
-				
+
+				roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(newValue));
+				roomQualityChoice.setItems(roomQualityChoices);
+
 			}
-			
+
 		});
+	}
+
+	// private void getHotelQualities()
+
+	private void initializeHotelQualities(String hotelName) {
+		//executor.submit(() -> {
+			hotelQualities.put(hotelName, dbParser.getHotelsRoomQualities(hotelName));
+		//});
 	}
 
 	/**
@@ -562,25 +577,23 @@ public class Controller {
 	 */
 	@FXML
 	void initialize() {
-		firstNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("firstName"));
-		lastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
-		passportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
-		
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
+		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
+
 		initializeHotels();
 
 		/*
-		roomQualityChoices = FXCollections.observableArrayList("Single", "Double", "Suite");
-		discountChoices = FXCollections.observableArrayList("5%", "10%", "15%", "20%");
-		hotelChoices = FXCollections.observableArrayList("Both", "Växjö", "Kalmar");
+		 * roomQualityChoices = FXCollections.observableArrayList("Single", "Double",
+		 * "Suite"); discountChoices = FXCollections.observableArrayList("5%", "10%",
+		 * "15%", "20%"); hotelChoices = FXCollections.observableArrayList("Both",
+		 * "Växjö", "Kalmar");
+		 * 
+		 * roomQualityChoice.setItems(roomQualityChoices);
+		 * discountChoice.setItems(discountChoices); hotelChoice.setItems(hotelChoices);
+		 */
 
-		roomQualityChoice.setItems(roomQualityChoices);
-		discountChoice.setItems(discountChoices);
-		hotelChoice.setItems(hotelChoices);
-		*/
-		
-		
-		
 		setupRoomPopUp();
 		setupGuestPopUp();
 

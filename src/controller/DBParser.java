@@ -64,6 +64,20 @@ public class DBParser {
 		return null;
 	}
 	
+	public ArrayList<String> getHotelsRoomQualities(String hotelName) {
+		ArrayList<String> qualities = new ArrayList<String>();
+		String[] temp = { hotelName };
+		
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTEL_QUALITIES, temp);
+		
+		populateQualityArray(qualities, crsTemp);
+		
+		System.out.println(qualities);
+		
+		return qualities;
+		
+	}
+	
 	public ArrayList<Hotel> getHotels() {
 		ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 		String[] temp = {};
@@ -212,6 +226,24 @@ public class DBParser {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Hotel(crsTemp.getString("hotelName"), crsTemp.getString("address")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void populateQualityArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(crsTemp.getString("quality"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
