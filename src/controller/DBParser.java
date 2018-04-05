@@ -76,6 +76,17 @@ public class DBParser {
 
 		return qualities;
 	}
+	
+	public ArrayList<Discount> getDiscounts() {
+		ArrayList<Discount> discounts = new ArrayList<Discount>();
+		String[] temp = {};
+
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_DISCOUNTS, temp);
+
+		populateDiscounts(discounts, crsTemp);
+
+		return discounts;
+	}
 
 	public ArrayList<String> getAllDiscounts() {
 		ArrayList<String> discounts = new ArrayList<String>();
@@ -327,6 +338,24 @@ public class DBParser {
 			while (crsTemp.next()) {
 				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"),
 						crsTemp.getInt("price")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void populateDiscounts(ArrayList<Discount> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new Discount(crsTemp.getString("hotelName"), crsTemp.getInt("discountPercent")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
