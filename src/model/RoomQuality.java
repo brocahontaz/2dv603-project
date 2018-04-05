@@ -1,5 +1,11 @@
 package model;
 
-public enum RoomQuality {
+public class RoomQuality {
+	
+	private String hotelName;
+	private String quality;
+	private int price;
+	
+	
 
 }

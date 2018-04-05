@@ -1,5 +1,9 @@
 package application;
 	
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -12,6 +16,14 @@ import javafx.fxml.FXMLLoader;
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		setupMainStage(primaryStage);
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	private void setupMainStage(Stage primaryStage) {
 		try {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/view/ViewConfig.fxml"));
 			Scene scene = new Scene(root,800,600);
@@ -31,9 +43,5 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args) {
-		launch(args);
 	}
 }

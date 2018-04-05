@@ -500,10 +500,10 @@ public class Controller {
 		}
 
 		executor.submit(() -> {
-			if(dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
+			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
 				colorNotificationTitledPane(addGuestBox, "success");
-			}else {
+			} else {
 				colorNotificationTitledPane(addGuestBox, "danger");
 			}
 		});
@@ -546,23 +546,23 @@ public class Controller {
 	}
 
 	private void initializeHotels() {
-		//executor.submit(() -> {
-			hotels = FXCollections.observableArrayList(dbParser.getHotels());
-			ArrayList<String> hotelNames = new ArrayList<String>();
-			hotelNames.add("Hotel Preference");
-			
-			hotelQualities.put("Hotel Preference", dbParser.getAllRoomQualities());
-			
-			for (Hotel hotel : hotels) {			
-				initializeHotelQualities(hotel.getName());
-				hotelNames.add(hotel.getName());
-			}
-			hotelChoices = FXCollections.observableArrayList(hotelNames);
-			hotelChoice.setItems(hotelChoices);
-			hotelChoice.getSelectionModel().selectFirst();
-			roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get("Hotel Preference"));
-			roomQualityChoice.setItems(roomQualityChoices);
-		//});
+		// executor.submit(() -> {
+		hotels = FXCollections.observableArrayList(dbParser.getHotels());
+		ArrayList<String> hotelNames = new ArrayList<String>();
+		hotelNames.add("Hotel Preference");
+
+		hotelQualities.put("Hotel Preference", dbParser.getAllRoomQualities());
+
+		for (Hotel hotel : hotels) {
+			initializeHotelQualities(hotel.getName());
+			hotelNames.add(hotel.getName());
+		}
+		hotelChoices = FXCollections.observableArrayList(hotelNames);
+		hotelChoice.setItems(hotelChoices);
+		hotelChoice.getSelectionModel().selectFirst();
+		roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get("Hotel Preference"));
+		roomQualityChoice.setItems(roomQualityChoices);
+		// });
 
 		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -579,9 +579,9 @@ public class Controller {
 	// private void getHotelQualities()
 
 	private void initializeHotelQualities(String hotelName) {
-		//executor.submit(() -> {
-			hotelQualities.put(hotelName, dbParser.getHotelsRoomQualities(hotelName));
-		//});
+		// executor.submit(() -> {
+		hotelQualities.put(hotelName, dbParser.getHotelsRoomQualities(hotelName));
+		// });
 	}
 
 	/**
