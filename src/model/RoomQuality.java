@@ -53,18 +53,18 @@ public class RoomQuality {
 			return true;
 		}
 		
-		if (!(obj instanceof Guest)) {
+		if (!(obj instanceof RoomQuality)) {
 			return false;
 		}
 		
 		RoomQuality other = (RoomQuality) obj;
 		
-		return this.getHotelName().equals(other.getHotelName()) && this.getQuality().equals(other.getQuality());
+		return this.getQuality().equals(other.getQuality());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.getHotelName(), this.getQuality());
+		return Objects.hash(this.getQuality());
 	}
 	
 }

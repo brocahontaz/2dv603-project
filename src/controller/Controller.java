@@ -594,6 +594,8 @@ public class Controller {
 
 	private void initializeHotelQualities() {
 		roomQualities = dbParser.getQualities();
+		
+		
 	}
 
 	private void setHotelQualities(Hotel hotel) {
@@ -608,12 +610,15 @@ public class Controller {
 				}
 			}
 
-			hotel.setQualities(temp);
-
 		} else {
-
+			for (RoomQuality rq : roomQualities) {
+				if (!temp.contains(rq)) {
+					temp.add(rq);
+				}
+			}
 		}
 
+		hotel.setQualities(temp);
 	}
 
 	private void getHotelQualities(Hotel hotel) {
