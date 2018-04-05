@@ -34,6 +34,7 @@ public class Controller {
 	private ObservableList<Guest> guests;
 	private ObservableList<String> roomQualityChoices;
 	private ObservableList<String> discountChoices;
+	private ObservableList<String> hotelChoices;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage roomPopup;
@@ -214,6 +215,9 @@ public class Controller {
 
 	@FXML
 	private ComboBox<String> discountChoice;
+	
+	@FXML
+    private ComboBox<String> hotelChoice;
 
 	/**
 	 * PROGRESS INDICATORS
@@ -352,6 +356,7 @@ public class Controller {
 		departureDate.setValue(null);
 		roomQualityChoice.getSelectionModel().clearSelection();
 		discountChoice.getSelectionModel().clearSelection();
+		hotelChoice.getSelectionModel().clearSelection();
     }
 
 	/**
@@ -526,9 +531,11 @@ public class Controller {
 
 		roomQualityChoices = FXCollections.observableArrayList("Single", "Double", "Suite");
 		discountChoices = FXCollections.observableArrayList("5%", "10%", "15%", "20%");
+		hotelChoices = FXCollections.observableArrayList("Both", "Växjö", "Kalmar");
 
 		roomQualityChoice.setItems(roomQualityChoices);
 		discountChoice.setItems(discountChoices);
+		hotelChoice.setItems(hotelChoices);
 		
 		setupRoomPopUp();
 		setupGuestPopUp();

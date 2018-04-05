@@ -126,11 +126,11 @@ public class DBParser {
 	 * @param passportNumber
 	 *            the passport number of the guest
 	 */
-	public void addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
+	public boolean addNewGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber) {
 
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
-		this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
+		return this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
 
 	/**
@@ -219,10 +219,10 @@ public class DBParser {
 	 * @param param
 	 *            the parameter to be used
 	 */
-	private void executeSingleParamUpdate(Queries query, String param) {
+	private boolean executeSingleParamUpdate(Queries query, String param) {
 		String[] params = { param };
 
-		this.executeUpdate(query, params);
+		return this.executeUpdate(query, params);
 	}
 
 	/**
@@ -275,9 +275,9 @@ public class DBParser {
 	 * @param params
 	 *            the parameters to be used for the prepared statement
 	 */
-	private void executeUpdate(Queries query, String[] params) {
+	private boolean executeUpdate(Queries query, String[] params) {
 		this.initialize();
-
+		boolean success = true;
 		try {
 
 			this.ps = this.connection.prepareStatement(query.toString());
@@ -292,6 +292,7 @@ public class DBParser {
 			this.connection.commit();
 
 		} catch (SQLException e) {
+			success = false;
 			try {
 				e.printStackTrace();
 				System.err.print("Transaction is being rolled back");
@@ -302,6 +303,7 @@ public class DBParser {
 		} finally {
 			this.shutdown();
 		}
+		return success;
 	}
 
 	/**
