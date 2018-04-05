@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,23 +38,22 @@ import javafx.stage.StageStyle;
 import model.Guest;
 import model.Hotel;
 import model.Room;
+import model.RoomQuality;
 
 public class Controller {
 
 	private ObservableList<Guest> guests;
 	private ObservableList<Hotel> hotels;
-	private ObservableList<String> roomQualityChoices;
-	private ObservableList<String> discountChoices;
-	private ObservableList<String> hotelChoices;
+	private ArrayList<RoomQuality> roomQualities;
+	private ArrayList<Discount> hotelDiscounts;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage roomPopup;
 	private Stage guestPopup;
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
-	private HashMap<String, ArrayList<String>> hotelQualities = new HashMap<String, ArrayList<String>>();
-	private HashMap<String, ArrayList<String>> hotelDiscounts = new HashMap<String, ArrayList<String>>();
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
+	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 
 	/**
 	 * TEXT FIELDS
@@ -152,6 +152,9 @@ public class Controller {
 	@FXML
 	private TextField makeReservationGuest;
 
+	@FXML
+	private TextField makeReservationRoom;
+
 	/**
 	 * BUTTONS
 	 */
@@ -225,10 +228,10 @@ public class Controller {
 	 */
 
 	@FXML
-	private ComboBox<String> roomQualityChoice;
+	private ComboBox<RoomQuality> roomQualityChoice;
 
 	@FXML
-	private ComboBox<String> discountChoice;
+	private ComboBox<Integer> discountChoice;
 
 	@FXML
 	private ComboBox<Hotel> hotelChoice;
@@ -371,8 +374,8 @@ public class Controller {
 		roomQualityChoice.getSelectionModel().clearSelection();
 		discountChoice.getSelectionModel().clearSelection();
 		hotelChoice.getSelectionModel().clearSelection();
-		setDefaultHotelQualities();
-		setDefaultHotelDiscounts();
+		displayAllQualities();
+		displayAllDiscounts();
 	}
 
 	/**
@@ -442,6 +445,11 @@ public class Controller {
 			e.printStackTrace();
 		}
 		System.out.print("done!\r");
+	}
+
+	public void displayPickedRoom(Room room) {
+		pickedRoom = room;
+		makeReservationRoom.setText(room.getRoomNumber() + "");
 	}
 
 	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
@@ -559,32 +567,36 @@ public class Controller {
 	}
 
 	private void initializeHotels() {
-		
+
 		System.out.println("#Initializing hotels.. ");
 
 		hotels = FXCollections.observableArrayList(dbParser.getHotels());
-		hotels.add(0, new Hotel(DEFAULT_HOTEL_CHOICE, ""));
-		
+		hotels.add(0, defaultHotel);
+
 		hotelChoice.setItems(hotels);
 		hotelChoice.getSelectionModel().selectFirst();
-		
+
+		initializeHotelQualities();
+		initializeHotelDiscounts();
+
 		for (Hotel hotel : hotels) {
-			initializeHotelQualities(hotel);
-			initializeHotelDiscounts(hotel);
+
+			setHotelQualities(hotel);
+			setHotelDiscounts(hotel);
+
 		}
 		
-		setDefaultHotelQualities();
-		setDefaultHotelDiscounts();
+		displayAllQualities();
+		displayAllDiscounts();
 
 		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
 			@Override
 			public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
 				if (newValue != null) {
-					roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(newValue.getName()));
-					roomQualityChoice.setItems(roomQualityChoices);
-					
-					discountChoices = FXCollections.observableArrayList(hotelDiscounts.get(newValue.getName()));
-					discountChoice.setItems(discountChoices);
+
+					displayHotelQualities(newValue);
+					displayHotelDiscounts(newValue);
+
 				}
 			}
 
@@ -592,34 +604,75 @@ public class Controller {
 		System.out.println("#Hotels initialized!");
 	}
 
-	private void initializeHotelQualities(Hotel hotel) {
-		System.out.print("--Initializing hotel qualities.. ");
-		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
-			hotelQualities.put(hotel.getName(), dbParser.getHotelsRoomQualities(hotel.getName()));
+	private void initializeHotelQualities() {
+		roomQualities = dbParser.getQualities();
+
+	}
+
+	private void setHotelQualities(Hotel hotel) {
+
+		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
+
+		if (!hotel.equals(defaultHotel)) {
+
+			for (RoomQuality rq : roomQualities) {
+				if (rq.getHotelName().equals(hotel.getName())) {
+					temp.add(rq);
+				}
+			}
+
 		} else {
-			hotelQualities.put(hotel.getName(), dbParser.getAllRoomQualities());
+			for (RoomQuality rq : roomQualities) {
+				if (!temp.contains(rq)) {
+					temp.add(rq);
+				}
+			}
 		}
-		System.out.print("done!\r");
+
+		hotel.setQualities(temp);
 	}
-	
-	private void setDefaultHotelQualities() {
-		roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(DEFAULT_HOTEL_CHOICE));
-		roomQualityChoice.setItems(roomQualityChoices);
+
+	private void displayHotelQualities(Hotel hotel) {
+		roomQualityChoice.setItems(FXCollections.observableArrayList(hotel.getQualities()));
 	}
-	
-	private void initializeHotelDiscounts(Hotel hotel) {
-		System.out.print("--Initializing hotel discounts.. ");
-		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
-			hotelDiscounts.put(hotel.getName(), dbParser.getHotelsDiscounts(hotel.getName()));
+
+	private void displayAllQualities() {
+		displayHotelQualities(defaultHotel);
+	}
+
+	private void initializeHotelDiscounts() {
+		hotelDiscounts = dbParser.getDiscounts();
+	}
+
+	private void setHotelDiscounts(Hotel hotel) {
+
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+
+		if (!hotel.equals(defaultHotel)) {
+
+			for (Discount discount : hotelDiscounts) {
+				if (discount.getHotelName().equals(hotel.getName())) {
+					temp.add(discount.getDiscountPercentage());
+				}
+			}
+
 		} else {
-			hotelDiscounts.put(hotel.getName(), dbParser.getAllDiscounts());
+			for (Discount discount : hotelDiscounts) {
+				if (!temp.contains(discount.getDiscountPercentage())) {
+					temp.add(discount.getDiscountPercentage());
+				}
+			}
 		}
-		System.out.print("done!\r");
+
+		hotel.setDiscounts(temp);
+	}
+
+	private void displayHotelDiscounts(Hotel hotel) {
+		discountChoice.setItems(FXCollections.observableArrayList(hotel.getDiscounts()));
 	}
 	
-	private void setDefaultHotelDiscounts() {
-		discountChoices = FXCollections.observableArrayList(hotelDiscounts.get(DEFAULT_HOTEL_CHOICE));
-		discountChoice.setItems(discountChoices);
+	private void displayAllDiscounts() {
+		displayHotelDiscounts(defaultHotel);
 	}
 
 	/**
@@ -633,12 +686,12 @@ public class Controller {
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 
 		initializeHotels();
-		
+
 		System.out.println("#Setting up popup windows..");
-		
+
 		setupRoomPopUp();
 		setupGuestPopUp();
-		
+
 		System.out.println("#Popups done!");
 
 	}

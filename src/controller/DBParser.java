@@ -11,6 +11,7 @@ import com.sun.rowset.CachedRowSetImpl;
 
 import model.Guest;
 import model.Hotel;
+import model.RoomQuality;
 import test.testTableClass;
 
 /**
@@ -48,7 +49,8 @@ public class DBParser {
 		return false;
 	}
 
-	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate, String hotel, String price) {
+	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate,
+			String hotel, String price) {
 		return false;
 	}
 
@@ -63,54 +65,76 @@ public class DBParser {
 	public model.Room getRoom(int roomNumber) {
 		return null;
 	}
+
+	public ArrayList<RoomQuality> getQualities() {
+		ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
+		String[] temp = {};
+
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_QUALITIES, temp);
+
+		populateQualities(qualities, crsTemp);
+
+		return qualities;
+	}
 	
+	public ArrayList<Discount> getDiscounts() {
+		ArrayList<Discount> discounts = new ArrayList<Discount>();
+		String[] temp = {};
+
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_DISCOUNTS, temp);
+
+		populateDiscounts(discounts, crsTemp);
+
+		return discounts;
+	}
+
 	public ArrayList<String> getAllDiscounts() {
 		ArrayList<String> discounts = new ArrayList<String>();
 		String[] temp = {};
-		
+
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_HOTEL_DISCOUNTS, temp);
-		
+
 		populateDiscountArray(discounts, crsTemp);
-		
+
 		return discounts;
-		
+
 	}
-	
+
 	public ArrayList<String> getHotelsDiscounts(String hotelName) {
 		ArrayList<String> discounts = new ArrayList<String>();
 		String[] temp = { hotelName };
-		
+
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTEL_DISCOUNTS, temp);
-		
+
 		populateDiscountArray(discounts, crsTemp);
-		
+
 		return discounts;
-		
+
 	}
-	
+
 	public ArrayList<String> getAllRoomQualities() {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = {};
-		
+
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_HOTEL_QUALITIES, temp);
-		
+
 		populateQualityArray(qualities, crsTemp);
-		
+
 		return qualities;
 	}
-	
+
 	public ArrayList<String> getHotelsRoomQualities(String hotelName) {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = { hotelName };
-		
+
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTEL_QUALITIES, temp);
-		
+
 		populateQualityArray(qualities, crsTemp);
-		
+
 		return qualities;
-		
+
 	}
-	
+
 	public ArrayList<Hotel> getHotels() {
 		ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 		String[] temp = {};
@@ -138,8 +162,8 @@ public class DBParser {
 	 *            the passport number
 	 * @return <ArrayList> the guests
 	 */
-	public ArrayList<Guest> searchGuests(String firstName, String lastName, String address,
-			String telephoneNumber, String creditCard, String passportNumber) {
+	public ArrayList<Guest> searchGuests(String firstName, String lastName, String address, String telephoneNumber,
+			String creditCard, String passportNumber) {
 
 		if (firstName.isEmpty() || firstName == null) {
 			firstName = "%";
@@ -254,7 +278,7 @@ public class DBParser {
 			}
 		}
 	}
-	
+
 	private void populateHotelArray(ArrayList<Hotel> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -272,7 +296,7 @@ public class DBParser {
 			}
 		}
 	}
-	
+
 	private void populateDiscountArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -290,11 +314,48 @@ public class DBParser {
 			}
 		}
 	}
-	
+
 	private void populateQualityArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
 				list.add(crsTemp.getString("quality"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void populateQualities(ArrayList<RoomQuality> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"),
+						crsTemp.getInt("price")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void populateDiscounts(ArrayList<Discount> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new Discount(crsTemp.getString("hotelName"), crsTemp.getInt("discountPercent")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
