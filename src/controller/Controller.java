@@ -453,7 +453,6 @@ public class Controller {
 				pane.getStyleClass().remove(cssStyle);
 				pane.getStyleClass().add("info");
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
@@ -483,26 +482,32 @@ public class Controller {
 	@FXML
 	void addNewGuest(MouseEvent event) {
 		if (addGuestFirstName.getText().isEmpty()) {
+			addGuestFirstName.setPromptText("You need to enter a firstname!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
+			addGuestLastName.setPromptText("You need to enter a lastname!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestAddress.getText().isEmpty()) {
+			addGuestAddress.setPromptText("You need to enter a adress!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestTelephone.getText().isEmpty()) {
+			addGuestTelephone.setPromptText("You need to enter a telephone number!!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestCreditCard.getText().isEmpty()) {
+			addGuestCreditCard.setPromptText("You need to enter a credit card number!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestPassport.getText().isEmpty()) {
+			addGuestPassport.setPromptText("You need to enter a passportnumber!");
 			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
