@@ -630,6 +630,14 @@ public class Controller {
 			}
 
 		});
+		
+		arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+			displayEstimatedPrice();
+        });
+		
+		departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+			displayEstimatedPrice();
+        });
 
 		System.out.println("#Hotels initialized!");
 	}
@@ -725,9 +733,22 @@ public class Controller {
 			estimation *= (1.00-discount);
 			System.out.println("Percentage: " + ((double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100));
 			System.out.println(estimation);
-		}	
+		}
+		
+		if(arrivalDate.getValue() != null && departureDate.getValue() != null) {
+			estimation *= getDays();
+		}
+		
 		System.out.println(estimation);
 		return (int) estimation;
+	}
+	
+	private int getDays() {
+		long arrival = arrivalDate.getValue().toEpochDay();
+		long departure = departureDate.getValue().toEpochDay();
+		int days = (int) Math.abs(arrival-departure);
+		
+		return days;
 	}
 
 	/**
