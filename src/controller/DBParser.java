@@ -64,6 +64,19 @@ public class DBParser {
 		return null;
 	}
 	
+	public ArrayList<String> getAllRoomQualities() {
+		ArrayList<String> qualities = new ArrayList<String>();
+		String[] temp = {};
+		
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_HOTEL_QUALITIES, temp);
+		
+		populateQualityArray(qualities, crsTemp);
+		
+		System.out.println(qualities);
+		
+		return qualities;
+	}
+	
 	public ArrayList<String> getHotelsRoomQualities(String hotelName) {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = { hotelName };

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -50,6 +51,7 @@ public class Controller {
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
 	private HashMap<String, ArrayList<String>> hotelQualities = new HashMap<String, ArrayList<String>>();
+	private ArrayList<String> allQualities = new ArrayList<String>();
 
 	/**
 	 * TEXT FIELDS
@@ -543,13 +545,19 @@ public class Controller {
 		//executor.submit(() -> {
 			hotels = FXCollections.observableArrayList(dbParser.getHotels());
 			ArrayList<String> hotelNames = new ArrayList<String>();
-			hotelNames.add("Both");
+			hotelNames.add("Hotel Preference");
+			
+			hotelQualities.put("Hotel Preference", dbParser.getAllRoomQualities());
+			
 			for (Hotel hotel : hotels) {			
 				initializeHotelQualities(hotel.getName());
 				hotelNames.add(hotel.getName());
 			}
 			hotelChoices = FXCollections.observableArrayList(hotelNames);
 			hotelChoice.setItems(hotelChoices);
+			hotelChoice.getSelectionModel().selectFirst();
+			roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get("Hotel Preference"));
+			roomQualityChoice.setItems(roomQualityChoices);
 		//});
 
 		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
