@@ -79,7 +79,9 @@ public class PickGuestPopupController {
 	private void getGuestData(MouseEvent event) {
 		if (event.getClickCount() == 2) {
 			Guest guest = guestsResultTable.getSelectionModel().getSelectedItem();
+			controller.displayPickedGuest(guest);
 			System.out.println(guest);
+			closeGuestsPopUp(event);
 		}
 	}
 	

@@ -50,7 +50,7 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="makeReservationGuest" editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
                                                                 <Button fx:id="pickGuestButton" mnemonicParsing="false" onMouseClicked="#pickGuest" text="Pick Guest" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
@@ -94,6 +94,11 @@
                                                             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                             <ButtonBar>
                                                                <buttons>
+                                                                  <Button fx:id="clearReservationButton" mnemonicParsing="false" onMouseClicked="#clearReservation" text="Clear">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
                                                                   <Button fx:id="makeReservationButton" mnemonicParsing="false" onMouseClicked="#makeReservation" styleClass="primary" text="Make Reservation">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
