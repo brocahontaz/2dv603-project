@@ -420,6 +420,9 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
+		addGuestBox.setStyle("-fx-text-fill: red");
+		//addGuestBox.setStyle("-fx-border-color: green");
+		//addGuestBox.setText("Error");
 		if (addGuestFirstName.getText().isEmpty()) {
 			return;
 		}
