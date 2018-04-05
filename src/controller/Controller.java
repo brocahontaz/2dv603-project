@@ -500,10 +500,14 @@ public class Controller {
 		}
 
 		executor.submit(() -> {
-			dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
-					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText());
+			if(dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
+					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
+				colorNotificationTitledPane(addGuestBox, "success");
+			}else {
+				colorNotificationTitledPane(addGuestBox, "danger");
+			}
 		});
-		colorNotificationTitledPane(addGuestBox, "success");
+
 	}
 
 	/**
