@@ -384,6 +384,7 @@ public class Controller {
 	}
 
 	private void setupGuestPopUp() {
+		System.out.print("--Setting up guest popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -401,6 +402,7 @@ public class Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.print("done!\r");
 	}
 
 	public void displayPickedGuest(Guest guest) {
@@ -419,6 +421,7 @@ public class Controller {
 	}
 
 	private void setupRoomPopUp() {
+		System.out.print("--Setting up room popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickRoomPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -436,6 +439,7 @@ public class Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.print("done!\r");
 	}
 
 	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
@@ -548,6 +552,8 @@ public class Controller {
 	}
 
 	private void initializeHotels() {
+		
+		System.out.println("#Initializing hotels.. ");
 
 		hotels = FXCollections.observableArrayList(dbParser.getHotels());
 		hotels.add(0, new Hotel(DEFAULT_HOTEL_CHOICE, ""));
@@ -579,22 +585,27 @@ public class Controller {
 			}
 
 		});
+		System.out.println("#Hotels initialized!");
 	}
 
-	private void initializeHotelQualities(Hotel hotel) {	
+	private void initializeHotelQualities(Hotel hotel) {
+		System.out.print("--Initializing hotel qualities.. ");
 		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
 			hotelQualities.put(hotel.getName(), dbParser.getHotelsRoomQualities(hotel.getName()));
 		} else {
 			hotelQualities.put(hotel.getName(), dbParser.getAllRoomQualities());
 		}
+		System.out.print("done!\r");
 	}
 	
-	private void initializeHotelDiscounts(Hotel hotel) {	
+	private void initializeHotelDiscounts(Hotel hotel) {
+		System.out.print("--Initializing hotel discounts.. ");
 		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
 			hotelDiscounts.put(hotel.getName(), dbParser.getHotelsDiscounts(hotel.getName()));
 		} else {
 			hotelDiscounts.put(hotel.getName(), dbParser.getAllDiscounts());
 		}
+		System.out.print("done!\r");
 	}
 
 	/**
@@ -618,10 +629,11 @@ public class Controller {
 		 * roomQualityChoice.setItems(roomQualityChoices);
 		 * discountChoice.setItems(discountChoices); hotelChoice.setItems(hotelChoices);
 		 */
-
+		
+		System.out.println("#Setting up popup windows..");
 		setupRoomPopUp();
 		setupGuestPopUp();
-
+		System.out.println("#Popups done!");
 		// guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 		// searchResultTable.setItems(guests);
 	}
