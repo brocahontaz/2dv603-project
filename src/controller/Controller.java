@@ -607,7 +607,19 @@ public class Controller {
 			public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
 					RoomQuality newValue) {
 				if (newValue != null) {
-					estimatedPrice.setText(Integer.toString((newValue.getPrice())));
+					//estimatedPrice.setText(Integer.toString((newValue.getPrice())));
+					displayEstimatedPrice();
+				}
+			}
+
+		});
+		
+		discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue,
+					Integer newValue) {
+				if (newValue != null) {
+					displayEstimatedPrice();
 				}
 			}
 
@@ -685,6 +697,17 @@ public class Controller {
 
 	private void displayAllDiscounts() {
 		displayHotelDiscounts(defaultHotel);
+	}
+	
+	private void displayEstimatedPrice() {
+		
+	}
+	
+	private int calculateEstimatedPrice() {
+		
+		
+		
+		return 0;
 	}
 
 	/**
