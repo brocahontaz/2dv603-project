@@ -219,10 +219,10 @@ public class DBParser {
 	 * @param param
 	 *            the parameter to be used
 	 */
-	private void executeSingleParamUpdate(Queries query, String param) {
+	private boolean executeSingleParamUpdate(Queries query, String param) {
 		String[] params = { param };
 
-		this.executeUpdate(query, params);
+		return this.executeUpdate(query, params);
 	}
 
 	/**
