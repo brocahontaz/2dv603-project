@@ -155,6 +155,9 @@ public class Controller {
 
 	@FXML
 	private TextField makeReservationGuest;
+	
+	@FXML
+	private TextField makeReservationRoom;
 
 	/**
 	 * BUTTONS
@@ -446,6 +449,11 @@ public class Controller {
 			e.printStackTrace();
 		}
 		System.out.print("done!\r");
+	}
+	
+	public void displayPickedRoom(Room room) {
+		pickedRoom = room;
+		makeReservationRoom.setText(room.getRoomNumber() + "");
 	}
 
 	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
