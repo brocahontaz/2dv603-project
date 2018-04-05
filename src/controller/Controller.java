@@ -423,6 +423,21 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+	
+	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
+		executor.submit(() -> {
+			try {
+				pane.getStyleClass().remove("info");
+				pane.getStyleClass().add(cssStyle);
+				Thread.sleep(3000);
+				pane.getStyleClass().remove(cssStyle);
+				pane.getStyleClass().add("info");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+	}
 
 	/**
 	 * Search guests, filtered
@@ -447,33 +462,28 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
-		executor.submit(() -> {
-			try {
-				addGuestBox.getStyleClass().remove("info");
-				addGuestBox.getStyleClass().add("success");
-				Thread.sleep(3000);
-				addGuestBox.getStyleClass().add("info");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
 		if (addGuestFirstName.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestAddress.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestTelephone.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestCreditCard.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestPassport.getText().isEmpty()) {
+			colorNotificationTitledPane(addGuestBox, "danger");
 			return;
 		}
 
@@ -481,7 +491,7 @@ public class Controller {
 			dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText());
 		});
-
+		colorNotificationTitledPane(addGuestBox, "success");
 	}
 
 	/**
