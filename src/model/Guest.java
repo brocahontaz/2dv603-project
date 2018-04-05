@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -81,7 +82,7 @@ public class Guest {
 	public String toString() {
 		return this.firstName + " " + this.lastName + " " + this.passportNumber;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {

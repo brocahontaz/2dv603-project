@@ -375,8 +375,8 @@ public class Controller {
 		roomQualityChoice.getSelectionModel().clearSelection();
 		discountChoice.getSelectionModel().clearSelection();
 		hotelChoice.getSelectionModel().clearSelection();
-		setDefaultHotelQualities();
-		setDefaultHotelDiscounts();
+		//setDefaultHotelQualities();
+		//setDefaultHotelDiscounts();
 	}
 
 	/**
@@ -616,19 +616,22 @@ public class Controller {
 			for (RoomQuality rq : roomQualities) {
 				if (rq.getHotelName().equals(hotel.getName())) {
 					temp.add(rq);
+					
 				}
 			}
+			
+			hotel.setQualities(temp);
 					
 		} else {
 			
 		}
 		
-		hotelQualities.put(hotel.getName(), temp);
+		//hotelQualities.put(hotel.getName(), temp);
 		
 	}
 	
 	private void getHotelQualities(Hotel hotel) {
-		qualities = FXCollections.observableArrayList(hotelQualities.get(hotel.getName()));
+		qualities = FXCollections.observableArrayList(hotel.getQualities());
 		roomQualityChoice.setItems(qualities);
 	}
 

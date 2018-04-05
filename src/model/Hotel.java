@@ -7,7 +7,8 @@ public class Hotel {
 
 	private String name;
 	private String address;
-	private ArrayList<String> qualities;
+	private ArrayList<Integer> discounts = new ArrayList<Integer>();
+	private ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
 	
 	public Hotel() {
 		
@@ -16,7 +17,6 @@ public class Hotel {
 	public Hotel(String name, String address) {
 		this.name = name;
 		this.address = address;
-		this.qualities = new ArrayList<String>();
 	}
 	
 	public String getName() {
@@ -27,10 +27,6 @@ public class Hotel {
 		return this.address;
 	}
 	
-	public ArrayList<String> getQualities() {
-		return this.qualities;
-	}
-	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -39,10 +35,22 @@ public class Hotel {
 		this.address = address;
 	}
 	
-	public void setQualities(ArrayList<String> qualities) {
+	public ArrayList<Integer> getDiscounts() {
+		return discounts;
+	}
+
+	public void setDiscounts(ArrayList<Integer> discounts) {
+		this.discounts = discounts;
+	}
+
+	public ArrayList<RoomQuality> getQualities() {
+		return qualities;
+	}
+
+	public void setQualities(ArrayList<RoomQuality> qualities) {
 		this.qualities = qualities;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.name;
