@@ -381,6 +381,7 @@ public class Controller {
 		hotelChoice.getSelectionModel().clearSelection();
 		displayAllQualities();
 		displayAllDiscounts();
+		estimatedPrice.setText("0");
 	}
 
 	/**
@@ -677,6 +678,8 @@ public class Controller {
 
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 
+		temp.add(0);
+		
 		if (!hotel.equals(defaultHotel)) {
 
 			for (Discount discount : hotelDiscounts) {
@@ -705,14 +708,26 @@ public class Controller {
 	}
 	
 	private void displayEstimatedPrice() {
-		
+		estimatedPrice.setText(Integer.toString(calculateEstimatedPrice()));
 	}
 	
 	private int calculateEstimatedPrice() {
 		
-		
-		
-		return 0;
+		double estimation = 0;
+		if (!roomQualityChoice.getSelectionModel().isEmpty()) {
+			estimation += roomQualityChoice.getSelectionModel().selectedItemProperty().getValue().getPrice();
+			System.out.println(estimation);
+		}
+		if (!discountChoice.getSelectionModel().isEmpty()) {
+			
+			double discount = (double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100;
+			
+			estimation *= (1.00-discount);
+			System.out.println("Percentage: " + ((double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100));
+			System.out.println(estimation);
+		}	
+		System.out.println(estimation);
+		return (int) estimation;
 	}
 
 	/**
