@@ -37,13 +37,11 @@ import javafx.stage.StageStyle;
 import model.Guest;
 import model.Hotel;
 import model.Room;
-import model.RoomQuality;
 
 public class Controller {
 
 	private ObservableList<Guest> guests;
 	private ObservableList<Hotel> hotels;
-	private ObservableList<RoomQuality> qualities;
 	private ObservableList<String> roomQualityChoices;
 	private ObservableList<String> discountChoices;
 	private ObservableList<String> hotelChoices;
@@ -227,7 +225,7 @@ public class Controller {
 	 */
 
 	@FXML
-	private ComboBox<RoomQuality> roomQualityChoice;
+	private ComboBox<String> roomQualityChoice;
 
 	@FXML
 	private ComboBox<String> discountChoice;
@@ -565,39 +563,31 @@ public class Controller {
 		hotelChoice.setItems(hotels);
 		hotelChoice.getSelectionModel().selectFirst();
 		
-		/*for (Hotel hotel : hotels) {
+		for (Hotel hotel : hotels) {
 			initializeHotelQualities(hotel);
 			initializeHotelDiscounts(hotel);
-		}*/
+		}
 		
-		initializeHotelQualities();
-		
-		/*setDefaultHotelQualities();
-		setDefaultHotelDiscounts();*/
+		setDefaultHotelQualities();
+		setDefaultHotelDiscounts();
 
 		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
 			@Override
 			public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
 				if (newValue != null) {
-					/*roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(newValue.getName()));
+					roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(newValue.getName()));
 					roomQualityChoice.setItems(roomQualityChoices);
 					
 					discountChoices = FXCollections.observableArrayList(hotelDiscounts.get(newValue.getName()));
-					discountChoice.setItems(discountChoices);*/
+					discountChoice.setItems(discountChoices);
 				}
 			}
 
 		});
 		System.out.println("#Hotels initialized!");
 	}
-	
-	private void initializeHotelQualities() {
-		qualities = FXCollections.observableArrayList(dbParser.getQualities());
-		roomQualityChoice.setItems(qualities);
-	}
 
 	private void initializeHotelQualities(Hotel hotel) {
-		
 		System.out.print("--Initializing hotel qualities.. ");
 		if(!hotel.getName().equals(DEFAULT_HOTEL_CHOICE)) {
 			hotelQualities.put(hotel.getName(), dbParser.getHotelsRoomQualities(hotel.getName()));
@@ -605,12 +595,11 @@ public class Controller {
 			hotelQualities.put(hotel.getName(), dbParser.getAllRoomQualities());
 		}
 		System.out.print("done!\r");
-
 	}
 	
 	private void setDefaultHotelQualities() {
 		roomQualityChoices = FXCollections.observableArrayList(hotelQualities.get(DEFAULT_HOTEL_CHOICE));
-		//roomQualityChoice.setItems(roomQualityChoices);
+		roomQualityChoice.setItems(roomQualityChoices);
 	}
 	
 	private void initializeHotelDiscounts(Hotel hotel) {
