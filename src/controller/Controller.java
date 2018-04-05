@@ -38,6 +38,7 @@ public class Controller {
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage roomPopup;
 	private Stage guestPopup;
+	private Guest pickedGuest = null;
 
 	/**
 	 * TEXT FIELDS
@@ -133,6 +134,9 @@ public class Controller {
 	@FXML
 	private TextField checkInReservationID;
 
+    @FXML
+    private TextField makeReservationGuest;
+
 	/**
 	 * BUTTONS
 	 */
@@ -166,6 +170,9 @@ public class Controller {
 
 	@FXML
 	private Button addGuestButton;
+	
+	@FXML
+    private Button clearReservationButton;
 
 	/**
 	 * TITLED PANES
@@ -336,6 +343,16 @@ public class Controller {
 	void makeReservation(MouseEvent event) {
 
 	}
+	
+	@FXML
+    void clearReservation(MouseEvent event) {
+		pickedGuest = null;
+		makeReservationGuest.setText("");
+		arrivalDate.setValue(null);
+		departureDate.setValue(null);
+		roomQualityChoice.getSelectionModel().clearSelection();
+		discountChoice.getSelectionModel().clearSelection();
+    }
 
 	/**
 	 * Pick a guest
@@ -365,6 +382,11 @@ public class Controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void displayPickedGuest(Guest guest) {
+		pickedGuest = guest;
+		makeReservationGuest.setText(guest.getFirstName() + " " + guest.getLastName());
 	}
 
 	/**
