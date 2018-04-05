@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
+import model.Guest;
+import model.Hotel;
 import test.testTableClass;
 
 /**
@@ -46,7 +48,7 @@ public class DBParser {
 		return false;
 	}
 
-	public boolean makeReservation() {
+	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate, String hotel, String price) {
 		return false;
 	}
 
@@ -60,6 +62,16 @@ public class DBParser {
 
 	public model.Room getRoom(int roomNumber) {
 		return null;
+	}
+	
+	public ArrayList<Hotel> getHotels() {
+		ArrayList<Hotel> hotels = new ArrayList<Hotel>();
+		String[] temp = {};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_HOTELS, temp);
+
+		populateHotelArray(hotels, crsTemp);
+
+		return hotels;
 	}
 
 	/**
@@ -79,7 +91,7 @@ public class DBParser {
 	 *            the passport number
 	 * @return <ArrayList> the guests
 	 */
-	public ArrayList<model.Guest> searchGuests(String firstName, String lastName, String address,
+	public ArrayList<Guest> searchGuests(String firstName, String lastName, String address,
 			String telephoneNumber, String creditCard, String passportNumber) {
 
 		if (firstName.isEmpty() || firstName == null) {
@@ -101,7 +113,7 @@ public class DBParser {
 			passportNumber = "%";
 		}
 
-		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		ArrayList<Guest> guests = new ArrayList<Guest>();
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_GUESTS, temp);
 
@@ -138,9 +150,9 @@ public class DBParser {
 	 * 
 	 * @return ArrayList<model.Guest> the guests
 	 */
-	public ArrayList<model.Guest> getAllGuests() {
+	public ArrayList<Guest> getAllGuests() {
 
-		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		ArrayList<Guest> guests = new ArrayList<Guest>();
 		String[] temp = {};
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ALL_GUESTS, temp);
 
@@ -158,9 +170,9 @@ public class DBParser {
 	 *            the last name
 	 * @return <ArrayList> the results
 	 */
-	public ArrayList<model.Guest> getCustomerByLastName(String lastname) {
+	public ArrayList<Guest> getCustomerByLastName(String lastname) {
 
-		ArrayList<model.Guest> guests = new ArrayList<model.Guest>();
+		ArrayList<Guest> guests = new ArrayList<Guest>();
 		CachedRowSetImpl crsTemp = executeSingleParamQuery(Queries.GET_CUSTOMER_BY_LASTNAME, lastname);
 
 		populateGuestArray(guests, crsTemp);
@@ -176,12 +188,30 @@ public class DBParser {
 	 * @param crsTemp
 	 *            the cached row set
 	 */
-	private void populateGuestArray(ArrayList<model.Guest> list, CachedRowSetImpl crsTemp) {
+	private void populateGuestArray(ArrayList<Guest> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				list.add(new model.Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
+				list.add(new Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void populateHotelArray(ArrayList<Hotel> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new Hotel(crsTemp.getString("hotelName"), crsTemp.getString("address")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

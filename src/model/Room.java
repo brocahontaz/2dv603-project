@@ -4,13 +4,11 @@ public class Room {
 	
 	private int roomNumber;
 	private int numberOfBeds;
-	private boolean smoking;
 	private boolean available;
 	
-	public Room(int roomNumber, int numberOfBeds, boolean smoking, boolean available) {
+	public Room(int roomNumber, int numberOfBeds, boolean available) {
 		this.roomNumber = roomNumber;
 		this.numberOfBeds = numberOfBeds;
-		this.smoking = smoking;
 		this.available = available;
 	}
 	
@@ -28,14 +26,6 @@ public class Room {
 	
 	public void setNumberOfBeds(int numberOfBeds) {
 		this.numberOfBeds = numberOfBeds;
-	}
-	
-	public boolean isSmoking() {
-		return smoking;
-	}
-	
-	public void setSmoking(boolean smoking) {
-		this.smoking = smoking;
 	}
 	
 	public boolean isAvailable() {
