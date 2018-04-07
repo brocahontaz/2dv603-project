@@ -49,6 +49,7 @@ public class Controller {
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage roomPopup;
 	private Stage guestPopup;
+	private Stage guestInfoPopup;
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
@@ -327,17 +328,37 @@ public class Controller {
 	}
 
 	/*
-	 * Prompt a window with a guests information, giving the ability to update data.
+	 * Prompt a window with guest info when double clicking on guest in result.
 	 */
 	@FXML
 	void checkSingularGuest(MouseEvent event) throws IOException {
 		if (event.getClickCount() == 2) {
 			Guest guest = searchResultTable.getSelectionModel().getSelectedItem();
-			//System.out.println(guest.getFirstName());
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
-			loader.load();
-			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
+			setupGuestInfoPopup(guest);			
 		}
+	}
+
+	private void setupGuestInfoPopup(Guest guest) {
+		System.out.print("--Setting up Guest Info popup.. ");
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			Scene scene = new Scene(root, 600, 550);
+			guestInfoPopup = new Stage();
+			guestInfoPopup.initModality(Modality.APPLICATION_MODAL);
+			guestInfoPopup.setScene(scene);
+			guestInfoPopup.setMinHeight(550);
+			guestInfoPopup.setMinWidth(600);
+			guestInfoPopup.setResizable(false);
+			guestInfoPopup.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			guestInfoPopup.setTitle("Guests");
+			guestInfoPopup.show();	
+			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.print("done!\r");
 	}
 
 	/**
