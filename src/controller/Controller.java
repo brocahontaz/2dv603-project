@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -325,9 +326,18 @@ public class Controller {
 
 	}
 
+	/*
+	 * Prompt a window with a guests information, giving the ability to update data.
+	 */
 	@FXML
-	void checkSingularGuest(MouseEvent event) {
-
+	void checkSingularGuest(MouseEvent event) throws IOException {
+		if (event.getClickCount() == 2) {
+			Guest guest = searchResultTable.getSelectionModel().getSelectedItem();
+			//System.out.println(guest.getFirstName());
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
+			loader.load();
+			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
+		}
 	}
 
 	/**
