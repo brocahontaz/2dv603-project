@@ -15,7 +15,7 @@
 
 <BorderPane maxHeight="550.0" maxWidth="600.0" minHeight="550.0" minWidth="600.0" prefHeight="550.0" prefWidth="600.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GuestInfoPopupController">
    <center>
-      <TitledPane animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="480.0" maxHeight="700.0" maxWidth="600.0" minHeight="404.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="primary" text="Guest Info" BorderPane.alignment="CENTER">
+      <TitledPane fx:id="guestInfoBox" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="480.0" maxHeight="700.0" maxWidth="600.0" minHeight="404.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" styleClass="primary" text="Guest Info" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane>
                <children>

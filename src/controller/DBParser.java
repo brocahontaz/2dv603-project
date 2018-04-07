@@ -216,10 +216,26 @@ public class DBParser {
 		return this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
 	
+	/**
+	 * Update the guest to the database
+	 * 
+	 * @param firstName
+	 *            the first name of the guest
+	 * @param lastName
+	 *            the last name of the guest
+	 * @param address
+	 *            the address of the guest
+	 * @param telephoneNumber
+	 *            the telephone number of the guest
+	 * @param creditCard
+	 *            the credit card number of the guest
+	 * @param passportNumber
+	 *            the passport number of the guest
+	 */
 	public boolean updateGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber, String key) {
 
-		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber, key};
+		String[] temp = {firstName, lastName, address, telephoneNumber, creditCard, passportNumber, key};
 		return this.executeUpdate(Queries.UPDATE_GUEST, temp);
 	}
 
