@@ -215,6 +215,13 @@ public class DBParser {
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
 		return this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
+	
+	public boolean updateGuest(String firstName, String lastName, String address, String telephoneNumber,
+			String creditCard, String passportNumber, String key) {
+
+		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber, key};
+		return this.executeUpdate(Queries.UPDATE_GUEST, temp);
+	}
 
 	/**
 	 * Get all the guests in the database
@@ -231,6 +238,8 @@ public class DBParser {
 
 		return guests;
 	}
+	
+	
 
 	/**
 	 * EXAMPLE FUNCTION.

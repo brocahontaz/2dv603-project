@@ -1,5 +1,10 @@
 package controller;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -8,6 +13,10 @@ import javafx.scene.input.MouseEvent;
 import model.Guest;
 
 public class GuestInfoPopupController {
+	
+	private DBParser dbParser = new DBParser();
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	private String tempPassportnumber; // There to make it able to change the current passport number aswell
 	
 	@FXML
     private TextField guestInfoFirstname;
@@ -34,7 +43,20 @@ public class GuestInfoPopupController {
     @FXML
     void closeGuestInfoPopup(MouseEvent event) {
     	((Node) (event.getSource())).getScene().getWindow().hide();
-    }    
+    }
+    
+	@FXML
+	void updateGuest(MouseEvent event) {
+		executor.submit(() -> {
+			String firstName = guestInfoFirstname.getText();
+			String lastName = guestInfoLastname.getText();
+			String address = guestInfoAddress.getText();
+			String telephone = guestInfoTelephone.getText();
+			String creditCard = guestInfoCreditCard.getText();
+			String passport = guestInfoPassport.getText();
+			dbParser.updateGuest(firstName, lastName, address, telephone, creditCard, passport, tempPassportnumber);	
+		});
+	}
 
     void setupGuestInfoPopup(Guest guest) {		
     	guestInfoFirstname.setText(guest.getFirstName());
@@ -43,6 +65,7 @@ public class GuestInfoPopupController {
     	guestInfoTelephone.setText(guest.getTelephoneNumber());
     	guestInfoCreditCard.setText(guest.getCreditCard());
     	guestInfoPassport.setText(guest.getPassportNumber());
+    	tempPassportnumber = guest.getPassportNumber();
     }
   
 }

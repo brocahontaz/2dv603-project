@@ -61,7 +61,7 @@
                   </VBox>
                   <ButtonBar layoutX="409.0" layoutY="459.0" prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                        <Button mnemonicParsing="false" text="Save">
+                        <Button mnemonicParsing="false" onMouseClicked="#updateGuest" text="Save">
                            <styleClass>
                               <String fx:value="primary" />
                               <String fx:value="last" />
