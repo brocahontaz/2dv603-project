@@ -512,12 +512,12 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
+			//searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
 			searchResultTable.setItems(guests);
 		});
-
 	}
 
 	/**
@@ -596,12 +596,11 @@ public class Controller {
 	 */
 	@FXML
 	void listAllGuests(MouseEvent event) {
-
 		executor.submit(() -> {
+			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
 		});
-
 	}
 
 	private void initializeHotels() {
