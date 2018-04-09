@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.TextField;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javafx.scene.control.TitledPane;
@@ -9,6 +10,18 @@ import javafx.scene.control.TitledPane;
 public class Fx {
 	
 	private static ExecutorService executor = Executors.newSingleThreadExecutor();
+	
+	public static void textFieldColorNotification(TextField textField) {
+		executor.submit(() -> {
+			try {
+				//textField.getStyleClass().clear();
+				Thread.sleep(3000);
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
+	}
 	
 	/**
 	 * Changes the css-style of a titledpane for 3 seconds.
