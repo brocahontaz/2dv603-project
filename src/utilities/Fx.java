@@ -18,7 +18,8 @@ public class Fx {
 	public static void titledPaneColorNotification(TitledPane titledPane, String cssStyle) {
 		executor.submit(() -> {
 			try {
-				String oldStyle = titledPane.getStyleClass().toString();
+				String old = titledPane.getStyleClass().toString();
+				String oldStyle = trimCssStyle(old);
 				titledPane.getStyleClass().remove(oldStyle);
 				titledPane.getStyleClass().add(cssStyle);
 				Thread.sleep(3000);
@@ -39,7 +40,8 @@ public class Fx {
 	public static void titledPaneColorNotification(TitledPane titledPane, String cssStyle, int time) {
 		executor.submit(() -> {
 			try {
-				String oldStyle = titledPane.getStyleClass().toString();
+				String old = titledPane.getStyleClass().toString();
+				String oldStyle = trimCssStyle(old);
 				titledPane.getStyleClass().remove(oldStyle);
 				titledPane.getStyleClass().add(cssStyle);
 				Thread.sleep(time);
@@ -51,7 +53,7 @@ public class Fx {
 		});
 	}
 	
-	// Helper method to trim cssStrings, does not seem to be needed.
+	// Helper method to trim cssString.
 	private static String trimCssStyle(String cssStyle) {
 		String result = "";
 		result = cssStyle.substring(cssStyle.lastIndexOf(" ")+1);

@@ -561,9 +561,9 @@ public class Controller {
 		executor.submit(() -> {
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
-				colorNotificationTitledPane(addGuestBox, "success");
+				Fx.titledPaneColorNotification(addGuestBox, "success");
 			} else {
-				colorNotificationTitledPane(addGuestBox, "danger");
+				Fx.titledPaneColorNotification(addGuestBox, "danger");
 			}
 		});
 
