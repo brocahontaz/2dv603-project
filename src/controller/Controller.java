@@ -38,6 +38,7 @@ import model.Guest;
 import model.Hotel;
 import model.Room;
 import model.RoomQuality;
+import utilities.Fx;
 
 public class Controller {
 
@@ -528,7 +529,7 @@ public class Controller {
 	void addNewGuest(MouseEvent event) {
 		if (addGuestFirstName.getText().isEmpty()) {
 			addGuestFirstName.setPromptText("You need to enter a firstname!");
-			colorNotificationTitledPane(addGuestBox, "danger");
+			Fx.titledPaneColorNotification(addGuestBox, "danger");
 			return;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
