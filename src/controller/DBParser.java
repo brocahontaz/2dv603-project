@@ -11,6 +11,7 @@ import com.sun.rowset.CachedRowSetImpl;
 
 import model.Guest;
 import model.Hotel;
+import model.Room;
 import model.RoomQuality;
 import test.testTableClass;
 
@@ -58,6 +59,43 @@ public class DBParser {
 		return null;
 	}
 
+	public ArrayList<Room> getAllRooms() {
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		String[] temp = {};
+
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_ROOMS, temp);
+
+		populateRoomArray(rooms, crsTemp);
+
+		return rooms;
+	}
+	
+	public ArrayList<Room> searchRooms(String roomNumber, String numberOfBeds, String available) {
+		if (roomNumber.isEmpty() || roomNumber == null) {
+			roomNumber = "%";
+		} 
+		if (numberOfBeds.isEmpty() || numberOfBeds == null) {
+			numberOfBeds = "%";
+		}
+		if (available.isEmpty() || available == null) {
+			available = "%";
+		} else if (Boolean.parseBoolean(available) == true) {
+			available = "1";
+		} else if (Boolean.parseBoolean(available) == false) {
+			available = "0";
+		}
+		
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		String[] temp = {roomNumber, numberOfBeds, available};
+
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_ROOMS, temp);
+
+		populateRoomArray(rooms, crsTemp);
+
+		return rooms;
+	}
+
+	
 	public model.Guest getGuest(String passportNumber) {
 		return null;
 	}
@@ -304,6 +342,27 @@ public class DBParser {
 		}
 	}
 
+	private void populateRoomArray(ArrayList<Room> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new Room(crsTemp.getInt("roomNumber"),
+						crsTemp.getInt("numberOfBeds"),
+						crsTemp.getBoolean("available")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
 	private void populateHotelArray(ArrayList<Hotel> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
