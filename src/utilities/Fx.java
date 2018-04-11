@@ -10,14 +10,18 @@ import javafx.scene.control.TitledPane;
 
 public class Fx {
 	
-	private static ExecutorService executor = Executors.newSingleThreadExecutor();
+	private static ExecutorService executor = Executors.newFixedThreadPool(2);
 	
-	public static void textFieldColorNotification(TextField textField) {
+	public static void textFieldColorNotification(TextField textField, String cssStyle) {
 		executor.submit(() -> {
 			try {
-				//textField.getStyleClass().clear();
+				String old = textField.getStyleClass().toString();
+				String oldStyle = trimCssStyle(old);
+				textField.getStyleClass().remove(oldStyle);
+				textField.getStyleClass().add(cssStyle);
 				Thread.sleep(3000);
-
+				textField.getStyleClass().remove(cssStyle);
+				textField.getStyleClass().add(oldStyle);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -530,6 +530,7 @@ public class Controller {
 		if (addGuestFirstName.getText().isEmpty()) {
 			addGuestFirstName.setPromptText("You need to enter a firstname!");
 			Fx.titledPaneColorNotification(addGuestBox, "danger");
+			Fx.textFieldColorNotification(addGuestFirstName, "error");
 			return;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
