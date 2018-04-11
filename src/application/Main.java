@@ -1,6 +1,7 @@
 package application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -50,6 +51,12 @@ public class Main extends Application {
 			});
 
 			primaryStage.show();
+			
+			// Completely closes the application and all threads.
+			primaryStage.setOnCloseRequest(e -> {
+		        Platform.exit();
+		        System.exit(0);
+		    });
 
 		} catch (Exception e) {
 			e.printStackTrace();
