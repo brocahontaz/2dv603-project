@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="controller.SplashController">
+   <center>
+      <StackPane BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="10.0" />
+         </BorderPane.margin>
+         <children>
+            <ProgressIndicator fx:id="appLoadProgress" progress="0.0" />
+            <ImageView fitHeight="190.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@apeemoji.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets bottom="25.0" />
+               </StackPane.margin>
+            </ImageView>
+         </children>
+      </StackPane>
+   </center>
+   <top>
+      <Label text="HotelFX" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </Label>
+   </top>
+</BorderPane>

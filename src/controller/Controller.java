@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -30,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,16 +51,18 @@ public class Controller {
 	private ArrayList<Discount> hotelDiscounts;
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	private Stage primaryStage;
 	private Stage roomPopup;
 	private Stage guestPopup;
 	private Stage guestInfoPopup;
+	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 
 	@FXML
-	private ProgressIndicator testProg;
+	private BorderPane rootPane;
 
 	/**
 	 * TEXT FIELDS
@@ -516,7 +520,7 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
-			//searchResultTable.getItems().clear();
+			// searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
@@ -611,96 +615,105 @@ public class Controller {
 	private void initializeHotels() {
 		System.out.println("#Initializing hotels.. ");
 
-		hotels = FXCollections.observableArrayList(dbParser.getHotels());
-		hotels.add(0, defaultHotel);
+		executor.submit(() -> {
+			hotels = FXCollections.observableArrayList(dbParser.getHotels());
+			hotels.add(0, defaultHotel);
 
-		hotelChoice.setItems(hotels);
-		hotelChoice.getSelectionModel().selectFirst();
+			hotelChoice.setItems(hotels);
+			hotelChoice.getSelectionModel().selectFirst();
 
-		initializeHotelQualities();
-		initializeHotelDiscounts();
+			initializeHotelQualities();
+			initializeHotelDiscounts();
 
-		for (Hotel hotel : hotels) {
+			for (Hotel hotel : hotels) {
 
-			setHotelQualities(hotel);
-			setHotelDiscounts(hotel);
+				setHotelQualities(hotel);
+				setHotelDiscounts(hotel);
 
-		}
-
-		displayAllQualities();
-		displayAllDiscounts();
-
-		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
-			@Override
-			public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
-				if (newValue != null) {
-
-					displayHotelQualities(newValue);
-					displayHotelDiscounts(newValue);
-
-				}
 			}
+			//
+			displayAllQualities();
+			displayAllDiscounts();
 
-		});
+			hideSplashDisplayMain();
 
-		roomQualityChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RoomQuality>() {
-			@Override
-			public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
-					RoomQuality newValue) {
-				if (newValue != null) {
-					// estimatedPrice.setText(Integer.toString((newValue.getPrice())));
-					displayEstimatedPrice();
+			hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
+				@Override
+				public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
+					if (newValue != null) {
+
+						displayHotelQualities(newValue);
+						displayHotelDiscounts(newValue);
+
+					}
 				}
-			}
 
-		});
+			});
 
-		discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
-			@Override
-			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-				if (newValue != null) {
-					displayEstimatedPrice();
+			roomQualityChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RoomQuality>() {
+				@Override
+				public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
+						RoomQuality newValue) {
+					if (newValue != null) {
+						// estimatedPrice.setText(Integer.toString((newValue.getPrice())));
+						displayEstimatedPrice();
+					}
 				}
-			}
+
+			});
+
+			discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
+				@Override
+				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+					if (newValue != null) {
+						displayEstimatedPrice();
+					}
+				}
+
+			});
+
+			arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+				displayEstimatedPrice();
+			});
+
+			departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+				displayEstimatedPrice();
+			});
 
 		});
 
-		arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-			displayEstimatedPrice();
-		});
-
-		departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-			displayEstimatedPrice();
-		});
+		// System.out.println(hotels);
 
 		System.out.println("#Hotels initialized!");
 	}
 
 	private void initializeHotelQualities() {
-			roomQualities = dbParser.getQualities();
+		// executor.submit(() -> {
+		roomQualities = dbParser.getQualities();
+		// });
 
 	}
 
 	private void setHotelQualities(Hotel hotel) {
-			ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
+		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
 
-			if (!hotel.equals(defaultHotel)) {
+		if (!hotel.equals(defaultHotel)) {
 
-				for (RoomQuality rq : roomQualities) {
-					if (rq.getHotelName().equals(hotel.getName())) {
-						temp.add(rq);
-					}
-				}
-
-			} else {
-				for (RoomQuality rq : roomQualities) {
-					if (!temp.contains(rq)) {
-						temp.add(rq);
-					}
+			for (RoomQuality rq : roomQualities) {
+				if (rq.getHotelName().equals(hotel.getName())) {
+					temp.add(rq);
 				}
 			}
 
-			hotel.setQualities(temp);
+		} else {
+			for (RoomQuality rq : roomQualities) {
+				if (!temp.contains(rq)) {
+					temp.add(rq);
+				}
+			}
+		}
+
+		hotel.setQualities(temp);
 	}
 
 	private void displayHotelQualities(Hotel hotel) {
@@ -712,7 +725,9 @@ public class Controller {
 	}
 
 	private void initializeHotelDiscounts() {
+		// executor.submit(() -> {
 		hotelDiscounts = dbParser.getDiscounts();
+		// });
 	}
 
 	private void setHotelDiscounts(Hotel hotel) {
@@ -785,21 +800,72 @@ public class Controller {
 		return days;
 	}
 
+	private void setupSplashScreen() {
+		System.out.print("--Setting up splash screen.. ");
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SplashScreen.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			Scene scene = new Scene(root, 600, 400);
+			// splashScreen = new Stage();
+			splashScreen.initModality(Modality.APPLICATION_MODAL);
+			splashScreen.setScene(scene);
+			splashScreen.setMinHeight(400);
+			splashScreen.setMinWidth(600);
+			splashScreen.setResizable(false);
+			splashScreen.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			splashScreen.setTitle("");
+			
+			splashScreen.initStyle(StageStyle.TRANSPARENT);
+			scene.setFill(Color.TRANSPARENT);
+			
+			
+			splashScreen.show();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.print("done!\r");
+	}
+
+	public void setStage(Stage stage) {
+		this.primaryStage = stage;
+
+	}
+
+	private void hideSplashDisplayMain() {
+
+		try {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					splashScreen.hide();
+					primaryStage.show();
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	/**
 	 * Initialize
 	 */
 	@FXML
 	void initialize() {
+
+		setupSplashScreen();
+
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 
 		initializeHotels();
-		testProg.setProgress(-1);
 
 		System.out.println("#Setting up popup windows..");
-
+		
 		setupRoomPopUp();
 		setupGuestPopUp();
 
