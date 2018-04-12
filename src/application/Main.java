@@ -56,10 +56,6 @@ public class Main extends Application {
 					System.out.println("Fungerar jag?");
 				}
 			});
-<<<<<<< HEAD
-			
-			
-=======
 
 			primaryStage.show();
 			
@@ -68,7 +64,6 @@ public class Main extends Application {
 		        Platform.exit();
 		        System.exit(0);
 		    });
->>>>>>> 89b7b63f744424a4a32fa7ba031532d3ffbc7337
 
 		} catch (Exception e) {
 			e.printStackTrace();

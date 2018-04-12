@@ -6,11 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
 import model.Guest;
 import model.Hotel;
+import model.Reservation;
 import model.Room;
 import model.RoomQuality;
 import test.testTableClass;
@@ -53,6 +56,16 @@ public class DBParser {
 	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate,
 			String hotel, String price) {
 		return false;
+	}
+	
+	public ArrayList<Reservation> getReservationByPassport(String passportNumber) {
+
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		String[] temp = {"%", passportNumber};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATION, temp);
+
+		populateReservations(reservations, crsTemp);
+		return reservations;
 	}
 
 	public model.Room getAllAvailableRooms() {
@@ -440,6 +453,29 @@ public class DBParser {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Discount(crsTemp.getString("hotelName"), crsTemp.getInt("discountPercent")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void populateReservations(ArrayList<Reservation> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				/*
+				 * TODO: if departureDate > currentDate add to list, else don't.
+				 * Done to only show active reservations
+				 */
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

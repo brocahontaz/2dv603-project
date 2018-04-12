@@ -1,24 +1,25 @@
 package model;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Reservation {
 	
 	private int id;
-	private Guest guest;
-	private Room room;
-	private Date startDate;
-	private Date endDate;
-	private int daysDuration;
+	private String passportNumber;
+	private int roomNumber;
+	private int arrivalDate;
+	private int departureDate;
+	private Boolean checkedIn;
+	private Boolean checkedOut;
 
-	public Reservation(int id, Guest guest, Room room, Date startDate, Date endDate, int daysDuration) {
+	public Reservation(int id, String passportNumber, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut) {
 		this.id = id;
-		this.guest = guest;
-		this.room = room;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.daysDuration = daysDuration;
+		this.passportNumber = passportNumber;
+		this.roomNumber = roomNumber;
+		this.arrivalDate = arrivalDate;
+		this.departureDate = departureDate;
+		this.setCheckedIn(checkedIn);
+		this.setCheckedOut(checkedOut);
 	}
 	
 	public int getId() {
@@ -29,45 +30,58 @@ public class Reservation {
 		this.id = id;
 	}
 	
-	public Guest getGuest() {
-		return guest;
+	public String getPassportNumber() {
+		return passportNumber;
 	}
 
-	public void setGuest(Guest guest) {
-		this.guest = guest;
+	public void setPassportNumber(String passportNumber) {
+		this.passportNumber = passportNumber;
 	}
 	
-	public Room getRoom() {
-		return room;
+	public int getRoomNumber() {
+		return roomNumber;
 	}
 
-	public void setRoom(Room room) {
-		this.room = room;
+	public void setRoomNumber(int roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 	
-	public Date getStartDate() {
-		return startDate;
+	public int getArrivalDate() {
+		return arrivalDate;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setArrivalDate(int arrivalDate) {
+		this.arrivalDate = arrivalDate;
 	}
 	
-	public Date getEndDate() {
-		return endDate;
+	public int getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setDepartureDate(int departureDate) {
+		this.departureDate = departureDate;
 	}
 
 	public int getDuration() {
-		return daysDuration;
+		return this.departureDate - this.arrivalDate;
+	}
+	
+	public Boolean getCheckedIn() {
+		return checkedIn;
 	}
 
-	public void setDuration(int daysDuration) {
-		this.daysDuration = daysDuration;
+	public void setCheckedIn(Boolean checkedIn) {
+		this.checkedIn = checkedIn;
 	}
+
+	public Boolean getCheckedOut() {
+		return checkedOut;
+	}
+
+	public void setCheckedOut(Boolean checkedOut) {
+		this.checkedOut = checkedOut;
+	}
+	
 	
 	public String toString() {
 		return null;
@@ -93,5 +107,4 @@ public class Reservation {
 	public int hashCode() {
 		return Objects.hash(this.getId());
 	}
-
 }

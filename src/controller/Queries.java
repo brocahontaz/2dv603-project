@@ -20,7 +20,8 @@ public enum Queries {
 	ADD_NEW_GUEST("INSERT INTO Guests (firstName, lastName, address, telephoneNumber, creditCard, passportNumber) VALUES(?, ?, ?, ?, ?, ?)"),
 	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?"),
 	GET_ROOMS("SELECT * FROM Rooms"),
-	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND numberOfBeds LIKE ? AND available LIKE ?");
+	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND numberOfBeds LIKE ? AND available LIKE ?"),
+	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passPortnumber LIKE ?");
 	
 	private String query;
 	
