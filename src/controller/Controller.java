@@ -352,11 +352,11 @@ public class Controller {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 600, 550);
+			Scene scene = new Scene(root, 600, 650);
 			guestInfoPopup = new Stage();
 			guestInfoPopup.initModality(Modality.APPLICATION_MODAL);
 			guestInfoPopup.setScene(scene);
-			guestInfoPopup.setMinHeight(550);
+			guestInfoPopup.setMinHeight(650);
 			guestInfoPopup.setMinWidth(600);
 			guestInfoPopup.setResizable(false);
 			guestInfoPopup.initStyle(StageStyle.UNDECORATED);

@@ -3,11 +3,16 @@ package controller;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Guest;
 
@@ -16,6 +21,7 @@ public class GuestInfoPopupController {
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private String tempPassportnumber; // There to make it able to change the current passport number aswell
+	private ObservableList<model.Reservation> reservations;
 	
 	@FXML
 	private TitledPane guestInfoBox;
@@ -37,7 +43,15 @@ public class GuestInfoPopupController {
 
     @FXML
     private TextField guestInfoPassport;
+    
+    @FXML
+    private TableColumn<model.Reservation, String> reservationIdCol;
 
+    @FXML
+    private TableColumn<model.Reservation, String> reservationRoomCol;
+    
+    @FXML
+    private TableView<model.Reservation> guestInfoPopupReservationsTable;
 	
     @FXML
     private Button closeGuestInfoPopup;
@@ -97,6 +111,7 @@ public class GuestInfoPopupController {
 				colorNotificationTitledPane(guestInfoBox, "danger");
 			}				
 		});
+		
 	}
 
 	/*
@@ -110,6 +125,15 @@ public class GuestInfoPopupController {
     	guestInfoCreditCard.setText(guest.getCreditCard());
     	guestInfoPassport.setText(guest.getPassportNumber());
     	tempPassportnumber = guest.getPassportNumber();
+    	
+		reservationIdCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("id"));
+		reservationRoomCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("roomNumber"));
+		
+		executor.submit(() -> {
+				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(tempPassportnumber));		
+				guestInfoPopupReservationsTable.setItems(reservations);
+				
+		});		
     }
     
 	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
@@ -125,6 +149,5 @@ public class GuestInfoPopupController {
 			}
 		});
 	}
-  
 }
 
