@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
@@ -54,6 +55,9 @@ public class Controller {
 	private Room pickedRoom = null;
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
+
+	@FXML
+	private ProgressIndicator testProg;
 
 	/**
 	 * TEXT FIELDS
@@ -334,7 +338,7 @@ public class Controller {
 	void checkSingularGuest(MouseEvent event) throws IOException {
 		if (event.getClickCount() == 2) {
 			Guest guest = searchResultTable.getSelectionModel().getSelectedItem();
-			setupGuestInfoPopup(guest);			
+			setupGuestInfoPopup(guest);
 		}
 	}
 
@@ -353,7 +357,7 @@ public class Controller {
 			guestInfoPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			guestInfoPopup.setTitle("Guests");
-			guestInfoPopup.show();	
+			guestInfoPopup.show();
 			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -604,7 +608,6 @@ public class Controller {
 	}
 
 	private void initializeHotels() {
-
 		System.out.println("#Initializing hotels.. ");
 
 		hotels = FXCollections.observableArrayList(dbParser.getHotels());
@@ -644,61 +647,59 @@ public class Controller {
 			public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
 					RoomQuality newValue) {
 				if (newValue != null) {
-					//estimatedPrice.setText(Integer.toString((newValue.getPrice())));
+					// estimatedPrice.setText(Integer.toString((newValue.getPrice())));
 					displayEstimatedPrice();
 				}
 			}
 
 		});
-		
+
 		discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
 			@Override
-			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue,
-					Integer newValue) {
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 				if (newValue != null) {
 					displayEstimatedPrice();
 				}
 			}
 
 		});
-		
+
 		arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
 			displayEstimatedPrice();
-        });
-		
+		});
+
 		departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
 			displayEstimatedPrice();
-        });
+		});
 
 		System.out.println("#Hotels initialized!");
 	}
 
 	private void initializeHotelQualities() {
-		roomQualities = dbParser.getQualities();
+			roomQualities = dbParser.getQualities();
 
 	}
 
 	private void setHotelQualities(Hotel hotel) {
+			ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
 
-		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
+			if (!hotel.equals(defaultHotel)) {
 
-		if (!hotel.equals(defaultHotel)) {
+				for (RoomQuality rq : roomQualities) {
+					if (rq.getHotelName().equals(hotel.getName())) {
+						temp.add(rq);
+					}
+				}
 
-			for (RoomQuality rq : roomQualities) {
-				if (rq.getHotelName().equals(hotel.getName())) {
-					temp.add(rq);
+			} else {
+				for (RoomQuality rq : roomQualities) {
+					if (!temp.contains(rq)) {
+						temp.add(rq);
+					}
 				}
 			}
 
-		} else {
-			for (RoomQuality rq : roomQualities) {
-				if (!temp.contains(rq)) {
-					temp.add(rq);
-				}
-			}
-		}
-
-		hotel.setQualities(temp);
+			hotel.setQualities(temp);
 	}
 
 	private void displayHotelQualities(Hotel hotel) {
@@ -718,7 +719,7 @@ public class Controller {
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 
 		temp.add(0);
-		
+
 		if (!hotel.equals(defaultHotel)) {
 
 			for (Discount discount : hotelDiscounts) {
@@ -745,40 +746,41 @@ public class Controller {
 	private void displayAllDiscounts() {
 		displayHotelDiscounts(defaultHotel);
 	}
-	
+
 	private void displayEstimatedPrice() {
 		estimatedPrice.setText(Integer.toString(calculateEstimatedPrice()));
 	}
-	
+
 	private int calculateEstimatedPrice() {
-		
+
 		double estimation = 0;
 		if (!roomQualityChoice.getSelectionModel().isEmpty()) {
 			estimation += roomQualityChoice.getSelectionModel().selectedItemProperty().getValue().getPrice();
 			System.out.println(estimation);
 		}
 		if (!discountChoice.getSelectionModel().isEmpty()) {
-			
+
 			double discount = (double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100;
-			
-			estimation *= (1.00-discount);
-			System.out.println("Percentage: " + ((double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100));
+
+			estimation *= (1.00 - discount);
+			System.out.println("Percentage: "
+					+ ((double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100));
 			System.out.println(estimation);
 		}
-		
-		if(arrivalDate.getValue() != null && departureDate.getValue() != null) {
+
+		if (arrivalDate.getValue() != null && departureDate.getValue() != null) {
 			estimation *= getDays();
 		}
-		
+
 		System.out.println(estimation);
 		return (int) estimation;
 	}
-	
+
 	private int getDays() {
 		long arrival = arrivalDate.getValue().toEpochDay();
 		long departure = departureDate.getValue().toEpochDay();
-		int days = (int) Math.abs(arrival-departure);
-		
+		int days = (int) Math.abs(arrival - departure);
+
 		return days;
 	}
 
@@ -793,6 +795,7 @@ public class Controller {
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 
 		initializeHotels();
+		testProg.setProgress(-1);
 
 		System.out.println("#Setting up popup windows..");
 

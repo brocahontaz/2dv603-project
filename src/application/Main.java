@@ -1,5 +1,11 @@
 package application;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import controller.Controller;
+import controller.PickRoomPopupController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -22,10 +28,10 @@ public class Main extends Application {
 	}
 
 	private void setupMainStage(Stage primaryStage) {
-
+		
 		try {
-			
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("/view/ViewConfig.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewConfig.fxml"));
+			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 800, 600);
 			scene.getStylesheets().add(getClass().getResource("/view/bootstrap3.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -41,6 +47,7 @@ public class Main extends Application {
 			// Image(getClass().getResource("/apeemoji.png").toExternalForm()));
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
 			primaryStage.setTitle("HotelFX");
+			primaryStage.show();
 
 			primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, new EventHandler<WindowEvent>() {
 				@Override
@@ -48,8 +55,8 @@ public class Main extends Application {
 					System.out.println("Fungerar jag?");
 				}
 			});
-
-			primaryStage.show();
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
