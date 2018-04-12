@@ -62,9 +62,6 @@ public class Controller {
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 
 	@FXML
-	private ProgressIndicator testProg;
-
-	@FXML
 	private BorderPane rootPane;
 
 	/**
@@ -866,7 +863,6 @@ public class Controller {
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 
 		initializeHotels();
-		testProg.setProgress(-1);
 
 		System.out.println("#Setting up popup windows..");
 		

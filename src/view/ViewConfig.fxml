@@ -147,7 +147,6 @@
                                                          <children>
                                                             <TextField promptText="Reservation number" />
                                                             <DatePicker promptText="Date" />
-                                                            <ProgressIndicator fx:id="testProg" progress="0.0" />
                                                          </children>
                                                       </VBox>
                                                    </children></AnchorPane>
