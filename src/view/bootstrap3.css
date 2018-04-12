@@ -934,6 +934,10 @@ VBox > .split-menu-button.last > .arrow-button {
  * Custom                                                                      *
  *                                                                             *
  ******************************************************************************/
+ 
+ .appname {
+ 	
+ }
 
 .text-field.error {
   -fx-border-color: red ;

@@ -7,10 +7,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="controller.SplashController">
+<BorderPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: transparent;" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SplashController">
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -30,13 +31,24 @@
       </StackPane>
    </center>
    <top>
-      <Label text="HotelFX" BorderPane.alignment="CENTER">
+      <Label text="HotelFX" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" proportional="false" startX="0.8095238095238095">
+               <stops>
+                  <Stop color="#87e0fd" />
+                  <Stop color="#87e0fd" offset="0.007662835249042145" />
+                  <Stop color="#88e1fc00" offset="0.03065134099616833" />
+                  <Stop color="#53cbf1" offset="0.3256704980842909" />
+                  <Stop color="#05abe0" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
    </top>
 </BorderPane>
