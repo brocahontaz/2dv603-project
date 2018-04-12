@@ -57,11 +57,8 @@ public class Main extends Application {
 					System.out.println("Fungerar jag?");
 				}
 			});
-<<<<<<< HEAD
-
 			primaryStage.show();
-=======
->>>>>>> origin/master
+
 			
 			// Completely closes the application and all threads.
 			primaryStage.setOnCloseRequest(e -> {
