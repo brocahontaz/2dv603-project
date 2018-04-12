@@ -520,11 +520,13 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
+			searchGuestButton.setDisable(true);
 			// searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
 			searchResultTable.setItems(guests);
+			searchGuestButton.setDisable(false);
 		});
 	}
 
@@ -535,45 +537,54 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
+		
+		boolean error = false;
+		
 		if (addGuestFirstName.getText().isEmpty()) {
 			addGuestFirstName.setPromptText("You need to enter a firstname!");
-			Fx.titledPaneColorNotification(addGuestBox, "danger");
 			Fx.textFieldColorNotification(addGuestFirstName, "error");
-			return;
+			error = true;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
 			addGuestLastName.setPromptText("You need to enter a lastname!");
-			colorNotificationTitledPane(addGuestBox, "danger");
-			return;
+			Fx.textFieldColorNotification(addGuestLastName, "error");
+			error = true;
 		}
 		if (addGuestAddress.getText().isEmpty()) {
 			addGuestAddress.setPromptText("You need to enter a adress!");
-			colorNotificationTitledPane(addGuestBox, "danger");
-			return;
+			Fx.textFieldColorNotification(addGuestAddress, "error");
+			error = true;
 		}
 		if (addGuestTelephone.getText().isEmpty()) {
 			addGuestTelephone.setPromptText("You need to enter a telephone number!!");
-			colorNotificationTitledPane(addGuestBox, "danger");
-			return;
+			Fx.textFieldColorNotification(addGuestTelephone, "error");
+			error = true;
 		}
 		if (addGuestCreditCard.getText().isEmpty()) {
 			addGuestCreditCard.setPromptText("You need to enter a credit card number!");
-			colorNotificationTitledPane(addGuestBox, "danger");
-			return;
+			Fx.textFieldColorNotification(addGuestCreditCard, "error");
+			error = true;
 		}
 		if (addGuestPassport.getText().isEmpty()) {
 			addGuestPassport.setPromptText("You need to enter a passportnumber!");
-			colorNotificationTitledPane(addGuestBox, "danger");
+			Fx.textFieldColorNotification(addGuestPassport, "error");
+			error = true;
+		}
+		
+		if (error) {
+			Fx.titledPaneColorNotification(addGuestBox, "danger");
 			return;
 		}
 
 		executor.submit(() -> {
+			addGuestButton.setDisable(true);
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
 				Fx.titledPaneColorNotification(addGuestBox, "success");
 			} else {
 				Fx.titledPaneColorNotification(addGuestBox, "danger");
 			}
+			addGuestButton.setDisable(false);
 		});
 
 	}
@@ -606,9 +617,11 @@ public class Controller {
 	@FXML
 	void listAllGuests(MouseEvent event) {
 		executor.submit(() -> {
+			listAllGuestsButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
+			listAllGuestsButton.setDisable(false);
 		});
 	}
 
