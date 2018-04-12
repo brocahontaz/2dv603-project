@@ -48,7 +48,8 @@ public class Main extends Application {
 			// Image(getClass().getResource("/apeemoji.png").toExternalForm()));
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
 			primaryStage.setTitle("HotelFX");
-			primaryStage.show();
+			loader.<Controller>getController().setStage(primaryStage);
+			//primaryStage.show();
 
 			primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, new EventHandler<WindowEvent>() {
 				@Override
@@ -56,19 +57,12 @@ public class Main extends Application {
 					System.out.println("Fungerar jag?");
 				}
 			});
-<<<<<<< HEAD
-			
-			
-=======
-
-			primaryStage.show();
 			
 			// Completely closes the application and all threads.
 			primaryStage.setOnCloseRequest(e -> {
 		        Platform.exit();
 		        System.exit(0);
 		    });
->>>>>>> 89b7b63f744424a4a32fa7ba031532d3ffbc7337
 
 		} catch (Exception e) {
 			e.printStackTrace();
