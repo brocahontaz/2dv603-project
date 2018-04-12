@@ -50,15 +50,23 @@ public class PickRoomPopupController {
 	}
 
 	/*
-	 * No filtering or selection at the moment, no query for getting rooms in
-	 * place yet so this is temporary.
+	 * If searchinput is a number then check if it is a number above 9, if it is
+	 * it is a room number, if below 9 it is the amount of beds. Else searching
+	 * for availability. (True or False)
 	 */
 	@FXML
 	void popupRoomSearch(ActionEvent event) {
 		executor.submit(() -> {
-			//String searchInput = popupRoomSearch.getText();
-			rooms = FXCollections.observableArrayList();
-			rooms.add(new Room(2, 2, false));
+			String searchInput = popupRoomSearch.getText();		
+			if (searchInput.matches("^[0-9]*$")) {		
+				if (Integer.parseInt(searchInput) > 9) {
+					rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", ""));	
+				} else {
+					rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, ""));
+				}
+			} else {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput));
+			}			
 			roomsResultTable.setItems(rooms);
 		});
 	}

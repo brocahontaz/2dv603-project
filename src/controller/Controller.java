@@ -39,6 +39,7 @@ import model.Guest;
 import model.Hotel;
 import model.Room;
 import model.RoomQuality;
+import utilities.Fx;
 
 public class Controller {
 
@@ -515,12 +516,12 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
+			//searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
 			searchResultTable.setItems(guests);
 		});
-
 	}
 
 	/**
@@ -532,7 +533,8 @@ public class Controller {
 	void addNewGuest(MouseEvent event) {
 		if (addGuestFirstName.getText().isEmpty()) {
 			addGuestFirstName.setPromptText("You need to enter a firstname!");
-			colorNotificationTitledPane(addGuestBox, "danger");
+			Fx.titledPaneColorNotification(addGuestBox, "danger");
+			Fx.textFieldColorNotification(addGuestFirstName, "error");
 			return;
 		}
 		if (addGuestLastName.getText().isEmpty()) {
@@ -564,9 +566,9 @@ public class Controller {
 		executor.submit(() -> {
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
-				colorNotificationTitledPane(addGuestBox, "success");
+				Fx.titledPaneColorNotification(addGuestBox, "success");
 			} else {
-				colorNotificationTitledPane(addGuestBox, "danger");
+				Fx.titledPaneColorNotification(addGuestBox, "danger");
 			}
 		});
 
@@ -599,12 +601,11 @@ public class Controller {
 	 */
 	@FXML
 	void listAllGuests(MouseEvent event) {
-
 		executor.submit(() -> {
+			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
 		});
-
 	}
 
 	private void initializeHotels() {

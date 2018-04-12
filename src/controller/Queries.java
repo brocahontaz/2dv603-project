@@ -18,7 +18,9 @@ public enum Queries {
 	SEARCH_GUESTS("SELECT * FROM Guests WHERE firstName LIKE ? AND lastName LIKE ? AND address LIKE ? AND telephoneNumber LIKE ? AND creditCard LIKE ? AND passportNumber LIKE ?"),
 	FILTERED_SEARCH("SELECT * FROM Guests WHERE "),
 	ADD_NEW_GUEST("INSERT INTO Guests (firstName, lastName, address, telephoneNumber, creditCard, passportNumber) VALUES(?, ?, ?, ?, ?, ?)"),
-	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?");
+	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?"),
+	GET_ROOMS("SELECT * FROM Rooms"),
+	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND numberOfBeds LIKE ? AND available LIKE ?");
 	
 	private String query;
 	
