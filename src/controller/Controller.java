@@ -644,7 +644,7 @@ public class Controller {
 				setHotelDiscounts(hotel);
 
 			}
-			//
+			
 			displayAllQualities();
 			displayAllDiscounts();
 
