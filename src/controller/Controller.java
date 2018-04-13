@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -537,45 +538,6 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
-		
-		boolean error = false;
-		
-		if (addGuestFirstName.getText().isEmpty()) {
-			addGuestFirstName.setPromptText("You need to enter a firstname!");
-			Fx.textFieldColorNotification(addGuestFirstName, "error");
-			error = true;
-		}
-		if (addGuestLastName.getText().isEmpty()) {
-			addGuestLastName.setPromptText("You need to enter a lastname!");
-			Fx.textFieldColorNotification(addGuestLastName, "error");
-			error = true;
-		}
-		if (addGuestAddress.getText().isEmpty()) {
-			addGuestAddress.setPromptText("You need to enter a adress!");
-			Fx.textFieldColorNotification(addGuestAddress, "error");
-			error = true;
-		}
-		if (addGuestTelephone.getText().isEmpty()) {
-			addGuestTelephone.setPromptText("You need to enter a telephone number!!");
-			Fx.textFieldColorNotification(addGuestTelephone, "error");
-			error = true;
-		}
-		if (addGuestCreditCard.getText().isEmpty()) {
-			addGuestCreditCard.setPromptText("You need to enter a credit card number!");
-			Fx.textFieldColorNotification(addGuestCreditCard, "error");
-			error = true;
-		}
-		if (addGuestPassport.getText().isEmpty()) {
-			addGuestPassport.setPromptText("You need to enter a passportnumber!");
-			Fx.textFieldColorNotification(addGuestPassport, "error");
-			error = true;
-		}
-		
-		if (error) {
-			Fx.titledPaneColorNotification(addGuestBox, "danger");
-			return;
-		}
-
 		executor.submit(() -> {
 			addGuestButton.setDisable(true);
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
@@ -588,6 +550,13 @@ public class Controller {
 		});
 
 	}
+	
+	@FXML
+    void keyReleasedProperty(KeyEvent event) {
+		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty() || addGuestAddress.getText().isEmpty() ||
+				addGuestTelephone.getText().isEmpty() || addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
+		addGuestButton.setDisable(isDisabled);
+    }
 
 	/**
 	 * Close the software
@@ -881,6 +850,8 @@ public class Controller {
 		
 		setupRoomPopUp();
 		setupGuestPopUp();
+		
+		addGuestButton.setDisable(true);
 
 		System.out.println("#Popups done!");
 

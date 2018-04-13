@@ -404,12 +404,12 @@
                                                    <children>
                                                       <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField fx:id="addGuestFirstName" prefWidth="309.0" promptText="Firstname" styleClass="first" />
-                                                            <TextField fx:id="addGuestLastName" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
-                                                            <TextField fx:id="addGuestAddress" prefWidth="310.0" promptText="Address" styleClass="middle" />
-                                                            <TextField fx:id="addGuestTelephone" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
-                                                            <TextField fx:id="addGuestCreditCard" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
-                                                            <TextField fx:id="addGuestPassport" prefWidth="310.0" promptText="Passport number" styleClass="last" />
+                                                            <TextField fx:id="addGuestFirstName" onKeyReleased="#keyReleasedProperty" prefWidth="309.0" promptText="Firstname" styleClass="first" />
+                                                            <TextField fx:id="addGuestLastName" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
+                                                            <TextField fx:id="addGuestAddress" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Address" styleClass="middle" />
+                                                            <TextField fx:id="addGuestTelephone" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
+                                                            <TextField fx:id="addGuestCreditCard" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
+                                                            <TextField fx:id="addGuestPassport" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
                                                                   <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">

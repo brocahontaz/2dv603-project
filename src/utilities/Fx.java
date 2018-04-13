@@ -10,9 +10,10 @@ import javafx.scene.control.TitledPane;
 
 public class Fx {
 	
-	private static ExecutorService executor = Executors.newFixedThreadPool(2);
+	private static ExecutorService executor = Executors.newFixedThreadPool(1);
 	
 	public static void textFieldColorNotification(TextField textField, String cssStyle) {
+		ExecutorService executor = Executors.newFixedThreadPool(1);
 		executor.submit(() -> {
 			try {
 				String old = textField.getStyleClass().toString();
@@ -26,6 +27,7 @@ public class Fx {
 				e.printStackTrace();
 			}
 		});
+		executor.shutdown();
 	}
 	
 	/**
