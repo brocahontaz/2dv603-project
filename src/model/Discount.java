@@ -1,6 +1,6 @@
 package model;
 
-public class Discount implements Comparable<Discount> {
+public class Discount {
 
 	private String hotelName;
 	private int discountPercentage;
@@ -56,9 +56,5 @@ public class Discount implements Comparable<Discount> {
 	public String toString() {
 		return Integer.toString(getDiscountPercentage());
 	}
-	
-	@Override
-	public int compareTo(Discount other) {
-		return Integer.compare(discountPercentage, other.getDiscountPercentage());
-	}
+
 }
