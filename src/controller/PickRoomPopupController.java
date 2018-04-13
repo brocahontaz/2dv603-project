@@ -57,16 +57,21 @@ public class PickRoomPopupController {
 	@FXML
 	void popupRoomSearch(ActionEvent event) {
 		executor.submit(() -> {
-			String searchInput = popupRoomSearch.getText();		
-			if (searchInput.matches("^[0-9]*$")) {		
+			String searchInput = popupRoomSearch.getText();	
+			
+			if (searchInput.isEmpty()) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", ""));		
+			} 
+			else if (searchInput.matches("^[0-9]*$")) {			
 				if (Integer.parseInt(searchInput) > 9) {
 					rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", ""));	
 				} else {
 					rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, ""));
 				}
-			} else {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput));
-			}			
+			} 
+			else if (Boolean.parseBoolean(searchInput) == true || Boolean.parseBoolean(searchInput) == false) {
+					rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput));	
+					}			
 			roomsResultTable.setItems(rooms);
 		});
 	}
