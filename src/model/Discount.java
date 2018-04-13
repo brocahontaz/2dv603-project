@@ -1,6 +1,6 @@
-package controller;
+package model;
 
-public class Discount {
+public class Discount implements Comparable<Discount> {
 
 	private String hotelName;
 	private int discountPercentage;
@@ -52,4 +52,13 @@ public class Discount {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return Integer.toString(getDiscountPercentage());
+	}
+	
+	@Override
+	public int compareTo(Discount other) {
+		return Integer.compare(discountPercentage, other.getDiscountPercentage());
+	}
 }

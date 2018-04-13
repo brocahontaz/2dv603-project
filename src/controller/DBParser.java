@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.sql.rowset.CachedRowSet;
 import com.sun.rowset.CachedRowSetImpl;
 
+import model.Discount;
 import model.Guest;
 import model.Hotel;
 import model.Reservation;
