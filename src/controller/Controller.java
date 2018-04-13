@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,7 +39,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import model.Discount;
 import model.Guest;
 import model.Hotel;
 import model.Room;
@@ -538,6 +540,48 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
+<<<<<<< HEAD
+=======
+
+		boolean error = false;
+
+		if (addGuestFirstName.getText().isEmpty()) {
+			addGuestFirstName.setPromptText("You need to enter a firstname!");
+			Fx.textFieldColorNotification(addGuestFirstName, "error");
+			error = true;
+		}
+		if (addGuestLastName.getText().isEmpty()) {
+			addGuestLastName.setPromptText("You need to enter a lastname!");
+			Fx.textFieldColorNotification(addGuestLastName, "error");
+			error = true;
+		}
+		if (addGuestAddress.getText().isEmpty()) {
+			addGuestAddress.setPromptText("You need to enter a adress!");
+			Fx.textFieldColorNotification(addGuestAddress, "error");
+			error = true;
+		}
+		if (addGuestTelephone.getText().isEmpty()) {
+			addGuestTelephone.setPromptText("You need to enter a telephone number!!");
+			Fx.textFieldColorNotification(addGuestTelephone, "error");
+			error = true;
+		}
+		if (addGuestCreditCard.getText().isEmpty()) {
+			addGuestCreditCard.setPromptText("You need to enter a credit card number!");
+			Fx.textFieldColorNotification(addGuestCreditCard, "error");
+			error = true;
+		}
+		if (addGuestPassport.getText().isEmpty()) {
+			addGuestPassport.setPromptText("You need to enter a passportnumber!");
+			Fx.textFieldColorNotification(addGuestPassport, "error");
+			error = true;
+		}
+
+		if (error) {
+			Fx.titledPaneColorNotification(addGuestBox, "danger");
+			return;
+		}
+
+>>>>>>> f8c35235fef0899cfef358cc3f4b88b88c3f10fc
 		executor.submit(() -> {
 			addGuestButton.setDisable(true);
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
@@ -613,7 +657,7 @@ public class Controller {
 				setHotelDiscounts(hotel);
 
 			}
-			
+
 			displayAllQualities();
 			displayAllDiscounts();
 
@@ -677,25 +721,15 @@ public class Controller {
 	}
 
 	private void setHotelQualities(Hotel hotel) {
-		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
+		ArrayList<RoomQuality> temp1 = new ArrayList<RoomQuality>();
 
 		if (!hotel.equals(defaultHotel)) {
-
-			for (RoomQuality rq : roomQualities) {
-				if (rq.getHotelName().equals(hotel.getName())) {
-					temp.add(rq);
-				}
-			}
-
+			roomQualities.stream().filter(room -> room.getHotelName().equals(hotel.getName())).forEach(temp1::add);
 		} else {
-			for (RoomQuality rq : roomQualities) {
-				if (!temp.contains(rq)) {
-					temp.add(rq);
-				}
-			}
+			roomQualities.stream().distinct().forEach(temp1::add);
 		}
 
-		hotel.setQualities(temp);
+		hotel.setQualities(temp1);
 	}
 
 	private void displayHotelQualities(Hotel hotel) {
@@ -714,27 +748,20 @@ public class Controller {
 
 	private void setHotelDiscounts(Hotel hotel) {
 
-		ArrayList<Integer> temp = new ArrayList<Integer>();
-
-		temp.add(0);
+		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+		temp1.add(0);
 
 		if (!hotel.equals(defaultHotel)) {
 
-			for (Discount discount : hotelDiscounts) {
-				if (discount.getHotelName().equals(hotel.getName())) {
-					temp.add(discount.getDiscountPercentage());
-				}
-			}
+			hotelDiscounts.stream().filter(discount -> discount.getHotelName().equals(hotel.getName()))
+					.map(discount -> discount.getDiscountPercentage()).sorted().forEach(temp1::add);
 
 		} else {
-			for (Discount discount : hotelDiscounts) {
-				if (!temp.contains(discount.getDiscountPercentage())) {
-					temp.add(discount.getDiscountPercentage());
-				}
-			}
+			hotelDiscounts.stream().distinct().map(discount -> discount.getDiscountPercentage()).sorted()
+					.forEach(temp1::add);
 		}
 
-		hotel.setDiscounts(temp);
+		hotel.setDiscounts(temp1);
 	}
 
 	private void displayHotelDiscounts(Hotel hotel) {
@@ -797,11 +824,10 @@ public class Controller {
 			splashScreen.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			splashScreen.setTitle("");
-			
+
 			splashScreen.initStyle(StageStyle.TRANSPARENT);
 			scene.setFill(Color.TRANSPARENT);
-			
-			
+
 			splashScreen.show();
 
 		} catch (Exception e) {
@@ -847,7 +873,7 @@ public class Controller {
 		initializeHotels();
 
 		System.out.println("#Setting up popup windows..");
-		
+
 		setupRoomPopUp();
 		setupGuestPopUp();
 		

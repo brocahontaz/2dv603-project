@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 public class Discount {
 
@@ -50,6 +50,11 @@ public class Discount {
 		if (discountPercentage != other.discountPercentage)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return Integer.toString(getDiscountPercentage());
 	}
 
 }
