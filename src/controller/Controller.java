@@ -540,48 +540,6 @@ public class Controller {
 	 */
 	@FXML
 	void addNewGuest(MouseEvent event) {
-<<<<<<< HEAD
-=======
-
-		boolean error = false;
-
-		if (addGuestFirstName.getText().isEmpty()) {
-			addGuestFirstName.setPromptText("You need to enter a firstname!");
-			Fx.textFieldColorNotification(addGuestFirstName, "error");
-			error = true;
-		}
-		if (addGuestLastName.getText().isEmpty()) {
-			addGuestLastName.setPromptText("You need to enter a lastname!");
-			Fx.textFieldColorNotification(addGuestLastName, "error");
-			error = true;
-		}
-		if (addGuestAddress.getText().isEmpty()) {
-			addGuestAddress.setPromptText("You need to enter a adress!");
-			Fx.textFieldColorNotification(addGuestAddress, "error");
-			error = true;
-		}
-		if (addGuestTelephone.getText().isEmpty()) {
-			addGuestTelephone.setPromptText("You need to enter a telephone number!!");
-			Fx.textFieldColorNotification(addGuestTelephone, "error");
-			error = true;
-		}
-		if (addGuestCreditCard.getText().isEmpty()) {
-			addGuestCreditCard.setPromptText("You need to enter a credit card number!");
-			Fx.textFieldColorNotification(addGuestCreditCard, "error");
-			error = true;
-		}
-		if (addGuestPassport.getText().isEmpty()) {
-			addGuestPassport.setPromptText("You need to enter a passportnumber!");
-			Fx.textFieldColorNotification(addGuestPassport, "error");
-			error = true;
-		}
-
-		if (error) {
-			Fx.titledPaneColorNotification(addGuestBox, "danger");
-			return;
-		}
-
->>>>>>> f8c35235fef0899cfef358cc3f4b88b88c3f10fc
 		executor.submit(() -> {
 			addGuestButton.setDisable(true);
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
