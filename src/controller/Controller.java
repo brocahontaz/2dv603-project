@@ -514,7 +514,7 @@ public class Controller {
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
-			if(guests != null) {
+			if(guests.size() > 0) {
 				Fx.titledPaneColorNotification(searchGuestsBox, "success");
 			} else {
 				Fx.titledPaneColorNotification(searchGuestsBox, "danger");
