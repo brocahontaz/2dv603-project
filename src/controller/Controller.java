@@ -417,6 +417,7 @@ public class Controller {
 	void clearReservation(MouseEvent event) {
 		pickedGuest = null;
 		makeReservationGuest.setText("");
+		makeReservationRoom.setText("");
 		arrivalDate.setValue(null);
 		departureDate.setValue(null);
 		roomQualityChoice.getSelectionModel().clearSelection();
