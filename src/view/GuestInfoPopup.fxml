@@ -24,37 +24,37 @@
                   <VBox layoutX="19.0" layoutY="14.0" prefHeight="398.0" prefWidth="587.0" spacing="10.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Firstname" />
-                        <TextField fx:id="guestInfoFirstname">
+                        <TextField fx:id="guestInfoFirstname" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets bottom="6.0" top="-6.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname" />
-                        <TextField fx:id="guestInfoLastname">
+                        <TextField fx:id="guestInfoLastname" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets bottom="6.0" top="-6.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
-                        <TextField fx:id="guestInfoAddress">
+                        <TextField fx:id="guestInfoAddress" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets bottom="6.0" top="-6.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone number" />
-                        <TextField fx:id="guestInfoTelephone">
+                        <TextField fx:id="guestInfoTelephone" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets bottom="6.0" top="-6.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credit card" />
-                        <TextField fx:id="guestInfoCreditCard">
+                        <TextField fx:id="guestInfoCreditCard" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets bottom="6.0" top="-6.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Passport number" />
-                        <TextField fx:id="guestInfoPassport">
+                        <TextField fx:id="guestInfoPassport" onKeyReleased="#keyReleasedProperty">
                            <VBox.margin>
                               <Insets top="-6.0" />
                            </VBox.margin>
@@ -63,7 +63,7 @@
                   </VBox>
                   <ButtonBar layoutX="406.0" layoutY="554.0" prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                        <Button mnemonicParsing="false" onMouseClicked="#updateGuest" text="Save">
+                        <Button fx:id="saveGuestInfoPopup" mnemonicParsing="false" onMouseClicked="#updateGuest" text="Save">
                            <styleClass>
                               <String fx:value="primary" />
                               <String fx:value="last" />

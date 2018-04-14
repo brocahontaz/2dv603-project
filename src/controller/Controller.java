@@ -501,20 +501,6 @@ public class Controller {
 		makeReservationRoom.setText(room.getRoomNumber() + "");
 	}
 
-	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
-		executor.submit(() -> {
-			try {
-				pane.getStyleClass().remove("info");
-				pane.getStyleClass().add(cssStyle);
-				Thread.sleep(3000);
-				pane.getStyleClass().remove(cssStyle);
-				pane.getStyleClass().add("info");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		});
-	}
-
 	/**
 	 * Search guests, filtered
 	 * 
@@ -524,10 +510,15 @@ public class Controller {
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
 			searchGuestButton.setDisable(true);
-			// searchResultTable.getItems().clear();
+			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
+			if(guests != null) {
+				Fx.titledPaneColorNotification(searchGuestsBox, "success");
+			} else {
+				Fx.titledPaneColorNotification(searchGuestsBox, "danger");
+			}
 			searchResultTable.setItems(guests);
 			searchGuestButton.setDisable(false);
 		});
@@ -541,14 +532,16 @@ public class Controller {
 	@FXML
 	void addNewGuest(MouseEvent event) {
 		executor.submit(() -> {
-			addGuestButton.setDisable(true);
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
 				Fx.titledPaneColorNotification(addGuestBox, "success");
+				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone, addGuestCreditCard, addGuestPassport);
+				addGuestButton.setDisable(true);
 			} else {
 				Fx.titledPaneColorNotification(addGuestBox, "danger");
+				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone, addGuestCreditCard, addGuestPassport);
+				addGuestButton.setDisable(true);
 			}
-			addGuestButton.setDisable(false);
 		});
 
 	}

@@ -13,8 +13,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import model.Guest;
+import utilities.Fx;
 
 public class GuestInfoPopupController {
 	
@@ -55,6 +57,9 @@ public class GuestInfoPopupController {
 	
     @FXML
     private Button closeGuestInfoPopup;
+    
+    @FXML
+    private Button saveGuestInfoPopup;
 
     @FXML
     void closeGuestInfoPopup(MouseEvent event) {
@@ -67,33 +72,27 @@ public class GuestInfoPopupController {
 	@FXML
 	void updateGuest(MouseEvent event) {		
 		if (guestInfoFirstname.getText().isEmpty()) {
-			guestInfoFirstname.setPromptText("You need to enter a firstname!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 		if (guestInfoLastname.getText().isEmpty()) {
-			guestInfoLastname.setPromptText("You need to enter a lastname!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 		if (guestInfoAddress.getText().isEmpty()) {
-			guestInfoAddress.setPromptText("You need to enter a adress!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 		if (guestInfoTelephone.getText().isEmpty()) {
-			guestInfoTelephone.setPromptText("You need to enter a telephone number!!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 		if (guestInfoCreditCard.getText().isEmpty()) {
-			guestInfoCreditCard.setPromptText("You need to enter a credit card number!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 		if (guestInfoPassport.getText().isEmpty()) {
-			guestInfoPassport.setPromptText("You need to enter a passportnumber!");
-			colorNotificationTitledPane(guestInfoBox, "danger");
+			Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			return;
 		}
 
@@ -106,9 +105,9 @@ public class GuestInfoPopupController {
 			String passport = guestInfoPassport.getText();
 			
 			if (dbParser.updateGuest(firstName, lastName, address, telephone, creditCard, passport, tempPassportnumber) == true) {
-				colorNotificationTitledPane(guestInfoBox, "success");
+				Fx.titledPaneColorNotification(guestInfoBox, "success");
 			} else {
-				colorNotificationTitledPane(guestInfoBox, "danger");
+				Fx.titledPaneColorNotification(guestInfoBox, "danger");
 			}				
 		});
 		
@@ -136,18 +135,12 @@ public class GuestInfoPopupController {
 		});		
     }
     
-	private void colorNotificationTitledPane(TitledPane pane, String cssStyle) {
-		executor.submit(() -> {
-			try {
-				pane.getStyleClass().remove("info");
-				pane.getStyleClass().add(cssStyle);
-				Thread.sleep(3000);
-				pane.getStyleClass().remove(cssStyle);
-				pane.getStyleClass().add("info");
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		});
-	}
+    @FXML
+    void keyReleasedProperty(KeyEvent event) {
+		boolean isDisabled = (guestInfoFirstname.getText().isEmpty() || guestInfoLastname.getText().isEmpty() || guestInfoAddress.getText().isEmpty() ||
+				guestInfoTelephone.getText().isEmpty() || guestInfoCreditCard.getText().isEmpty() || guestInfoPassport.getText().isEmpty()) || 
+				guestInfoPassport.getText().isEmpty();
+		saveGuestInfoPopup.setDisable(isDisabled);
+    }
 }
 
