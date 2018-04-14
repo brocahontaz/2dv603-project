@@ -39,6 +39,8 @@
                           <columns>
                             <TableColumn fx:id="popRoomCol" editable="false" prefWidth="116.0" resizable="false" text="Room number" />
                               <TableColumn fx:id="popBedsCol" editable="false" prefWidth="115.0" resizable="false" text="Number of beds" />
+                              <TableColumn fx:id="popBuildingCol" editable="false" prefWidth="115.0" resizable="false" text="Building" />
+                              <TableColumn fx:id="popQualityCol" editable="false" prefWidth="115.0" resizable="false" text="Quality" />
                               <TableColumn fx:id="popReservedCol" editable="false" prefWidth="116.0" resizable="false" text="Reserved" />
                           </columns>
                         </TableView>
