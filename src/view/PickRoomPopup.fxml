@@ -37,9 +37,9 @@
                         </HBox>
                         <TableView fx:id="roomsResultTable" minWidth="400.0" onMouseClicked="#getRoomData" prefHeight="345.0" prefWidth="600.0">
                           <columns>
-                            <TableColumn fx:id="popRoomCol" editable="false" prefWidth="195.0" resizable="false" text="Room number" />
-                              <TableColumn fx:id="popBedsCol" editable="false" prefWidth="195.0" resizable="false" text="Number of beds" />
-                              <TableColumn fx:id="popReservedCol" editable="false" prefWidth="195.0" resizable="false" text="Reserved" />
+                            <TableColumn fx:id="popRoomCol" editable="false" prefWidth="116.0" resizable="false" text="Room number" />
+                              <TableColumn fx:id="popBedsCol" editable="false" prefWidth="115.0" resizable="false" text="Number of beds" />
+                              <TableColumn fx:id="popReservedCol" editable="false" prefWidth="116.0" resizable="false" text="Reserved" />
                           </columns>
                         </TableView>
                      </children>

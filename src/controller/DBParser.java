@@ -84,9 +84,15 @@ public class DBParser {
 		return rooms;
 	}
 	
-	public ArrayList<Room> searchRooms(String roomNumber, String numberOfBeds, String available) {
+	public ArrayList<Room> searchRooms(String roomNumber, String hotelName, String quality, String numberOfBeds, String available) {
 		if (roomNumber.isEmpty() || roomNumber == null) {
 			roomNumber = "%";
+		} 
+		if (hotelName.isEmpty() || hotelName == null) {
+			hotelName = "%";
+		} 
+		if (quality.isEmpty() || quality == null) {
+			quality = "%";
 		} 
 		if (numberOfBeds.isEmpty() || numberOfBeds == null) {
 			numberOfBeds = "%";
@@ -100,7 +106,7 @@ public class DBParser {
 		}
 		
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		String[] temp = {roomNumber, numberOfBeds, available};
+		String[] temp = {roomNumber, hotelName, quality, numberOfBeds, available};
 
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_ROOMS, temp);
 
@@ -360,6 +366,8 @@ public class DBParser {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Room(crsTemp.getInt("roomNumber"),
+						crsTemp.getString("hotelName"), 
+						crsTemp.getString("quality"), 
 						crsTemp.getInt("numberOfBeds"),
 						crsTemp.getBoolean("available")));
 			}

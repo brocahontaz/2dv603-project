@@ -40,6 +40,12 @@ public class PickRoomPopupController {
 
 	@FXML
 	private TableColumn<model.Room, Boolean> popReservedCol;
+	
+	@FXML
+	private TableColumn<model.Room, String> popBuildingCol;
+	
+	@FXML
+	private TableColumn<model.Room, String> popQualityCol;
 
 	@FXML
 	private Button closeRoomsPopUpButton;
@@ -50,28 +56,26 @@ public class PickRoomPopupController {
 	}
 
 	/*
-	 * If searchinput is a number then check if it is a number above 9, if it is
-	 * it is a room number, if below 9 it is the amount of beds. Else searching
-	 * for availability. (True or False)
+	 * If statements for checking what to query for.
 	 */
 	@FXML
 	void popupRoomSearch(ActionEvent event) {
 		executor.submit(() -> {
 			String searchInput = popupRoomSearch.getText();	
-			
+
 			if (searchInput.isEmpty()) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", ""));		
-			} 
-			else if (searchInput.matches("^[0-9]*$")) {			
-				if (Integer.parseInt(searchInput) > 9) {
-					rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", ""));	
-				} else {
-					rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, ""));
-				}
-			} 
-			else if (Boolean.parseBoolean(searchInput) == true || Boolean.parseBoolean(searchInput) == false) {
-					rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput));	
-					}			
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", "", ""));
+			} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) > 9) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", "", "", ""));
+			} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) < 9) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput, ""));
+			} else if (searchInput.toLowerCase().equals("kalmar") || searchInput.toLowerCase().equals("växjö")) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, "", "", ""));
+			} else if (matchQuality(searchInput)) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput, "", ""));
+			} else if (Boolean.parseBoolean(searchInput) == true || Boolean.parseBoolean(searchInput) == false) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", "", searchInput));
+			}
 			roomsResultTable.setItems(rooms);
 		});
 	}
@@ -104,11 +108,22 @@ public class PickRoomPopupController {
 	void initialize() {
 		popRoomCol.setCellValueFactory(new PropertyValueFactory<model.Room, Integer>("roomNumber"));
 		popBedsCol.setCellValueFactory(new PropertyValueFactory<model.Room, Integer>("numberOfBeds"));
-		popReservedCol.setCellValueFactory(new PropertyValueFactory<model.Room, Boolean>("available"));		
+		popBuildingCol.setCellValueFactory(new PropertyValueFactory<model.Room, String>("hotelName"));	
+		popQualityCol.setCellValueFactory(new PropertyValueFactory<model.Room, String>("quality"));	
+		popReservedCol.setCellValueFactory(new PropertyValueFactory<model.Room, Boolean>("available"));	
+
 	}
 	
 	public void injectMainController(Controller controller) {
 		this.controller = controller;
+	}
+	
+	private boolean matchQuality(String searchInput) {
+		return searchInput.toLowerCase().equals("single") || 
+			   searchInput.toLowerCase().equals("double") || 
+			   searchInput.toLowerCase().equals("triple") || 
+			   searchInput.toLowerCase().equals("suite")  || 
+			   searchInput.toLowerCase().contains("four");
 	}
 
 }
