@@ -42,6 +42,7 @@ import javafx.stage.StageStyle;
 import model.Discount;
 import model.Guest;
 import model.Hotel;
+import model.Reservation;
 import model.Room;
 import model.RoomQuality;
 import utilities.Fx;
@@ -50,6 +51,7 @@ public class Controller {
 
 	private ObservableList<Guest> guests;
 	private ObservableList<Hotel> hotels;
+	private ObservableList<Reservation> reservations;
 	private ArrayList<RoomQuality> roomQualities;
 	private ArrayList<Discount> hotelDiscounts;
 	private DBParser dbParser = new DBParser();
@@ -380,7 +382,23 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
-
+		String reservationID = checkInReservationID.getText();
+		executor.submit(() -> {
+			if (reservationID.matches("^[0-9]*$")) {
+				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));					
+				Guest guest = guests.get(0);
+				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
+				Reservation reservation = reservations.get(0);
+				checkInFirstName.setText(guest.getFirstName());
+				checkInLastName.setText(guest.getLastName());
+				checkInAddress.setText(guest.getAddress());
+				checkInTelephone.setText(guest.getTelephoneNumber());
+				checkInCreditCard.setText(guest.getCreditCard());
+				checkInPassportNumber.setText(guest.getPassportNumber());
+				checkInArrivalDate.setText(reservation.getArrivalDate() + "");
+				checkInDepartureDate.setText(reservation.getDepartureDate() + "");
+			}
+		});
 	}
 
 	/**
@@ -390,7 +408,23 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
-
+		String reservationID = checkOutReservationID.getText();
+		executor.submit(() -> {
+			if (reservationID.matches("^[0-9]*$")) {
+				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));					
+				Guest guest = guests.get(0);
+				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
+				Reservation reservation = reservations.get(0);
+				checkOutFirstName.setText(guest.getFirstName());
+				checkOutLastName.setText(guest.getLastName());
+				checkOutAddress.setText(guest.getAddress());
+				checkOutTelephone.setText(guest.getTelephoneNumber());
+				checkOutCreditCard.setText(guest.getCreditCard());
+				checkOutPassportNumber.setText(guest.getPassportNumber());
+				checkOutArrivalDate.setText(reservation.getArrivalDate() + "");
+				checkOutDepartureDate.setText(reservation.getDepartureDate() + "");
+			}
+		});
 	}
 
 	/**

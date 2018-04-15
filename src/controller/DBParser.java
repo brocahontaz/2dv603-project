@@ -313,6 +313,17 @@ public class DBParser {
 		return guests;
 	}
 	
+	/*
+	 * Get Guest by Reservation ID
+	 */
+	public ArrayList<Guest> getGuestByReservationID(String reservationID) {
+
+		ArrayList<Guest> guests = new ArrayList<Guest>();
+		CachedRowSetImpl crsTemp = executeSingleParamQuery(Queries.GET_GUEST_FROM_RESERVATION_ID, reservationID);
+
+		populateGuestArray(guests, crsTemp);
+		return guests;
+	}
 	
 
 	/**

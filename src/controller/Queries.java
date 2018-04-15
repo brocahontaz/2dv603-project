@@ -21,7 +21,8 @@ public enum Queries {
 	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?"),
 	GET_ROOMS("SELECT * FROM Rooms"),
 	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND hotelName LIKE ?  AND quality LIKE ? AND numberOfBeds LIKE ? AND available LIKE ?"),
-	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passPortnumber LIKE ?");
+	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passportNumber LIKE ?"),
+	GET_GUEST_FROM_RESERVATION_ID("SELECT * FROM Guests WHERE passportNumber=(SELECT passportNumber FROM Reservations WHERE id = ?)");
 	
 	private String query;
 	
