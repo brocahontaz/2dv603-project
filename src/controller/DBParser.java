@@ -46,12 +46,14 @@ public class DBParser {
 
 	}
 
-	public boolean checkIn(int reservationID) {
-		return false;
+	public boolean checkIn(String reservationID) {
+		String[] temp = {"1", "0", reservationID};
+		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);	
 	}
 
-	public boolean checkOut(int reservationID) {
-		return false;
+	public boolean checkOut(String reservationID) {
+		String[] temp = {"1", "1", reservationID};
+		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
 	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate,

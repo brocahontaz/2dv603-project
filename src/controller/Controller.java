@@ -329,7 +329,18 @@ public class Controller {
 	 */
 	@FXML
 	void checkInGuest(MouseEvent event) {
-
+		executor.submit(() -> {
+			if (!(checkInReservationID.getText().isEmpty())) {				
+				if (dbParser.checkIn(checkInReservationID.getText()) == true) {
+					Fx.titledPaneColorNotification(checkInGuestsBox, "success");
+				} else {
+					Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+				}	
+			} else {
+				Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+			}
+			
+		});
 	}
 
 	/**
@@ -339,7 +350,17 @@ public class Controller {
 	 */
 	@FXML
 	void checkOutGuest(MouseEvent event) {
-
+		executor.submit(() -> {
+			if (!(checkOutReservationID.getText().isEmpty())) {
+				if (dbParser.checkOut(checkOutReservationID.getText()) == true) {
+					Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
+				} else {
+					Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+				}
+			} else {
+				Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+			}
+		});
 	}
 
 	/*
