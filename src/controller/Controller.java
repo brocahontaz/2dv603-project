@@ -60,6 +60,7 @@ public class Controller {
 	private Stage roomPopup;
 	private Stage guestPopup;
 	private Stage guestInfoPopup;
+	private Stage reservationPopup;
 	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
 	private Room pickedRoom = null;
@@ -446,7 +447,29 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
-		// dbParser.makeReservation(pickedGuest.getPassportNumber(), );
+		reservationPopup.show();
+	}
+
+	private void setupReservationPopUp() {
+		System.out.print("--Setting up reservation popup.. ");
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationPopup.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			Scene scene = new Scene(root, 600, 400);
+			reservationPopup = new Stage();
+			reservationPopup.initModality(Modality.APPLICATION_MODAL);
+			reservationPopup.setScene(scene);
+			reservationPopup.setMinHeight(400);
+			reservationPopup.setMinWidth(600);
+			reservationPopup.setResizable(false);
+			reservationPopup.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			reservationPopup.setTitle("Reservation");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.print("done!\r");
 	}
 
 	@FXML
@@ -687,7 +710,6 @@ public class Controller {
 					} else {
 						displayAllQualities();
 						displayAllDiscounts();
-						roomQualityChoice.getSelectionModel().select(0);
 					}
 
 				}
@@ -699,9 +721,7 @@ public class Controller {
 				public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
 						RoomQuality newValue) {
 					if (newValue != null) {
-						// estimatedPrice.setText(Integer.toString((newValue.getPrice())));
-
-							displayEstimatedPrice();
+						displayEstimatedPrice();
 					}
 				}
 
@@ -711,19 +731,19 @@ public class Controller {
 				@Override
 				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 					if (newValue != null) {
-							displayEstimatedPrice();
+						displayEstimatedPrice();
 					}
 				}
 
 			});
 
 			arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-					displayEstimatedPrice();
+				displayEstimatedPrice();
 
 			});
 
 			departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-					displayEstimatedPrice();
+				displayEstimatedPrice();
 
 			});
 
@@ -758,7 +778,11 @@ public class Controller {
 
 	private void displayHotelQualities(Hotel hotel) {
 		roomQualityChoice.setItems(FXCollections.observableArrayList(hotel.getQualities()));
-		roomQualityChoice.getSelectionModel().selectFirst();
+		// roomQualityChoice.getSelectionModel().selectFirst();
+		if (roomQualityChoice.getSelectionModel().getSelectedItem() == null) {
+			roomQualityChoice.getSelectionModel().select(0);
+		}
+
 	}
 
 	private void displayAllQualities() {
@@ -791,6 +815,9 @@ public class Controller {
 
 	private void displayHotelDiscounts(Hotel hotel) {
 		discountChoice.setItems(FXCollections.observableArrayList(hotel.getDiscounts()));
+		if (discountChoice.getSelectionModel().getSelectedItem() == null) {
+			discountChoice.getSelectionModel().select(0);
+		}
 	}
 
 	private void displayAllDiscounts() {
@@ -799,54 +826,23 @@ public class Controller {
 
 	private void displayEstimatedPrice() {
 
-		if ((hotelChoice.getSelectionModel().isEmpty() || hotelChoice.getSelectionModel().isSelected(0))) {
+		estimatedPrice.setText(calculateEstimatedOverallPrice());
 
-			if(!roomQualityChoice.getSelectionModel().isEmpty() && !roomQualityChoice.getSelectionModel().isSelected(0)) {
-				System.out.println("R种种种种VKORV");
-				estimatedPrice.setText(calculateEstimatedOverallPrice());
-			} else {
-				System.out.println("BAJSKORV");
-				estimatedPrice.setText("0");
-			}
-
-		} else {
-			estimatedPrice.setText(Integer.toString(calculateEstimatedPrice()));
-		}
-	}
-
-	private int calculateEstimatedPrice() {
-
-		double estimation = 0;
-		if (!roomQualityChoice.getSelectionModel().isEmpty()) {
-			estimation += roomQualityChoice.getSelectionModel().selectedItemProperty().getValue().getPrice();
-			System.out.println(estimation);
-		}
-		if (!discountChoice.getSelectionModel().isEmpty()) {
-
-			double discount = (double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100;
-
-			estimation *= (1.00 - discount);
-			System.out.println("Percentage: "
-					+ ((double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100));
-			System.out.println(estimation);
-		}
-
-		if (arrivalDate.getValue() != null && departureDate.getValue() != null) {
-			estimation *= getDays();
-		}
-
-		System.out.println(estimation);
-		return (int) estimation;
 	}
 
 	private String calculateEstimatedOverallPrice() {
 
 		ArrayList<Integer> prices = new ArrayList<Integer>();
+		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
 
 		String qual = roomQualityChoice.getSelectionModel().getSelectedItem().getQuality();
-
-		ArrayList<RoomQuality> temp = (ArrayList<RoomQuality>) roomQualities.stream()
-				.filter(quality -> quality.getQuality().equals(qual)).collect(Collectors.toList());
+		if ((hotelChoice.getSelectionModel().isEmpty() || hotelChoice.getSelectionModel().isSelected(0))
+				&& !roomQualityChoice.getSelectionModel().isSelected(0)) {
+			temp = (ArrayList<RoomQuality>) roomQualities.stream().filter(quality -> quality.getQuality().equals(qual))
+					.collect(Collectors.toList());
+		} else {
+			temp.add(roomQualityChoice.getSelectionModel().getSelectedItem());
+		}
 
 		for (RoomQuality quality : temp) {
 			int tempPrice = quality.getPrice();
@@ -862,9 +858,17 @@ public class Controller {
 
 		Collections.sort(prices);
 
+		StringBuilder sb = new StringBuilder();
+		for (int price : prices) {
+			sb.append(price);
+			if (prices.size() > 1 && prices.indexOf(price) == 0) {
+				sb.append(" - ");
+			}
+		}
+
 		System.out.println(prices);
 
-		return (prices.get(0) + " - " + prices.get(1));
+		return (sb.toString());
 	}
 
 	private int getDays() {
@@ -942,6 +946,7 @@ public class Controller {
 
 		setupRoomPopUp();
 		setupGuestPopUp();
+		setupReservationPopUp();
 
 		addGuestButton.setDisable(true);
 
