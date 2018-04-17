@@ -2,10 +2,10 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -385,9 +385,10 @@ public class Controller {
 		String reservationID = checkInReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));					
+				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));
 				Guest guest = guests.get(0);
-				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
+				reservations = FXCollections
+						.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
 				Reservation reservation = reservations.get(0);
 				checkInFirstName.setText(guest.getFirstName());
 				checkInLastName.setText(guest.getLastName());
@@ -411,9 +412,10 @@ public class Controller {
 		String reservationID = checkOutReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));					
+				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));
 				Guest guest = guests.get(0);
-				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
+				reservations = FXCollections
+						.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
 				Reservation reservation = reservations.get(0);
 				checkOutFirstName.setText(guest.getFirstName());
 				checkOutLastName.setText(guest.getLastName());
@@ -450,13 +452,17 @@ public class Controller {
 	@FXML
 	void clearReservation(MouseEvent event) {
 		pickedGuest = null;
-		makeReservationGuest.setText("");
-		makeReservationRoom.setText("");
+		makeReservationGuest.clear();
+		makeReservationRoom.clear();
 		arrivalDate.setValue(null);
 		departureDate.setValue(null);
 		roomQualityChoice.getSelectionModel().clearSelection();
+		roomQualityChoice.getSelectionModel().select(0);
+		roomQualityChoice.setDisable(false);
 		discountChoice.getSelectionModel().clearSelection();
 		hotelChoice.getSelectionModel().clearSelection();
+		hotelChoice.getSelectionModel().select(0);
+		hotelChoice.setDisable(false);
 		displayAllQualities();
 		displayAllDiscounts();
 		estimatedPrice.setText("0");
@@ -506,6 +512,15 @@ public class Controller {
 	 */
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
+		makeReservationRoom.clear();
+		roomQualityChoice.getSelectionModel().clearSelection();
+		roomQualityChoice.setDisable(false);
+		roomQualityChoice.getSelectionModel().selectFirst();
+		discountChoice.getSelectionModel().clearSelection();
+		hotelChoice.getSelectionModel().clearSelection();
+		hotelChoice.setDisable(false);
+		hotelChoice.getSelectionModel().selectFirst();
+		estimatedPrice.setText("0");
 		roomPopup.show();
 	}
 
@@ -534,6 +549,15 @@ public class Controller {
 	public void displayPickedRoom(Room room) {
 		pickedRoom = room;
 		makeReservationRoom.setText(room.getRoomNumber() + "");
+		Hotel tempHotel = hotels.stream().filter(hotel -> hotel.getName().equals(room.getHotelName())).findFirst()
+				.get();
+		hotelChoice.getSelectionModel().select(tempHotel);
+		hotelChoice.setDisable(true);
+		RoomQuality tempQuality = roomQualities.stream()
+				.filter(quality -> quality.getQuality().equals(room.getQuality()))
+				.filter(quality -> quality.getHotelName().equals(room.getHotelName())).findFirst().get();
+		roomQualityChoice.getSelectionModel().select(tempQuality);
+		roomQualityChoice.setDisable(true);
 	}
 
 	/**
@@ -549,7 +573,7 @@ public class Controller {
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
 					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
 					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
-			if(guests.size() > 0) {
+			if (guests.size() > 0) {
 				Fx.titledPaneColorNotification(searchGuestsBox, "success");
 			} else {
 				Fx.titledPaneColorNotification(searchGuestsBox, "danger");
@@ -570,23 +594,26 @@ public class Controller {
 			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
 					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
 				Fx.titledPaneColorNotification(addGuestBox, "success");
-				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone, addGuestCreditCard, addGuestPassport);
+				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
+						addGuestCreditCard, addGuestPassport);
 				addGuestButton.setDisable(true);
 			} else {
 				Fx.titledPaneColorNotification(addGuestBox, "danger");
-				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone, addGuestCreditCard, addGuestPassport);
+				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
+						addGuestCreditCard, addGuestPassport);
 				addGuestButton.setDisable(true);
 			}
 		});
 
 	}
-	
+
 	@FXML
-    void keyReleasedProperty(KeyEvent event) {
-		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty() || addGuestAddress.getText().isEmpty() ||
-				addGuestTelephone.getText().isEmpty() || addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
+	void keyReleasedProperty(KeyEvent event) {
+		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
+				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
+				|| addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
 		addGuestButton.setDisable(isDisabled);
-    }
+	}
 
 	/**
 	 * Close the software
@@ -657,7 +684,12 @@ public class Controller {
 						displayHotelQualities(newValue);
 						displayHotelDiscounts(newValue);
 
+					} else {
+						displayAllQualities();
+						displayAllDiscounts();
+						roomQualityChoice.getSelectionModel().select(0);
 					}
+
 				}
 
 			});
@@ -668,7 +700,8 @@ public class Controller {
 						RoomQuality newValue) {
 					if (newValue != null) {
 						// estimatedPrice.setText(Integer.toString((newValue.getPrice())));
-						displayEstimatedPrice();
+
+							displayEstimatedPrice();
 					}
 				}
 
@@ -678,18 +711,20 @@ public class Controller {
 				@Override
 				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
 					if (newValue != null) {
-						displayEstimatedPrice();
+							displayEstimatedPrice();
 					}
 				}
 
 			});
 
 			arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-				displayEstimatedPrice();
+					displayEstimatedPrice();
+
 			});
 
 			departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-				displayEstimatedPrice();
+					displayEstimatedPrice();
+
 			});
 
 		});
@@ -708,7 +743,10 @@ public class Controller {
 
 	private void setHotelQualities(Hotel hotel) {
 		ArrayList<RoomQuality> temp1 = new ArrayList<RoomQuality>();
-
+		RoomQuality defQual = new RoomQuality();
+		defQual.setQuality("Room Quality");
+		defQual.setPrice(0);
+		temp1.add(0, defQual);
 		if (!hotel.equals(defaultHotel)) {
 			roomQualities.stream().filter(room -> room.getHotelName().equals(hotel.getName())).forEach(temp1::add);
 		} else {
@@ -720,6 +758,7 @@ public class Controller {
 
 	private void displayHotelQualities(Hotel hotel) {
 		roomQualityChoice.setItems(FXCollections.observableArrayList(hotel.getQualities()));
+		roomQualityChoice.getSelectionModel().selectFirst();
 	}
 
 	private void displayAllQualities() {
@@ -759,7 +798,20 @@ public class Controller {
 	}
 
 	private void displayEstimatedPrice() {
-		estimatedPrice.setText(Integer.toString(calculateEstimatedPrice()));
+
+		if ((hotelChoice.getSelectionModel().isEmpty() || hotelChoice.getSelectionModel().isSelected(0))) {
+
+			if(!roomQualityChoice.getSelectionModel().isEmpty() && !roomQualityChoice.getSelectionModel().isSelected(0)) {
+				System.out.println("R种种种种VKORV");
+				estimatedPrice.setText(calculateEstimatedOverallPrice());
+			} else {
+				System.out.println("BAJSKORV");
+				estimatedPrice.setText("0");
+			}
+
+		} else {
+			estimatedPrice.setText(Integer.toString(calculateEstimatedPrice()));
+		}
 	}
 
 	private int calculateEstimatedPrice() {
@@ -785,6 +837,34 @@ public class Controller {
 
 		System.out.println(estimation);
 		return (int) estimation;
+	}
+
+	private String calculateEstimatedOverallPrice() {
+
+		ArrayList<Integer> prices = new ArrayList<Integer>();
+
+		String qual = roomQualityChoice.getSelectionModel().getSelectedItem().getQuality();
+
+		ArrayList<RoomQuality> temp = (ArrayList<RoomQuality>) roomQualities.stream()
+				.filter(quality -> quality.getQuality().equals(qual)).collect(Collectors.toList());
+
+		for (RoomQuality quality : temp) {
+			int tempPrice = quality.getPrice();
+			if (!discountChoice.getSelectionModel().isEmpty()) {
+				double discount = (double) discountChoice.getSelectionModel().selectedItemProperty().getValue() / 100;
+				tempPrice *= (1.00 - discount);
+			}
+			if (arrivalDate.getValue() != null && departureDate.getValue() != null) {
+				tempPrice *= getDays();
+			}
+			prices.add(tempPrice);
+		}
+
+		Collections.sort(prices);
+
+		System.out.println(prices);
+
+		return (prices.get(0) + " - " + prices.get(1));
 	}
 
 	private int getDays() {
@@ -862,7 +942,7 @@ public class Controller {
 
 		setupRoomPopUp();
 		setupGuestPopUp();
-		
+
 		addGuestButton.setDisable(true);
 
 		System.out.println("#Popups done!");

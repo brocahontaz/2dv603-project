@@ -39,7 +39,7 @@ public class PickRoomPopupController {
 	private TableColumn<model.Room, Integer> popBedsCol;
 
 	@FXML
-	private TableColumn<model.Room, Boolean> popReservedCol;
+	private TableColumn<model.Room, Boolean> popAvailableCol;
 	
 	@FXML
 	private TableColumn<model.Room, String> popBuildingCol;
@@ -64,17 +64,17 @@ public class PickRoomPopupController {
 			String searchInput = popupRoomSearch.getText();	
 
 			if (searchInput.isEmpty()) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", ""));
 			} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) > 9) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", "", "", ""));
-			} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) < 9) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput, ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", "", ""));
+			/*} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) < 9) {
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput, ""));*/
 			} else if (searchInput.toLowerCase().equals("kalmar") || searchInput.toLowerCase().equals("växjö")) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, "", "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, "", ""));
 			} else if (matchQuality(searchInput)) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput, "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput, ""));
 			} else if (Boolean.parseBoolean(searchInput) == true || Boolean.parseBoolean(searchInput) == false) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", "", searchInput));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput));
 			}
 			roomsResultTable.setItems(rooms);
 		});
@@ -107,10 +107,10 @@ public class PickRoomPopupController {
 	@FXML
 	void initialize() {
 		popRoomCol.setCellValueFactory(new PropertyValueFactory<model.Room, Integer>("roomNumber"));
-		popBedsCol.setCellValueFactory(new PropertyValueFactory<model.Room, Integer>("numberOfBeds"));
+		//popBedsCol.setCellValueFactory(new PropertyValueFactory<model.Room, Integer>("numberOfBeds"));
 		popBuildingCol.setCellValueFactory(new PropertyValueFactory<model.Room, String>("hotelName"));	
 		popQualityCol.setCellValueFactory(new PropertyValueFactory<model.Room, String>("quality"));	
-		popReservedCol.setCellValueFactory(new PropertyValueFactory<model.Room, Boolean>("available"));	
+		popAvailableCol.setCellValueFactory(new PropertyValueFactory<model.Room, Boolean>("available"));	
 
 	}
 	

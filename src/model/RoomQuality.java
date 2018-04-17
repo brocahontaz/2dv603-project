@@ -6,6 +6,7 @@ public class RoomQuality {
 	
 	private String hotelName;
 	private String quality;
+	private int numberOfBeds;
 	private int price;
 	
 	public RoomQuality() {
@@ -16,6 +17,14 @@ public class RoomQuality {
 		this.hotelName = hotelName;
 		this.quality = quality;
 		this.price = price;
+	}
+	
+	public int getNumberOfBeds() {
+		return numberOfBeds;
+	}
+
+	public void setNumberOfBeds(int numberOfBeds) {
+		this.numberOfBeds = numberOfBeds;
 	}
 
 	public String getHotelName() {

@@ -943,3 +943,11 @@ VBox > .split-menu-button.last > .arrow-button {
   -fx-border-color: red ;
   -fx-focus-color: red ;
 }
+
+.combo-box:disabled, .combo-box:disabled > * {
+	-fx-opacity: 1.0;
+}
+
+.combo-box:disabled .arrow, .combo-box:disabled .arrow-button{
+    visibility: hidden;
+}
