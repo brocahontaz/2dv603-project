@@ -591,6 +591,11 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
+			
+			dbLoad.setVisible(true);
+			searchResultTable.setVisible(false);
+			searchResultTable.getItems().clear();
+			
 			searchGuestButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
@@ -603,6 +608,10 @@ public class Controller {
 			}
 			searchResultTable.setItems(guests);
 			searchGuestButton.setDisable(false);
+			
+			dbLoad.setVisible(false);
+			searchResultTable.setVisible(true);
+			
 		});
 	}
 
@@ -666,11 +675,19 @@ public class Controller {
 	@FXML
 	void listAllGuests(MouseEvent event) {
 		executor.submit(() -> {
+			
+			dbLoad.setVisible(true);
+			searchResultTable.setVisible(false);
+			searchResultTable.getItems().clear();
+			
 			listAllGuestsButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
 			listAllGuestsButton.setDisable(false);
+			
+			dbLoad.setVisible(false);
+			searchResultTable.setVisible(true);
 		});
 	}
 

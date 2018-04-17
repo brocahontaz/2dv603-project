@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -46,6 +47,9 @@ public class PickGuestPopupController {
 
 	@FXML
 	private TableColumn<model.Guest, String> popTelephoneCol;
+	
+	@FXML
+    private ProgressIndicator progress;
 
 	@FXML
 	void closeGuestsPopUp(MouseEvent event) {
@@ -59,6 +63,9 @@ public class PickGuestPopupController {
 	@FXML
 	void popupGuestSearch(ActionEvent event) {
 		executor.submit(() -> {
+			progress.setVisible(true);
+			guestsResultTable.setVisible(false);
+			guestsResultTable.getItems().clear();
 			String searchInput = popupGuestSearch.getText();
 			
 			// If search-box input is all numeric, search by passport number, else search by first name.
@@ -68,6 +75,8 @@ public class PickGuestPopupController {
 				guests = FXCollections.observableArrayList(dbParser.searchGuests(searchInput, "", "", "", "", ""));
 			}			
 			guestsResultTable.setItems(guests);
+			progress.setVisible(false);
+			guestsResultTable.setVisible(true);
 		});
 	}
 

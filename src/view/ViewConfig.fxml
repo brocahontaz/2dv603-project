@@ -448,7 +448,7 @@
                                                                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                                </columnResizePolicy>
                                                             </TableView>
-                                                            <ProgressIndicator fx:id="dbLoad" progress="0.0" visible="false" />
+                                                            <ProgressIndicator fx:id="dbLoad" visible="false" />
                                                          </children>
                                                       </StackPane>
                                                    </children>

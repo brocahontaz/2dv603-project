@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -49,6 +50,9 @@ public class PickRoomPopupController {
 
 	@FXML
 	private Button closeRoomsPopUpButton;
+	
+	@FXML
+    private ProgressIndicator progress;
 
 	@FXML
 	void closeRoomsPopUp(MouseEvent event) {
@@ -61,6 +65,11 @@ public class PickRoomPopupController {
 	@FXML
 	void popupRoomSearch(ActionEvent event) {
 		executor.submit(() -> {
+			
+			progress.setVisible(true);
+			roomsResultTable.setVisible(false);
+			roomsResultTable.getItems().clear();
+			
 			String searchInput = popupRoomSearch.getText();	
 
 			if (searchInput.isEmpty()) {
@@ -77,6 +86,8 @@ public class PickRoomPopupController {
 				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput));
 			}
 			roomsResultTable.setItems(rooms);
+			progress.setVisible(false);
+			roomsResultTable.setVisible(true);
 		});
 	}
 	
