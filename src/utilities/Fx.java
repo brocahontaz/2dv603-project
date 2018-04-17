@@ -70,6 +70,7 @@ public class Fx {
 				textField.getStyleClass().add(oldStyle);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				System.out.println("Exception from FX textFieldColorNotification");
 			}
 		});
 		executor.shutdown();
@@ -92,6 +93,7 @@ public class Fx {
 				titledPane.getStyleClass().add(oldStyle);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				System.out.println("Exception from FX titledPaneColorNotification 3sec");
 			}
 		});
 	}
@@ -114,6 +116,7 @@ public class Fx {
 				titledPane.getStyleClass().add(oldStyle);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+				System.out.println("Exception from FX titledPaneColorNotification x ms");
 			}
 		});
 	}

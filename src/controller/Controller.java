@@ -393,6 +393,7 @@ public class Controller {
 			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupGuestInfoPopup");
 		}
 		System.out.print("done!\r");
 	}
@@ -485,6 +486,7 @@ public class Controller {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupReservationPopUp");
 		}
 		System.out.print("done!\r");
 	}
@@ -536,6 +538,7 @@ public class Controller {
 			loader.<PickGuestPopupController>getController().injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupGuestPopUp");
 		}
 		System.out.print("done!\r");
 	}
@@ -582,6 +585,7 @@ public class Controller {
 			loader.<PickRoomPopupController>getController().injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupRoomPopUp");
 		}
 		System.out.print("done!\r");
 	}
@@ -936,6 +940,7 @@ public class Controller {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupSplashScreen");
 		}
 		System.out.print("done!\r");
 	}
@@ -957,6 +962,7 @@ public class Controller {
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Crontroller hideSplashDisplayMain");
 		}
 
 	}
