@@ -61,6 +61,15 @@ public class DBParser {
 		return false;
 	}
 	
+	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
+
+		ArrayList<Object> data = new ArrayList<Object>();
+		String[] temp = {reservationID};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_GUESTS_N_RES_BY_ID, temp);
+		populateGuestReservation(data, crsTemp);
+		return data;
+	}
+	
 	public ArrayList<Reservation> getReservationByPassport(String passportNumber) {
 
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
@@ -347,6 +356,28 @@ public class DBParser {
 		return guests;
 	}
 
+	private void populateGuestReservation(ArrayList<Object> list, CachedRowSetImpl crsTemp) {
+		try {
+			while (crsTemp.next()) {
+				list.add(new Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
+						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
+						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				crsTemp.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * Private help method to populate ArrayList with guests from cached row set
 	 * 

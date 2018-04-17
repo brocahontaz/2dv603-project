@@ -407,11 +407,9 @@ public class Controller {
 		String reservationID = checkInReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));
-				Guest guest = guests.get(0);
-				reservations = FXCollections
-						.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
-				Reservation reservation = reservations.get(0);
+				ObservableList<Object> data = FXCollections.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				Guest guest = (Guest) data.get(0);
+				Reservation reservation = (Reservation) data.get(1);
 				checkInFirstName.setText(guest.getFirstName());
 				checkInLastName.setText(guest.getLastName());
 				checkInAddress.setText(guest.getAddress());
@@ -434,11 +432,9 @@ public class Controller {
 		String reservationID = checkOutReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				guests = FXCollections.observableArrayList(dbParser.getGuestByReservationID(reservationID));
-				Guest guest = guests.get(0);
-				reservations = FXCollections
-						.observableArrayList(dbParser.getReservationByPassport(guest.getPassportNumber()));
-				Reservation reservation = reservations.get(0);
+				ObservableList<Object> data = FXCollections.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				Guest guest = (Guest) data.get(0);
+				Reservation reservation = (Reservation) data.get(1);
 				checkOutFirstName.setText(guest.getFirstName());
 				checkOutLastName.setText(guest.getLastName());
 				checkOutAddress.setText(guest.getAddress());

@@ -23,7 +23,12 @@ public enum Queries {
 	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND hotelName LIKE ?  AND quality LIKE ? AND available LIKE ?"),
 	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passportNumber LIKE ?"),
 	GET_GUEST_FROM_RESERVATION_ID("SELECT * FROM Guests WHERE passportNumber=(SELECT passportNumber FROM Reservations WHERE id = ?)"),
-	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?");
+	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?"),
+	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, "
+			+ "Guests.creditCard, Reservations.id, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, "
+			+ "Reservations.checkedIn, Reservations.checkedOut FROM Guests INNER JOIN Reservations ON Guests.passportNumber=Reservations.passportNumber WHERE Reservations.id = ?");
+	
+
 	
 	private String query;
 	
