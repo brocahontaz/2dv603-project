@@ -67,6 +67,7 @@ public class Main extends Application {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Exception from Main setupMainStage");
 		}
 
 	}
