@@ -63,8 +63,9 @@ public class Controller {
 	private Stage reservationPopup;
 	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
-	private Room pickedRoom = null;
-	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
+	private Room pickedRoom = new Room();
+	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
+	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 	private ReservationPopupController reservationController;
 
@@ -468,9 +469,22 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
+		
+		Hotel tmpHotel = hotelChoice.getSelectionModel().getSelectedItem();
+		
+		if (tmpHotel == null) {
+			tmpHotel = new Hotel();
+		}
+		
+		RoomQuality tmpQuality = roomQualityChoice.getSelectionModel().getSelectedItem();
+		
+		if (tmpQuality == null) {
+			tmpQuality = new RoomQuality();
+		}
+		
 		reservationController.acceptValues(pickedGuest, pickedRoom, arrivalDate.getValue().toString(),
-				departureDate.getValue().toString(), hotelChoice.getSelectionModel().getSelectedItem(),
-				roomQualityChoice.getSelectionModel().getSelectedItem(),
+				departureDate.getValue().toString(), tmpHotel,
+				tmpQuality,
 				discountChoice.getSelectionModel().getSelectedItem());
 		reservationPopup.show();
 	}
@@ -564,6 +578,7 @@ public class Controller {
 	@FXML
 	void pickSpecificRoom(MouseEvent event) {
 		makeReservationRoom.clear();
+		pickedRoom = new Room();
 		roomQualityChoice.getSelectionModel().clearSelection();
 		roomQualityChoice.setDisable(false);
 		roomQualityChoice.getSelectionModel().selectFirst();
@@ -810,7 +825,7 @@ public class Controller {
 	private void setHotelQualities(Hotel hotel) {
 		ArrayList<RoomQuality> temp1 = new ArrayList<RoomQuality>();
 		RoomQuality defQual = new RoomQuality();
-		defQual.setQuality("Room Quality");
+		defQual.setQuality(DEFAULT_QUALITY_CHOICE);
 		defQual.setPrice(0);
 		temp1.add(0, defQual);
 		if (!hotel.equals(defaultHotel)) {

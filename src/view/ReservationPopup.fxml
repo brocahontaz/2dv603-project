@@ -2,6 +2,9 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,13 +13,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationPopupController">
+<BorderPane maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefWidth="600.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationPopupController">
    <center>
-      <TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="452.0" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="primary" text="Reservation" BorderPane.alignment="CENTER">
+      <TitledPane alignment="CENTER" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="452.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefWidth="600.0" styleClass="primary" text="Reservation" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane>
                <children>
-                  <VBox layoutX="-2.0" layoutY="31.0" prefHeight="428.0" prefWidth="676.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="-2.0" layoutY="31.0" prefWidth="676.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <HBox>
                            <children>
@@ -40,10 +43,32 @@
                         <HBox layoutX="10.0" layoutY="90.0">
                            <children>
                               <TextField fx:id="hotel" editable="false" promptText="Hotel" styleClass="first" HBox.hgrow="ALWAYS" />
-                              <TextField fx:id="quality" editable="false" promptText="Room quality" styleClass="last" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="quality" editable="false" promptText="Room quality" styleClass="middle" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="room" editable="false" layoutX="299.0" layoutY="10.0" promptText="Room" styleClass="last" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="90.0" prefHeight="25.0" />
+                        <HBox>
+                           <children>
+                              <TableView fx:id="roomResultsTable" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn fx:id="colHotel" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Hotel" />
+                                  <TableColumn fx:id="colQuality" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Quality" />
+                                    <TableColumn fx:id="colRoomNumber" editable="false" minWidth="178.0" prefWidth="75.0" resizable="false" text="Room Number" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="205.0" prefHeight="25.0" />
+                        <HBox>
+                           <children>
+                              <ButtonBar HBox.hgrow="ALWAYS">
+                                 <buttons>
+                                    <Button fx:id="makeResButton" mnemonicParsing="false" styleClass="primary" text="Make Reservation" />
+                                 </buttons>
+                              </ButtonBar>
+                           </children>
+                        </HBox>
                      </children></VBox>
                </children>
             </AnchorPane>

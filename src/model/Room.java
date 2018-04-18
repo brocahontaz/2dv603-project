@@ -7,6 +7,10 @@ public class Room {
 	private String hotelName;
 	private String quality;
 	
+	public Room() {
+		
+	}
+	
 	public Room(int roomNumber, String hotelName, String quality, boolean available) {
 		this.roomNumber = roomNumber;
 		this.hotelName = hotelName;
