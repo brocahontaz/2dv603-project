@@ -46,5 +46,9 @@ public class Room {
 		this.quality = quality;
 	}
 	
+	@Override
+	public String toString() {
+		return hotelName + " - " + roomNumber + " / " + quality;
+	}
 
 }

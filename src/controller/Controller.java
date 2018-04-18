@@ -66,6 +66,7 @@ public class Controller {
 	private Room pickedRoom = null;
 	private static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
+	private ReservationPopupController reservationController;
 
 	@FXML
 	private BorderPane rootPane;
@@ -330,16 +331,16 @@ public class Controller {
 	@FXML
 	void checkInGuest(MouseEvent event) {
 		executor.submit(() -> {
-			if (!(checkInReservationID.getText().isEmpty())) {				
+			if (!(checkInReservationID.getText().isEmpty())) {
 				if (dbParser.checkIn(checkInReservationID.getText()) == true) {
 					Fx.titledPaneColorNotification(checkInGuestsBox, "success");
 				} else {
 					Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
-				}	
+				}
 			} else {
 				Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
 			}
-			
+
 		});
 	}
 
@@ -408,7 +409,8 @@ public class Controller {
 		String reservationID = checkInReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				ObservableList<Object> data = FXCollections.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				ObservableList<Object> data = FXCollections
+						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				checkInFirstName.setText(guest.getFirstName());
@@ -433,7 +435,8 @@ public class Controller {
 		String reservationID = checkOutReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
-				ObservableList<Object> data = FXCollections.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				ObservableList<Object> data = FXCollections
+						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				checkOutFirstName.setText(guest.getFirstName());
@@ -465,6 +468,10 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
+		reservationController.acceptValues(pickedGuest, pickedRoom, arrivalDate.getValue().toString(),
+				departureDate.getValue().toString(), hotelChoice.getSelectionModel().getSelectedItem(),
+				roomQualityChoice.getSelectionModel().getSelectedItem(),
+				discountChoice.getSelectionModel().getSelectedItem());
 		reservationPopup.show();
 	}
 
@@ -483,7 +490,8 @@ public class Controller {
 			reservationPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			reservationPopup.setTitle("Reservation");
-
+			reservationController = loader.<ReservationPopupController>getController();
+			reservationController.injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupReservationPopUp");
@@ -612,11 +620,11 @@ public class Controller {
 	@FXML
 	void searchGuests(MouseEvent event) {
 		executor.submit(() -> {
-			
+
 			dbLoad.setVisible(true);
 			searchResultTable.setVisible(false);
 			searchResultTable.getItems().clear();
-			
+
 			searchGuestButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
@@ -629,10 +637,10 @@ public class Controller {
 			}
 			searchResultTable.setItems(guests);
 			searchGuestButton.setDisable(false);
-			
+
 			dbLoad.setVisible(false);
 			searchResultTable.setVisible(true);
-			
+
 		});
 	}
 
@@ -696,17 +704,17 @@ public class Controller {
 	@FXML
 	void listAllGuests(MouseEvent event) {
 		executor.submit(() -> {
-			
+
 			dbLoad.setVisible(true);
 			searchResultTable.setVisible(false);
 			searchResultTable.getItems().clear();
-			
+
 			listAllGuestsButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
 			listAllGuestsButton.setDisable(false);
-			
+
 			dbLoad.setVisible(false);
 			searchResultTable.setVisible(true);
 		});
