@@ -23,6 +23,7 @@ import model.RoomQuality;
 
 public class ReservationPopupController {
 
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Controller controller;
 	private RoomQuality roomQualityChoice;
 	private Hotel hotelChoice;
@@ -148,20 +149,20 @@ public class ReservationPopupController {
 	}
 
 	private void loadAvailableRooms() {
-		ExecutorService executor = Executors.newSingleThreadExecutor();
 
 		executor.submit(() -> {
 			roomResultsTable.setVisible(false);
 			progress.setVisible(true);
 			room.clear();
+			System.out.println(arrivalDate.trim().replaceAll("-", ""));
+			System.out.println(departureDate.trim().replaceAll("-", ""));
 			rooms = FXCollections
-					.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate, departureDate));
+					.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate.trim().replaceAll("-", ""), departureDate.trim().replaceAll("-", "")));
 			roomResultsTable.setItems(rooms);
 			roomResultsTable.setVisible(true);
 			progress.setVisible(false);
 		});
 		
-		executor.shutdown();
 	}
 
 	@FXML

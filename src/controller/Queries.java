@@ -27,12 +27,25 @@ public enum Queries {
 	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, "
 			+ "Guests.creditCard, Reservations.id, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, "
 			+ "Reservations.checkedIn, Reservations.checkedOut FROM Guests INNER JOIN Reservations ON Guests.passportNumber=Reservations.passportNumber WHERE Reservations.id = ?"),
-	CHECK_AVAILABLE_ROOMS("SELECT DISTINCT Rooms.roomNumber, Rooms.hotelName, Rooms.quality " + 
-			"FROM Rooms " + 
-			"LEFT JOIN Reservations ON Rooms.roomNumber = Reservations.roomNumber " + 
-			"AND Rooms.hotelName = Reservations.hotelName " + 
-			"WHERE Reservations.arrivalDate IS NULL OR Reservations.arrivalDate NOT BETWEEN ? AND ? " + 
-			"AND Reservations.departureDate IS NULL OR Reservations.departureDate NOT BETWEEN ? AND ?");
+	CHECK_AVAILABLE_ROOMS("SELECT ro.hotelName, ro.roomNumber, ro.quality " + 
+			"FROM Rooms ro " + 
+			"WHERE (ro.hotelName, ro.roomNumber) " + 
+			"NOT IN (" + 
+			"SELECT hotelName, roomNumber " + 
+			"FROM Reservations " + 
+			"WHERE ? " + 
+			"BETWEEN Reservations.arrivalDate " + 
+			"AND Reservations.departureDate " + 
+			"OR Reservations.arrivalDate " + 
+			"BETWEEN ? " + 
+			"AND ? " + 
+			"OR ? " + 
+			"BETWEEN Reservations.arrivalDate " + 
+			"AND Reservations.departureDate " + 
+			"OR Reservations.departureDate " + 
+			"BETWEEN ? " + 
+			"AND ? " + 
+			")");
 	
 
 	

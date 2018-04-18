@@ -48,9 +48,10 @@ public class DBParser {
 	
 	public ArrayList<Room> checkAvailableRoomsBetweenDates(String arrivalDate, String departureDate) {
 		ArrayList<Room> data = new ArrayList<Room>();
-		String[] temp = {arrivalDate, departureDate, arrivalDate, departureDate};
+		String[] temp = {arrivalDate, arrivalDate, departureDate, departureDate, arrivalDate, departureDate};
 		CachedRowSetImpl crsTemp = executeQuery(Queries.CHECK_AVAILABLE_ROOMS, temp);
 		populateRoomArray(data, crsTemp);
+		//System.out.println(data);
 		return data;
 	}
 
