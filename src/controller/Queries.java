@@ -26,7 +26,17 @@ public enum Queries {
 	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?"),
 	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, "
 			+ "Guests.creditCard, Reservations.id, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, "
-			+ "Reservations.checkedIn, Reservations.checkedOut FROM Guests INNER JOIN Reservations ON Guests.passportNumber=Reservations.passportNumber WHERE Reservations.id = ?");
+			+ "Reservations.checkedIn, Reservations.checkedOut FROM Guests INNER JOIN Reservations ON Guests.passportNumber=Reservations.passportNumber WHERE Reservations.id = ?"),
+	CHECK_AVAILABLE_ROOMS("SELECT * " + 
+			"FROM Rooms " + 
+			"INNER JOIN Reservations ON Rooms.roomNumber = Reservations.roomNumber " + 
+			"AND Rooms.hotelName = Reservations.hotelName " + 
+			"WHERE Reservations.arrivalDate NOT " + 
+			"BETWEEN ? " + 
+			"AND ? " + 
+			"AND Reservations.departureDate NOT " + 
+			"BETWEEN ? " + 
+			"AND ? ");
 	
 
 	

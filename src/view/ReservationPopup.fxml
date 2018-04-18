@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -10,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -50,13 +52,18 @@
                         <HBox layoutX="10.0" layoutY="90.0" prefHeight="25.0" />
                         <HBox>
                            <children>
-                              <TableView fx:id="roomResultsTable" prefWidth="600.0" HBox.hgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn fx:id="colHotel" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Hotel" />
-                                  <TableColumn fx:id="colQuality" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Quality" />
-                                    <TableColumn fx:id="colRoomNumber" editable="false" minWidth="178.0" prefWidth="75.0" resizable="false" text="Room Number" />
-                                </columns>
-                              </TableView>
+                              <StackPane HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="roomResultsTable" prefWidth="600.0">
+                                      <columns>
+                                        <TableColumn fx:id="colHotel" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Hotel" />
+                                        <TableColumn fx:id="colQuality" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Quality" />
+                                          <TableColumn fx:id="colRoomNumber" editable="false" minWidth="176.0" prefWidth="75.0" resizable="false" text="Room Number" />
+                                      </columns>
+                                    </TableView>
+                                    <ProgressIndicator fx:id="progress" visible="false" />
+                                 </children>
+                              </StackPane>
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="205.0" prefHeight="25.0" />

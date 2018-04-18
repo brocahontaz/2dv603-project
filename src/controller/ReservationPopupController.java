@@ -2,13 +2,20 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.Guest;
 import model.Hotel;
 import model.Room;
@@ -24,6 +31,8 @@ public class ReservationPopupController {
 	private String arrivalDate;
 	private Room roomChoice;
 	private Guest guest;
+	private DBParser dbParser = new DBParser();
+	private ObservableList<Room> rooms;
 
 	@FXML
 	private ResourceBundle resources;
@@ -60,21 +69,24 @@ public class ReservationPopupController {
 
 	@FXML
 	private Button close;
+
+	@FXML
+	private TableView<Room> roomResultsTable;
+
+	@FXML
+	private TableColumn<Room, String> colHotel;
+
+	@FXML
+	private TableColumn<Room, String> colQuality;
+
+	@FXML
+	private TableColumn<Room, String> colRoomNumber;
+
+	@FXML
+	private Button makeResButton;
 	
 	@FXML
-    private TableView<?> roomResultsTable;
-
-    @FXML
-    private TableColumn<?, ?> colHotel;
-
-    @FXML
-    private TableColumn<?, ?> colQuality;
-
-    @FXML
-    private TableColumn<?, ?> colRoomNumber;
-
-    @FXML
-    private Button makeResButton;
+    private ProgressIndicator progress;
 
 	@FXML
 	void close(MouseEvent event) {
@@ -120,15 +132,33 @@ public class ReservationPopupController {
 			room.setText(Integer.toString(roomChoice.getRoomNumber()));
 			roomResultsTable.setVisible(false);
 		} else {
-			room.clear();
-			roomResultsTable.setVisible(true);
+			loadAvailableRooms();
 		}
 
 	}
 
+	private void loadAvailableRooms() {
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+
+		executor.submit(() -> {
+			roomResultsTable.setVisible(false);
+			progress.setVisible(true);
+			room.clear();
+			rooms = FXCollections
+					.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate, departureDate));
+			roomResultsTable.setItems(rooms);
+			roomResultsTable.setVisible(true);
+			progress.setVisible(false);
+		});
+		
+		executor.shutdown();
+	}
+
 	@FXML
 	void initialize() {
-
+		colHotel.setCellValueFactory(new PropertyValueFactory<Room, String>("hotelName"));
+		colQuality.setCellValueFactory(new PropertyValueFactory<Room, String>("quality"));
+		colRoomNumber.setCellValueFactory(new PropertyValueFactory<Room, String>("roomNumber"));
 	}
 
 	public void injectMainController(Controller controller) {

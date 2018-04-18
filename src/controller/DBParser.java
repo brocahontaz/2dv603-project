@@ -45,6 +45,14 @@ public class DBParser {
 	public DBParser() {
 
 	}
+	
+	public ArrayList<Room> checkAvailableRoomsBetweenDates(String arrivalDate, String departureDate) {
+		ArrayList<Room> data = new ArrayList<Room>();
+		String[] temp = {arrivalDate, departureDate, arrivalDate, departureDate};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.CHECK_AVAILABLE_ROOMS, temp);
+		populateRoomArray(data, crsTemp);
+		return data;
+	}
 
 	public boolean checkIn(String reservationID) {
 		String[] temp = {"1", "0", reservationID};
