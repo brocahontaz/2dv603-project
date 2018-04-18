@@ -92,6 +92,16 @@ public class ReservationPopupController {
 	void close(MouseEvent event) {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
+	
+	@FXML
+    void selectRoom(MouseEvent event) {
+		if (event.getClickCount() == 2) {
+			Room tmpRoom = roomResultsTable.getSelectionModel().getSelectedItem();
+			hotel.setText(tmpRoom.getHotelName());
+			quality.setText(tmpRoom.getQuality());
+			room.setText(Integer.toString(tmpRoom.getRoomNumber()));
+		}
+    }
 
 	public void acceptValues(Guest guest, Room roomChoice, String arrivalDate, String departureDate, Hotel hotelChoice,
 			RoomQuality roomQualityChoice, int discountChoice) {

@@ -20,23 +20,19 @@ public enum Queries {
 	ADD_NEW_GUEST("INSERT INTO Guests (firstName, lastName, address, telephoneNumber, creditCard, passportNumber) VALUES(?, ?, ?, ?, ?, ?)"),
 	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?"),
 	GET_ROOMS("SELECT * FROM Rooms"),
-	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND hotelName LIKE ?  AND quality LIKE ? AND available LIKE ?"),
+	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND hotelName LIKE ?  AND quality LIKE ?"),
 	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passportNumber LIKE ?"),
 	GET_GUEST_FROM_RESERVATION_ID("SELECT * FROM Guests WHERE passportNumber=(SELECT passportNumber FROM Reservations WHERE id = ?)"),
 	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?"),
 	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, "
 			+ "Guests.creditCard, Reservations.id, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, "
 			+ "Reservations.checkedIn, Reservations.checkedOut FROM Guests INNER JOIN Reservations ON Guests.passportNumber=Reservations.passportNumber WHERE Reservations.id = ?"),
-	CHECK_AVAILABLE_ROOMS("SELECT * " + 
+	CHECK_AVAILABLE_ROOMS("SELECT DISTINCT Rooms.roomNumber, Rooms.hotelName, Rooms.quality " + 
 			"FROM Rooms " + 
-			"INNER JOIN Reservations ON Rooms.roomNumber = Reservations.roomNumber " + 
+			"LEFT JOIN Reservations ON Rooms.roomNumber = Reservations.roomNumber " + 
 			"AND Rooms.hotelName = Reservations.hotelName " + 
-			"WHERE Reservations.arrivalDate NOT " + 
-			"BETWEEN ? " + 
-			"AND ? " + 
-			"AND Reservations.departureDate NOT " + 
-			"BETWEEN ? " + 
-			"AND ? ");
+			"WHERE Reservations.arrivalDate IS NULL OR Reservations.arrivalDate NOT BETWEEN ? AND ? " + 
+			"AND Reservations.departureDate IS NULL OR Reservations.departureDate NOT BETWEEN ? AND ?");
 	
 
 	

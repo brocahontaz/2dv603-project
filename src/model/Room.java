@@ -3,7 +3,6 @@ package model;
 public class Room {
 	
 	private int roomNumber;
-	private boolean available;
 	private String hotelName;
 	private String quality;
 	
@@ -11,11 +10,10 @@ public class Room {
 		
 	}
 	
-	public Room(int roomNumber, String hotelName, String quality, boolean available) {
+	public Room(int roomNumber, String hotelName, String quality) {
 		this.roomNumber = roomNumber;
 		this.hotelName = hotelName;
 		this.quality = quality;
-		this.available = available;
 	}
 	
 	public int getRoomNumber() {
@@ -24,14 +22,6 @@ public class Room {
 	
 	public void setRoomNumber(int roomNumber) {
 		this.roomNumber = roomNumber;
-	}
-	
-	public boolean isAvailable() {
-		return available;
-	}
-	
-	public void setAvailable(boolean available) {
-		this.available = available;
 	}
 
 	public String getHotelName() {

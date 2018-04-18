@@ -73,17 +73,15 @@ public class PickRoomPopupController {
 			String searchInput = popupRoomSearch.getText();	
 
 			if (searchInput.isEmpty()) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", ""));
 			} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) > 9) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms(searchInput, "", ""));
 			/*} else if (searchInput.matches("^[0-9]*$") && Integer.parseInt(searchInput) < 9) {
 				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput, ""));*/
 			} else if (searchInput.toLowerCase().equals("kalmar") || searchInput.toLowerCase().equals("växjö")) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, "", ""));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", searchInput, ""));
 			} else if (matchQuality(searchInput)) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput, ""));
-			} else if (Boolean.parseBoolean(searchInput) == true || Boolean.parseBoolean(searchInput) == false) {
-				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", "", searchInput));
+				rooms = FXCollections.observableArrayList(dbParser.searchRooms("", "", searchInput));
 			}
 			roomsResultTable.setItems(rooms);
 			progress.setVisible(false);

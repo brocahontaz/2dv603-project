@@ -54,7 +54,7 @@
                            <children>
                               <StackPane HBox.hgrow="ALWAYS">
                                  <children>
-                                    <TableView fx:id="roomResultsTable" prefWidth="600.0">
+                                    <TableView fx:id="roomResultsTable" onMouseClicked="#selectRoom" prefWidth="600.0">
                                       <columns>
                                         <TableColumn fx:id="colHotel" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Hotel" />
                                         <TableColumn fx:id="colQuality" editable="false" minWidth="200.0" prefWidth="75.0" resizable="false" text="Quality" />
