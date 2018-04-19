@@ -68,6 +68,7 @@ public class Controller {
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 	private ReservationPopupController reservationController;
+	private PickGuestPopupController guestController;
 
 	@FXML
 	private BorderPane rootPane;
@@ -539,6 +540,7 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
+		//guestController
 		guestPopup.show();
 	}
 
@@ -557,7 +559,8 @@ public class Controller {
 			guestPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			guestPopup.setTitle("Guests");
-			loader.<PickGuestPopupController>getController().injectMainController(this);
+			guestController = loader.<PickGuestPopupController>getController();
+			guestController.injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupGuestPopUp");
