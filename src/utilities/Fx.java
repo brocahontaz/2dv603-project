@@ -94,7 +94,7 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationHelp(titledPane, cssStyle, oldStyle));
 		pause.play();
 	}
-
+	// Helper method to titledPaneColorNotification
 	private static void titledPaneColorNotificationHelp(TitledPane titledPane, String cssStyle, String oldStyle) {
 		titledPane.getStyleClass().remove(cssStyle);
 		titledPane.getStyleClass().add(oldStyle);
