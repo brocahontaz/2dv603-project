@@ -179,6 +179,7 @@ public class ReservationPopupController {
 	private void loadAvailableRooms() {
 
 		executor.submit(() -> {
+			roomResultsTable.setVisible(false);
 			progress.setVisible(true);
 			room.clear();
 			System.out.println(arrivalDate.toString().trim().replaceAll("-", ""));
@@ -189,6 +190,7 @@ public class ReservationPopupController {
 							departureDate.toString().trim().replaceAll("-", ""), hotel.getText(), quality.getText()));
 			roomResultsTable.setItems(rooms);
 			progress.setVisible(false);
+			roomResultsTable.setVisible(true);
 		});
 
 	}
