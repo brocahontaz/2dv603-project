@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -59,7 +60,6 @@ public class Controller {
 	private Stage primaryStage;
 	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
-	private Room pickedRoom = new Room();
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
@@ -319,6 +319,17 @@ public class Controller {
 	@FXML
 	private MenuItem closeSystem;
 
+	public int getQualityPrice(String hotelName, String quality) {
+		List<Integer> temp =  roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
+				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice()).collect(Collectors.toList());
+		if (temp.size() == 0) {
+			temp.add(0);
+		}
+		System.out.println(temp.size());
+		System.out.println(temp.get(0));
+		return temp.get(0);
+	}
+
 	/**
 	 * Check in guest
 	 * 
@@ -496,8 +507,8 @@ public class Controller {
 			root.getScene().getWindow().sizeToScene();
 			reservationPopup.setTitle("Reservation");
 			loader.<ReservationPopupController>getController().injectMainController(this);
-			loader.<ReservationPopupController>getController().acceptValues(pickedGuest, pickedRoom,
-					arrivalDate.getValue().toString(), departureDate.getValue().toString(), tmpHotel, tmpQuality,
+			loader.<ReservationPopupController>getController().acceptValues(pickedGuest,
+					arrivalDate.getValue(), departureDate.getValue(), tmpHotel, tmpQuality,
 					discountChoice.getSelectionModel().getSelectedItem());
 			reservationPopup.show();
 		} catch (Exception e) {

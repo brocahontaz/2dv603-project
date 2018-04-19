@@ -13,6 +13,7 @@ public enum Queries {
 	GET_HOTEL_DISCOUNTS("SELECT discountPercent FROM Discounts where hotelName = ?"),
 	GET_ALL_HOTEL_DISCOUNTS("SELECT DISTINCT discountPercent FROM Discounts"),
 	GET_QUALITIES("SELECT * FROM RoomQualities"),
+	GET_QUALITY("SELECT * FROM RoomQualities WHERE hotelName = ? AND quality = ?"),
 	GET_DISCOUNTS("SELECT * FROM Discounts"),
 	GET_ALL_GUESTS("SELECT * FROM Guests"),
 	SEARCH_GUESTS("SELECT * FROM Guests WHERE firstName LIKE ? AND lastName LIKE ? AND address LIKE ? AND telephoneNumber LIKE ? AND creditCard LIKE ? AND passportNumber LIKE ?"),
@@ -46,7 +47,8 @@ public enum Queries {
 			"BETWEEN ? " + 
 			"AND ?) " + 
 			"AND hotelName LIKE ? " + 
-			"AND quality LIKE ?");
+			"AND quality LIKE ?"),
+	MAKE_RESERVATION("INSERT INTO Reservations (passportNumber, roomNumber, hotelName, arrivalDate, departureDate, price) VALUES(?, ?, ?, ?, ?, ?)");
 	
 
 	

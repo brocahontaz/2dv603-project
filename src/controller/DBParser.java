@@ -71,9 +71,13 @@ public class DBParser {
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
-	public boolean makeReservation(String passportNumber, String roomNumber, String arrivalDate, String departureDate,
-			String hotel, String price) {
-		return false;
+	public boolean makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate, String departureDate,
+			 String price) {
+		
+		String[] temp = {passportNumber, roomNumber, hotel, arrivalDate, departureDate,
+				 price};
+		
+		return this.executeUpdate(Queries.MAKE_RESERVATION, temp);
 	}
 	
 	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
@@ -93,10 +97,6 @@ public class DBParser {
 
 		populateReservations(reservations, crsTemp);
 		return reservations;
-	}
-
-	public model.Room getAllAvailableRooms() {
-		return null;
 	}
 
 	public ArrayList<Room> getAllRooms() {
@@ -142,6 +142,18 @@ public class DBParser {
 
 	public model.Room getRoom(int roomNumber) {
 		return null;
+	}
+	
+	public model.RoomQuality getQuality(String hotelName, String quality) {
+		ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
+		String[] temp = {hotelName, quality};
+		
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_QUALITY, temp);
+
+		populateQualities(qualities, crsTemp);
+
+		return qualities.get(0);
+		
 	}
 
 	public ArrayList<RoomQuality> getQualities() {
