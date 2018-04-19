@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +36,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -63,6 +65,9 @@ public class Controller {
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
+	
+    private final AudioClip clip = new AudioClip(Controller.class.getResource("/sounds/appear.mp3").toExternalForm());
+    private final AudioClip button = new AudioClip(Controller.class.getResource("/sounds/button.wav").toExternalForm());
 
 	@FXML
 	private BorderPane rootPane;
@@ -487,7 +492,7 @@ public class Controller {
 		if (tmpQuality == null) {
 			tmpQuality = new RoomQuality();
 		}
-
+		button.play();
 		setupReservationPopUp(tmpHotel, tmpQuality);
 	}
 
@@ -544,6 +549,7 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
+		button.play();
 		setupGuestPopUp();
 	}
 
@@ -924,6 +930,8 @@ public class Controller {
 
 	private void hideSplashDisplayMain() {
 
+		clip.play(1.0);
+		
 		try {
 			Platform.runLater(new Runnable() {
 				@Override
