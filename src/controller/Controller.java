@@ -57,18 +57,12 @@ public class Controller {
 	private DBParser dbParser = new DBParser();
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Stage primaryStage;
-	private Stage roomPopup;
-	private Stage guestPopup;
-	private Stage guestInfoPopup;
-	private Stage reservationPopup;
 	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
 	private Room pickedRoom = new Room();
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
-	private ReservationPopupController reservationController;
-	private PickGuestPopupController guestController;
 
 	@FXML
 	private BorderPane rootPane;
@@ -383,7 +377,7 @@ public class Controller {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 600, 650);
-			guestInfoPopup = new Stage();
+			Stage guestInfoPopup = new Stage();
 			guestInfoPopup.initModality(Modality.APPLICATION_MODAL);
 			guestInfoPopup.setScene(scene);
 			guestInfoPopup.setMinHeight(650);
@@ -470,33 +464,29 @@ public class Controller {
 	 */
 	@FXML
 	void makeReservation(MouseEvent event) {
-		
+
 		Hotel tmpHotel = hotelChoice.getSelectionModel().getSelectedItem();
-		
+
 		if (tmpHotel == null) {
 			tmpHotel = new Hotel();
 		}
-		
+
 		RoomQuality tmpQuality = roomQualityChoice.getSelectionModel().getSelectedItem();
-		
+
 		if (tmpQuality == null) {
 			tmpQuality = new RoomQuality();
 		}
-		
-		reservationController.acceptValues(pickedGuest, pickedRoom, arrivalDate.getValue().toString(),
-				departureDate.getValue().toString(), tmpHotel,
-				tmpQuality,
-				discountChoice.getSelectionModel().getSelectedItem());
-		reservationPopup.show();
+
+		setupReservationPopUp(tmpHotel, tmpQuality);
 	}
 
-	private void setupReservationPopUp() {
+	private void setupReservationPopUp(Hotel tmpHotel, RoomQuality tmpQuality) {
 		System.out.print("--Setting up reservation popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 600, 400);
-			reservationPopup = new Stage();
+			Scene scene = new Scene(root);
+			Stage reservationPopup = new Stage();
 			reservationPopup.initModality(Modality.APPLICATION_MODAL);
 			reservationPopup.setScene(scene);
 			reservationPopup.setMinHeight(400);
@@ -505,8 +495,11 @@ public class Controller {
 			reservationPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			reservationPopup.setTitle("Reservation");
-			reservationController = loader.<ReservationPopupController>getController();
-			reservationController.injectMainController(this);
+			loader.<ReservationPopupController>getController().injectMainController(this);
+			loader.<ReservationPopupController>getController().acceptValues(pickedGuest, pickedRoom,
+					arrivalDate.getValue().toString(), departureDate.getValue().toString(), tmpHotel, tmpQuality,
+					discountChoice.getSelectionModel().getSelectedItem());
+			reservationPopup.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupReservationPopUp");
@@ -540,8 +533,7 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
-		//guestController
-		guestPopup.show();
+		setupGuestPopUp();
 	}
 
 	private void setupGuestPopUp() {
@@ -550,7 +542,7 @@ public class Controller {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 600, 400);
-			guestPopup = new Stage();
+			Stage guestPopup = new Stage();
 			guestPopup.initModality(Modality.APPLICATION_MODAL);
 			guestPopup.setScene(scene);
 			guestPopup.setMinHeight(400);
@@ -559,8 +551,8 @@ public class Controller {
 			guestPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			guestPopup.setTitle("Guests");
-			guestController = loader.<PickGuestPopupController>getController();
-			guestController.injectMainController(this);
+			loader.<PickGuestPopupController>getController().injectMainController(this);
+			guestPopup.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupGuestPopUp");
@@ -571,63 +563,6 @@ public class Controller {
 	public void displayPickedGuest(Guest guest) {
 		pickedGuest = guest;
 		makeReservationGuest.setText(guest.getFirstName() + " " + guest.getLastName());
-	}
-
-	/**
-	 * Pick a room
-	 * 
-	 * @param event
-	 */
-	@FXML
-	void pickSpecificRoom(MouseEvent event) {
-		makeReservationRoom.clear();
-		pickedRoom = new Room();
-		roomQualityChoice.getSelectionModel().clearSelection();
-		roomQualityChoice.setDisable(false);
-		roomQualityChoice.getSelectionModel().selectFirst();
-		discountChoice.getSelectionModel().clearSelection();
-		hotelChoice.getSelectionModel().clearSelection();
-		hotelChoice.setDisable(false);
-		hotelChoice.getSelectionModel().selectFirst();
-		estimatedPrice.setText("0");
-		roomPopup.show();
-	}
-
-	private void setupRoomPopUp() {
-		System.out.print("--Setting up room popup.. ");
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickRoomPopup.fxml"));
-			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 600, 400);
-			roomPopup = new Stage();
-			roomPopup.initModality(Modality.APPLICATION_MODAL);
-			roomPopup.setScene(scene);
-			roomPopup.setMinHeight(400);
-			roomPopup.setMinWidth(600);
-			roomPopup.setResizable(false);
-			roomPopup.initStyle(StageStyle.UNDECORATED);
-			root.getScene().getWindow().sizeToScene();
-			roomPopup.setTitle("Rooms");
-			loader.<PickRoomPopupController>getController().injectMainController(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupRoomPopUp");
-		}
-		System.out.print("done!\r");
-	}
-
-	public void displayPickedRoom(Room room) {
-		pickedRoom = room;
-		makeReservationRoom.setText(room.getRoomNumber() + "");
-		Hotel tempHotel = hotels.stream().filter(hotel -> hotel.getName().equals(room.getHotelName())).findFirst()
-				.get();
-		hotelChoice.getSelectionModel().select(tempHotel);
-		hotelChoice.setDisable(true);
-		RoomQuality tempQuality = roomQualities.stream()
-				.filter(quality -> quality.getQuality().equals(room.getQuality()))
-				.filter(quality -> quality.getHotelName().equals(room.getHotelName())).findFirst().get();
-		roomQualityChoice.getSelectionModel().select(tempQuality);
-		roomQualityChoice.setDisable(true);
 	}
 
 	/**
@@ -1009,10 +944,6 @@ public class Controller {
 		initializeHotels();
 
 		System.out.println("#Setting up popup windows..");
-
-		setupRoomPopUp();
-		setupGuestPopUp();
-		setupReservationPopUp();
 
 		addGuestButton.setDisable(true);
 

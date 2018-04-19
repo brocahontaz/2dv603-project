@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controller.Controller;
-import controller.PickRoomPopupController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

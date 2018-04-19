@@ -44,8 +44,9 @@ public enum Queries {
 			"AND Reservations.departureDate " + 
 			"OR Reservations.departureDate " + 
 			"BETWEEN ? " + 
-			"AND ? " + 
-			")");
+			"AND ?) " + 
+			"AND hotelName LIKE ? " + 
+			"AND quality LIKE ?");
 	
 
 	

@@ -65,21 +65,7 @@
                                                                   </Button>
                                                                </children>
                                                             </HBox>
-                                                            <HBox layoutX="10.0" layoutY="10.0">
-                                                               <children>
-                                                                  <TextField fx:id="makeReservationRoom" editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
-                                                                  <Button fx:id="pickSpecificRoomButton" mnemonicParsing="false" onMouseClicked="#pickSpecificRoom" text="Pick specific room" HBox.hgrow="ALWAYS">
-                                                                     <styleClass>
-                                                                        <String fx:value="last" />
-                                                                        <String fx:value="info" />
-                                                                     </styleClass>
-                                                                     <cursor>
-                                                                        <Cursor fx:constant="HAND" />
-                                                                     </cursor>
-                                                                  </Button>
-                                                               </children>
-                                                            </HBox>
-                                                            <TextField />
+                                                            <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
                                                                   <DatePicker fx:id="arrivalDate" promptText="Arrival" />
@@ -87,6 +73,7 @@
                                                                   <DatePicker fx:id="departureDate" promptText="Departure" />
                                                                </children>
                                                             </HBox>
+                                                            <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
                                                                   <ComboBox fx:id="hotelChoice" prefWidth="175.0" promptText="Hotel Preference" />

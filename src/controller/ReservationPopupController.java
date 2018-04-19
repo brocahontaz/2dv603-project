@@ -151,15 +151,14 @@ public class ReservationPopupController {
 	private void loadAvailableRooms() {
 
 		executor.submit(() -> {
-			roomResultsTable.setVisible(false);
 			progress.setVisible(true);
 			room.clear();
 			System.out.println(arrivalDate.trim().replaceAll("-", ""));
 			System.out.println(departureDate.trim().replaceAll("-", ""));
+			System.out.println(quality.getText());
 			rooms = FXCollections
-					.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate.trim().replaceAll("-", ""), departureDate.trim().replaceAll("-", "")));
+					.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate.trim().replaceAll("-", ""), departureDate.trim().replaceAll("-", ""), hotel.getText(), quality.getText()));
 			roomResultsTable.setItems(rooms);
-			roomResultsTable.setVisible(true);
 			progress.setVisible(false);
 		});
 		
