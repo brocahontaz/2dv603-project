@@ -100,12 +100,28 @@ public class PickGuestPopupController {
     void onEnterClick(ActionEvent event) {
     	popupGuestSearchButton.fire();
     }
+    
+    /**
+     * Loading all guests from database when opening the window
+     */
+    private void getAllGuestsOnPopup() {
+		executor.submit(() -> {
+			progress.setVisible(true);
+			guestsResultTable.setVisible(false);
+			guestsResultTable.getItems().clear();
+			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
+			guestsResultTable.setItems(guests);
+			progress.setVisible(false);
+			guestsResultTable.setVisible(true);
+		});
+	}
 
 	/**
 	 * Load Guest(s) upon opening of the window.
 	 */
 	@FXML
 	void initialize() {
+		getAllGuestsOnPopup();
 		popFirstNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("firstName"));
 		popLastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		popPassportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));

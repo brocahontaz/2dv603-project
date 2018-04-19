@@ -325,8 +325,9 @@ public class Controller {
 	private MenuItem closeSystem;
 
 	public int getQualityPrice(String hotelName, String quality) {
-		List<Integer> temp =  roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
-				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice()).collect(Collectors.toList());
+		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
+				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice())
+				.collect(Collectors.toList());
 		if (temp.size() == 0) {
 			temp.add(0);
 		}
@@ -345,12 +346,28 @@ public class Controller {
 		executor.submit(() -> {
 			if (!(checkInReservationID.getText().isEmpty())) {
 				if (dbParser.checkIn(checkInReservationID.getText()) == true) {
-					Fx.titledPaneColorNotification(checkInGuestsBox, "success");
+					// Running element manipulation on fx-thread
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkInGuestsBox, "success");
+						}
+					});
 				} else {
-					Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+						}
+					});
 				}
 			} else {
-				Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+					}
+				});
 			}
 
 		});
@@ -366,12 +383,28 @@ public class Controller {
 		executor.submit(() -> {
 			if (!(checkOutReservationID.getText().isEmpty())) {
 				if (dbParser.checkOut(checkOutReservationID.getText()) == true) {
-					Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
+					// Running element manipulation on fx-thread
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
+						}
+					});
 				} else {
-					Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+						}
+					});
 				}
 			} else {
-				Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+					}
+				});
 			}
 		});
 	}
@@ -423,6 +456,24 @@ public class Controller {
 			if (reservationID.matches("^[0-9]*$")) {
 				ObservableList<Object> data = FXCollections
 						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				// Running element manipulation on fx-thread
+				if (data.size() > 0) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkInGuestsBox, "success", 1);
+						}
+					});
+
+				} else {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+						}
+					});
+				}
+
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				checkInFirstName.setText(guest.getFirstName());
@@ -449,6 +500,24 @@ public class Controller {
 			if (reservationID.matches("^[0-9]*$")) {
 				ObservableList<Object> data = FXCollections
 						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				// Running element manipulation on fx-thread
+				if (data.size() > 0) {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkOutGuestsBox, "success", 1);
+						}
+					});
+
+				} else {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+						}
+					});
+				}
+
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				checkOutFirstName.setText(guest.getFirstName());
@@ -512,8 +581,8 @@ public class Controller {
 			root.getScene().getWindow().sizeToScene();
 			reservationPopup.setTitle("Reservation");
 			loader.<ReservationPopupController>getController().injectMainController(this);
-			loader.<ReservationPopupController>getController().acceptValues(pickedGuest,
-					arrivalDate.getValue(), departureDate.getValue(), tmpHotel, tmpQuality,
+			loader.<ReservationPopupController>getController().acceptValues(pickedGuest, arrivalDate.getValue(),
+					departureDate.getValue(), tmpHotel, tmpQuality,
 					discountChoice.getSelectionModel().getSelectedItem());
 			reservationPopup.show();
 		} catch (Exception e) {
