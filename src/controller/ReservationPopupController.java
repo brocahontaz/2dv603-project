@@ -129,7 +129,11 @@ public class ReservationPopupController {
 		String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
 		String trimmedDeparture = departureDate.toString().replaceAll("-", "");
 		
-		dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(), trimmedArrival, trimmedDeparture, price.getText());
+		if(dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(), trimmedArrival, trimmedDeparture, price.getText())) {
+			Fx.titledPaneColorNotification(title, "success");
+		}else {
+			Fx.titledPaneColorNotification(title, "danger");
+		}
 			
     }
 
