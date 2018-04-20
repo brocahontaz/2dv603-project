@@ -18,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
@@ -125,16 +127,27 @@ public class ReservationPopupController {
 	
 	@FXML
     void confirmReservation(MouseEvent event) {
-		
+		executor.submit(() -> {
 		String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
 		String trimmedDeparture = departureDate.toString().replaceAll("-", "");
 		
 		if(dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(), trimmedArrival, trimmedDeparture, price.getText())) {
-			Fx.titledPaneColorNotification(title, "success");
+			// Running element manipulation on fx-thread
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					Fx.titledPaneColorNotification(title, "success");
+				}
+			});
 		}else {
-			Fx.titledPaneColorNotification(title, "danger");
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					Fx.titledPaneColorNotification(title, "danger");
+				}
+			});
 		}
-			
+		});	
     }
 
 	public void acceptValues(Guest guest, LocalDate arrivalDate, LocalDate departureDate,
