@@ -65,9 +65,9 @@ public class Controller {
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
-	
-    private final AudioClip clip = new AudioClip(Controller.class.getResource("/sounds/appear.mp3").toExternalForm());
-    private final AudioClip button = new AudioClip(Controller.class.getResource("/sounds/button.wav").toExternalForm());
+
+	private final AudioClip clip = new AudioClip(Controller.class.getResource("/sounds/appear.mp3").toExternalForm());
+	private final AudioClip button = new AudioClip(Controller.class.getResource("/sounds/button.wav").toExternalForm());
 
 	@FXML
 	private BorderPane rootPane;
@@ -561,7 +561,7 @@ public class Controller {
 		if (tmpQuality == null) {
 			tmpQuality = new RoomQuality();
 		}
-		button.play();
+		// button.play();
 		setupReservationPopUp(tmpHotel, tmpQuality);
 	}
 
@@ -618,7 +618,7 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
-		button.play();
+		// button.play();
 		setupGuestPopUp();
 	}
 
@@ -709,6 +709,13 @@ public class Controller {
 
 	@FXML
 	void keyReleasedProperty(KeyEvent event) {
+
+		/*if (arrivalDate.getValue() == null && departureDate.getValue() == null) {
+			makeReservationButton.setDisable(true);
+		} else {
+			makeReservationButton.setDisable(false);
+		}*/
+
 		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
 				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
 				|| addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
@@ -999,8 +1006,8 @@ public class Controller {
 
 	private void hideSplashDisplayMain() {
 
-		clip.play(1.0);
-		
+		// clip.play(1.0);
+
 		try {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -1034,6 +1041,7 @@ public class Controller {
 		System.out.println("#Setting up popup windows..");
 
 		addGuestButton.setDisable(true);
+		//makeReservationButton.setDisable(true);
 
 		System.out.println("#Popups done!");
 

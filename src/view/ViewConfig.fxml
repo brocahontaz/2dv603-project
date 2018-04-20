@@ -68,9 +68,9 @@
                                                             <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
-                                                                  <DatePicker fx:id="arrivalDate" promptText="Arrival" />
+                                                                  <DatePicker fx:id="arrivalDate" onKeyReleased="#keyReleasedProperty" promptText="Arrival" />
                                                                   <VBox prefWidth="50.0" />
-                                                                  <DatePicker fx:id="departureDate" promptText="Departure" />
+                                                                  <DatePicker fx:id="departureDate" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
                                                                </children>
                                                             </HBox>
                                                             <HBox prefHeight="50.0" />
