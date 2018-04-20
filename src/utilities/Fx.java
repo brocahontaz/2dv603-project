@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javafx.animation.PauseTransition;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.util.Duration;
@@ -94,14 +95,9 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationHelp(titledPane, cssStyle, oldStyle));
 		pause.play();
 	}
-	// Helper method to titledPaneColorNotification
-	private static void titledPaneColorNotificationHelp(TitledPane titledPane, String cssStyle, String oldStyle) {
-		titledPane.getStyleClass().remove(cssStyle);
-		titledPane.getStyleClass().add(oldStyle);
-	}
-
+	
 	/**
-	 * Changes the css-style of a titlepane for x seconds.
+	 * Changes the css-style of a titledpane for X seconds.
 	 * 
 	 * @param titledPane
 	 * @param cssStyle
@@ -115,6 +111,53 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationHelp(titledPane, cssStyle, oldStyle));
 		pause.play();
 	}
+	
+	/**
+	 * Changes the css-style of a titledpane for 3 seconds and disable a button for the same time.
+	 * @param titledPane
+	 * @param button
+	 * @param cssStyle
+	 */
+	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle){
+		button.setDisable(true);
+		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
+		titledPane.getStyleClass().remove(oldStyle);
+		titledPane.getStyleClass().add(cssStyle);
+		PauseTransition pause = new PauseTransition(Duration.seconds(3));
+		pause.setOnFinished(event -> titledPaneColorNotificationButtonHelp(titledPane, button, cssStyle, oldStyle));
+		pause.play();
+	}
+	
+	/**
+	 * Changes the css-style of a titledpane for X seconds and disable a button for the same time.
+	 * @param titledPane
+	 * @param button
+	 * @param cssStyle
+	 * @param time
+	 */
+	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle, int time){
+		button.setDisable(true);
+		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
+		titledPane.getStyleClass().remove(oldStyle);
+		titledPane.getStyleClass().add(cssStyle);
+		PauseTransition pause = new PauseTransition(Duration.seconds(time));
+		pause.setOnFinished(event -> titledPaneColorNotificationButtonHelp(titledPane, button, cssStyle, oldStyle));
+		pause.play();
+	}
+	
+	// Helper method to titledPaneColorNotificationButton
+	private static void titledPaneColorNotificationButtonHelp(TitledPane titledPane,Button button, String cssStyle, String oldStyle) {
+		titledPane.getStyleClass().remove(cssStyle);
+		titledPane.getStyleClass().add(oldStyle);
+		button.setDisable(false);
+	}
+	
+	// Helper method to titledPaneColorNotification
+	private static void titledPaneColorNotificationHelp(TitledPane titledPane, String cssStyle, String oldStyle) {
+		titledPane.getStyleClass().remove(cssStyle);
+		titledPane.getStyleClass().add(oldStyle);
+	}
+
 
 	// Helper method to trim cssString.
 	private static String trimCssStyle(String cssStyle) {

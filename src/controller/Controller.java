@@ -475,6 +475,7 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
+		chooseReservationButtonCheckIn.setDisable(true);
 		String reservationID = checkInReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
@@ -485,7 +486,7 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotification(checkInGuestsBox, "success", 1);
+							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn, "success", 1);
 						}
 					});
 
@@ -493,7 +494,7 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn, "danger");
 						}
 					});
 				}
@@ -523,6 +524,7 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
+		chooseReservationButtonCheckOut.setDisable(true);
 		String reservationID = checkOutReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
@@ -533,7 +535,7 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotification(checkOutGuestsBox, "success", 1);
+							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut, "success", 1);
 						}
 					});
 
@@ -541,7 +543,7 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut, "danger");
 						}
 					});
 				}
