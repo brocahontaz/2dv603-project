@@ -323,6 +323,30 @@ public class Controller {
 
 	@FXML
 	private MenuItem closeSystem;
+	
+	@FXML
+    private TextField checkinHotel;
+
+    @FXML
+    private TextField checkinQuality;
+
+    @FXML
+    private TextField checkinRoom;
+
+    @FXML
+    private Text checkinPrice;
+    
+    @FXML
+    private TextField checkoutHotel;
+
+    @FXML
+    private TextField checkoutQuality;
+
+    @FXML
+    private TextField checkoutRoom;
+
+    @FXML
+    private Text checkoutPrice;
 
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
@@ -476,6 +500,7 @@ public class Controller {
 
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
+				Room room = (Room) data.get(2);
 				checkInFirstName.setText(guest.getFirstName());
 				checkInLastName.setText(guest.getLastName());
 				checkInAddress.setText(guest.getAddress());
@@ -484,6 +509,9 @@ public class Controller {
 				checkInPassportNumber.setText(guest.getPassportNumber());
 				checkInArrivalDate.setText(reservation.getArrivalDate() + "");
 				checkInDepartureDate.setText(reservation.getDepartureDate() + "");
+				checkinHotel.setText(reservation.getHotel());
+				checkinRoom.setText(Integer.toString(reservation.getRoomNumber()));
+				checkinQuality.setText(room.getQuality());
 			}
 		});
 	}
@@ -520,6 +548,7 @@ public class Controller {
 
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
+				Room room = (Room) data.get(2);
 				checkOutFirstName.setText(guest.getFirstName());
 				checkOutLastName.setText(guest.getLastName());
 				checkOutAddress.setText(guest.getAddress());
@@ -528,6 +557,9 @@ public class Controller {
 				checkOutPassportNumber.setText(guest.getPassportNumber());
 				checkOutArrivalDate.setText(reservation.getArrivalDate() + "");
 				checkOutDepartureDate.setText(reservation.getDepartureDate() + "");
+				checkoutHotel.setText(reservation.getHotel());
+				checkoutRoom.setText(Integer.toString(reservation.getRoomNumber()));
+				checkoutQuality.setText(room.getQuality());
 			}
 		});
 	}

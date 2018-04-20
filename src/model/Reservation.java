@@ -6,15 +6,17 @@ public class Reservation {
 	
 	private int id;
 	private String passportNumber;
+	private String hotel;
 	private int roomNumber;
 	private int arrivalDate;
 	private int departureDate;
 	private Boolean checkedIn;
 	private Boolean checkedOut;
 
-	public Reservation(int id, String passportNumber, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut) {
+	public Reservation(int id, String passportNumber, String hotel, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut) {
 		this.id = id;
 		this.passportNumber = passportNumber;
+		this.hotel = hotel;
 		this.roomNumber = roomNumber;
 		this.arrivalDate = arrivalDate;
 		this.departureDate = departureDate;
@@ -38,6 +40,14 @@ public class Reservation {
 		this.passportNumber = passportNumber;
 	}
 	
+	public String getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(String hotel) {
+		this.hotel = hotel;
+	}
+
 	public int getRoomNumber() {
 		return roomNumber;
 	}

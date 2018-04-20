@@ -383,8 +383,9 @@ public class DBParser {
 				list.add(new Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
-				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
 						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
+				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"), crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -546,7 +547,7 @@ public class DBParser {
 				 * TODO: if departureDate > currentDate add to list, else don't.
 				 * Done to only show active reservations
 				 */
-				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
 						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
 			}
 		} catch (SQLException e) {
