@@ -67,7 +67,7 @@ public class DBParser {
 	}
 
 	public boolean checkOut(String reservationID) {
-		String[] temp = {"1", "1", reservationID};
+		String[] temp = {"0", "1", reservationID};
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 

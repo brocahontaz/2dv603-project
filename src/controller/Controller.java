@@ -367,6 +367,7 @@ public class Controller {
 	 */
 	@FXML
 	void checkInGuest(MouseEvent event) {
+		checkInButton.setDisable(true);
 		executor.submit(() -> {
 			if (!(checkInReservationID.getText().isEmpty())) {
 				if (dbParser.checkIn(checkInReservationID.getText()) == true) {
@@ -404,6 +405,7 @@ public class Controller {
 	 */
 	@FXML
 	void checkOutGuest(MouseEvent event) {
+		checkOutButton.setDisable(true);
 		executor.submit(() -> {
 			if (!(checkOutReservationID.getText().isEmpty())) {
 				if (dbParser.checkOut(checkOutReservationID.getText()) == true) {
@@ -476,6 +478,7 @@ public class Controller {
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
 		chooseReservationButtonCheckIn.setDisable(true);
+		checkInButton.setDisable(true);
 		String reservationID = checkInReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
@@ -513,6 +516,11 @@ public class Controller {
 				checkinHotel.setText(reservation.getHotel());
 				checkinRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkinQuality.setText(room.getQuality());
+				
+				if(reservation.getCheckedIn() == false) {
+					checkInButton.setDisable(false);
+				}
+				
 			}
 		});
 	}
@@ -525,6 +533,7 @@ public class Controller {
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
 		chooseReservationButtonCheckOut.setDisable(true);
+		checkOutButton.setDisable(true);
 		String reservationID = checkOutReservationID.getText();
 		executor.submit(() -> {
 			if (reservationID.matches("^[0-9]*$")) {
@@ -562,6 +571,12 @@ public class Controller {
 				checkoutHotel.setText(reservation.getHotel());
 				checkoutRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkoutQuality.setText(room.getQuality());
+				
+
+				if(reservation.getCheckedIn() == true) {
+					checkOutButton.setDisable(false);
+				}
+				
 			}
 		});
 	}
@@ -1075,6 +1090,8 @@ public class Controller {
 		System.out.println("#Setting up popup windows..");
 
 		addGuestButton.setDisable(true);
+		checkInButton.setDisable(true);
+		checkOutButton.setDisable(true);
 		//makeReservationButton.setDisable(true);
 
 		System.out.println("#Popups done!");
