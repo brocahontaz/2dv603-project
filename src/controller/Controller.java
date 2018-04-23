@@ -383,7 +383,7 @@ public class Controller {
 						}
 					});
 				}
-			} else {
+			} else {				
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
