@@ -12,8 +12,9 @@ public class Reservation {
 	private int departureDate;
 	private Boolean checkedIn;
 	private Boolean checkedOut;
+	private int price;
 
-	public Reservation(int id, String passportNumber, String hotel, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut) {
+	public Reservation(int id, String passportNumber, String hotel, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut, int price) {
 		this.id = id;
 		this.passportNumber = passportNumber;
 		this.hotel = hotel;
@@ -22,6 +23,7 @@ public class Reservation {
 		this.departureDate = departureDate;
 		this.setCheckedIn(checkedIn);
 		this.setCheckedOut(checkedOut);
+		this.price = price;
 	}
 	
 	public int getId() {
@@ -93,6 +95,14 @@ public class Reservation {
 	}
 	
 	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	public String toString() {
 		return null;
 		// TODO - What should be returned? id+passport+name+duration dates?

@@ -384,7 +384,7 @@ public class DBParser {
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"), crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
@@ -548,7 +548,7 @@ public class DBParser {
 				 * Done to only show active reservations
 				 */
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut")));
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

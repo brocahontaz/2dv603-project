@@ -516,6 +516,7 @@ public class Controller {
 				checkinHotel.setText(reservation.getHotel());
 				checkinRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkinQuality.setText(room.getQuality());
+				checkinPrice.setText(Integer.toString(reservation.getPrice()));
 				
 				if(reservation.getCheckedIn() == false) {
 					checkInButton.setDisable(false);
@@ -571,7 +572,7 @@ public class Controller {
 				checkoutHotel.setText(reservation.getHotel());
 				checkoutRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkoutQuality.setText(room.getQuality());
-				
+				checkoutPrice.setText(Integer.toString(reservation.getPrice()));
 
 				if(reservation.getCheckedIn() == true) {
 					checkOutButton.setDisable(false);

@@ -26,7 +26,7 @@ public enum Queries {
 	GET_GUEST_FROM_RESERVATION_ID("SELECT * FROM Guests WHERE passportNumber=(SELECT passportNumber FROM Reservations WHERE id = ?)"),
 	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?"),
 	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, " + 
-			"Guests.creditCard, Reservations.id, Reservations.hotelName, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, Reservations.checkedIn, Reservations.checkedOut, Rooms.quality " + 
+			"Guests.creditCard, Reservations.id, Reservations.hotelName, Reservations.roomNumber,  Reservations.arrivalDate, Reservations.departureDate, Reservations.checkedIn, Reservations.checkedOut, Reservations.price, Rooms.quality " + 
 			"FROM Guests " + 
 			"INNER JOIN Reservations ON " + 
 			"Guests.passportNumber=Reservations.passportNumber " + 
