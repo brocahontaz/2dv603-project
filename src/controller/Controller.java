@@ -66,9 +66,6 @@ public class Controller {
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 
-	private final AudioClip clip = new AudioClip(Controller.class.getResource("/sounds/appear.mp3").toExternalForm());
-	private final AudioClip button = new AudioClip(Controller.class.getResource("/sounds/button.wav").toExternalForm());
-
 	@FXML
 	private BorderPane rootPane;
 
@@ -611,7 +608,6 @@ public class Controller {
 		if (tmpQuality == null) {
 			tmpQuality = new RoomQuality();
 		}
-		// button.play();
 		setupReservationPopUp(tmpHotel, tmpQuality);
 	}
 
@@ -668,7 +664,6 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
-		// button.play();
 		setupGuestPopUp();
 	}
 
@@ -1055,8 +1050,6 @@ public class Controller {
 	}
 
 	private void hideSplashDisplayMain() {
-
-		// clip.play(1.0);
 
 		try {
 			Platform.runLater(new Runnable() {
