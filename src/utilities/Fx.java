@@ -55,6 +55,38 @@ public class Fx {
 		textField7.clear();
 		textField8.clear();
 	}
+	
+	/**
+	 * Clear 12 textfields.
+	 * @param textField1
+	 * @param textField2
+	 * @param textField3
+	 * @param textField4
+	 * @param textField5
+	 * @param textField6
+	 * @param textField7
+	 * @param textField8
+	 * @param textField9
+	 * @param textField10
+	 * @param textField11
+	 * @param textField12
+	 */
+	public static void textFieldClear(TextField textField1, TextField textField2, TextField textField3,
+			TextField textField4, TextField textField5, TextField textField6, TextField textField7,
+			TextField textField8, TextField textField9, TextField textField10, TextField textField11, TextField textField12) {
+		textField1.clear();
+		textField2.clear();
+		textField3.clear();
+		textField4.clear();
+		textField5.clear();
+		textField6.clear();
+		textField7.clear();
+		textField8.clear();
+		textField9.clear();
+		textField10.clear();
+		textField11.clear();
+		textField12.clear();
+	}
 
 	/**
 	 * Changes the css-style of a textfield for 3 seconds.
@@ -95,7 +127,7 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationHelp(titledPane, cssStyle, oldStyle));
 		pause.play();
 	}
-	
+
 	/**
 	 * Changes the css-style of a titledpane for X seconds.
 	 * 
@@ -111,14 +143,16 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationHelp(titledPane, cssStyle, oldStyle));
 		pause.play();
 	}
-	
+
 	/**
-	 * Changes the css-style of a titledpane for 3 seconds and disable a button for the same time.
+	 * Changes the css-style of a titledpane for 3 seconds and disable a button for
+	 * the same time.
+	 * 
 	 * @param titledPane
 	 * @param button
 	 * @param cssStyle
 	 */
-	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle){
+	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle) {
 		button.setDisable(true);
 		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
 		titledPane.getStyleClass().remove(oldStyle);
@@ -127,15 +161,18 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationButtonHelp(titledPane, button, cssStyle, oldStyle));
 		pause.play();
 	}
-	
+
 	/**
-	 * Changes the css-style of a titledpane for X seconds and disable a button for the same time.
+	 * Changes the css-style of a titledpane for X seconds and disable a button for
+	 * the same time.
+	 * 
 	 * @param titledPane
 	 * @param button
 	 * @param cssStyle
 	 * @param time
 	 */
-	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle, int time){
+	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle,
+			int time) {
 		button.setDisable(true);
 		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
 		titledPane.getStyleClass().remove(oldStyle);
@@ -144,20 +181,20 @@ public class Fx {
 		pause.setOnFinished(event -> titledPaneColorNotificationButtonHelp(titledPane, button, cssStyle, oldStyle));
 		pause.play();
 	}
-	
+
 	// Helper method to titledPaneColorNotificationButton
-	private static void titledPaneColorNotificationButtonHelp(TitledPane titledPane,Button button, String cssStyle, String oldStyle) {
+	private static void titledPaneColorNotificationButtonHelp(TitledPane titledPane, Button button, String cssStyle,
+			String oldStyle) {
 		titledPane.getStyleClass().remove(cssStyle);
 		titledPane.getStyleClass().add(oldStyle);
 		button.setDisable(false);
 	}
-	
+
 	// Helper method to titledPaneColorNotification
 	private static void titledPaneColorNotificationHelp(TitledPane titledPane, String cssStyle, String oldStyle) {
 		titledPane.getStyleClass().remove(cssStyle);
 		titledPane.getStyleClass().add(oldStyle);
 	}
-
 
 	// Helper method to trim cssString.
 	private static String trimCssStyle(String cssStyle) {
