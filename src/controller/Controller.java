@@ -357,6 +357,30 @@ public class Controller {
 	@FXML
 	private Text checkoutPrice;
 
+	@FXML
+	private TextField checkReservationGuest;
+
+	@FXML
+	private Button pickCheckGuestButton;
+
+	@FXML
+	private DatePicker arrivalCheckDate;
+
+	@FXML
+	private DatePicker departureCheckDate;
+
+	@FXML
+	private ComboBox<?> hotelCheckChoice;
+
+	@FXML
+	private ComboBox<?> roomQualityCheckChoice;
+
+	@FXML
+	private Button clearCheckReservationButton;
+
+	@FXML
+	private Button checkReservationButton;
+
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
 				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice())
@@ -443,6 +467,21 @@ public class Controller {
 			}
 		});
 	}
+
+	@FXML
+	void pickCheckGuest(MouseEvent event) {
+		setupGuestPopUp(checkReservationGuest);
+	}
+	
+	@FXML
+    void checkReservation(MouseEvent event) {
+
+    }
+	
+	@FXML
+    void clearCheckReservation(MouseEvent event) {
+
+    }
 
 	@FXML
 	void clearCheckin(MouseEvent event) {
@@ -703,10 +742,10 @@ public class Controller {
 	 */
 	@FXML
 	void pickGuest(MouseEvent event) {
-		setupGuestPopUp();
+		setupGuestPopUp(makeReservationGuest);
 	}
 
-	private void setupGuestPopUp() {
+	private void setupGuestPopUp(TextField textfield) {
 		System.out.print("--Setting up guest popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
@@ -721,6 +760,7 @@ public class Controller {
 			guestPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			guestPopup.setTitle("Guests");
+			loader.<PickGuestPopupController>getController().setTextField(textfield);
 			loader.<PickGuestPopupController>getController().injectMainController(this);
 			guestPopup.show();
 		} catch (Exception e) {
@@ -730,9 +770,9 @@ public class Controller {
 		System.out.print("done!\r");
 	}
 
-	public void displayPickedGuest(Guest guest) {
+	public void displayPickedGuest(Guest guest, TextField Textfield) {
 		pickedGuest = guest;
-		makeReservationGuest.setText(guest.getFirstName() + " " + guest.getLastName());
+		Textfield.setText(guest.getFirstName() + " " + guest.getLastName());
 	}
 
 	/**

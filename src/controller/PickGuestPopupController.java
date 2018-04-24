@@ -23,6 +23,7 @@ public class PickGuestPopupController {
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private DBParser dbParser = new DBParser();
 	private Controller controller;
+	private TextField textfield;
 
 	@FXML
 	private Button popupGuestSearchButton;
@@ -85,6 +86,10 @@ public class PickGuestPopupController {
 			guestsResultTable.setVisible(true);
 		});
 	}
+	
+	public void setTextField(TextField textfield) {
+		this.textfield = textfield;
+	}
 
 	/**
 	 * Get the Guest when double clicking on row.
@@ -93,7 +98,7 @@ public class PickGuestPopupController {
 	private void getGuestData(MouseEvent event) {
 		if (event.getClickCount() == 2) {
 			Guest guest = guestsResultTable.getSelectionModel().getSelectedItem();
-			controller.displayPickedGuest(guest);
+			controller.displayPickedGuest(guest, textfield);
 			System.out.println(guest);
 			closeGuestsPopUp(event);
 		}
