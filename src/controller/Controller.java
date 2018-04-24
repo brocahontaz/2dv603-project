@@ -509,21 +509,29 @@ public class Controller {
 				}
 
 				if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
+					
 					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
+					
 				} else if (arrivalCheckDate.getValue() != null) {
+					
 					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
+					
 				} else if (departureCheckDate.getValue() != null) {
+					
 					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
+					
 				} else {
+					
 					reservations = FXCollections
 							.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
+					
 				}
 
 				System.out.println(reservations);
@@ -534,12 +542,13 @@ public class Controller {
 				reservationsProgress.setVisible(false);
 			});
 		} else if (resID.matches("[0-9]+")) {
-
+			
 		}
 	}
 
 	@FXML
 	void clearCheckReservation(MouseEvent event) {
+		pickedCheckGuest = null;
 		arrivalCheckDate.setValue(null);
 		departureCheckDate.setValue(null);
 		checkReservationGuest.clear();
@@ -784,7 +793,6 @@ public class Controller {
 	void clearReservation(MouseEvent event) {
 		pickedGuest = null;
 		makeReservationGuest.clear();
-		makeReservationRoom.clear();
 		arrivalDate.setValue(null);
 		departureDate.setValue(null);
 		roomQualityChoice.getSelectionModel().clearSelection();

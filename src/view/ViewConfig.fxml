@@ -47,7 +47,7 @@
                                        <children>
                                           <TitledPane fx:id="makeReservationBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Make Reservation">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
                                                       <VBox layoutX="143.0" layoutY="55.0" prefHeight="430.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
@@ -134,7 +134,7 @@
                                           </TitledPane>
                                           <TitledPane fx:id="checkReservationsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
                                                       <VBox prefHeight="430.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
@@ -213,7 +213,7 @@
                                           </TitledPane>
                                           <TitledPane fx:id="checkRoomsBox" animated="false" collapsible="false" layoutX="712.0" layoutY="20.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Rooms">
                                              <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
                                                       <VBox prefHeight="430.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
@@ -508,6 +508,39 @@
                                  <content>
                                     <FlowPane hgap="10.0" maxWidth="1920.0" minWidth="800.0" prefWidth="1920.0" vgap="10.0">
                                        <children>
+                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Add guest">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
+                                                   <children>
+                                                      <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TextField fx:id="addGuestFirstName" onKeyReleased="#keyReleasedProperty" prefWidth="309.0" promptText="Firstname" styleClass="first" />
+                                                            <TextField fx:id="addGuestLastName" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
+                                                            <TextField fx:id="addGuestAddress" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Address" styleClass="middle" />
+                                                            <TextField fx:id="addGuestTelephone" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
+                                                            <TextField fx:id="addGuestCreditCard" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
+                                                            <TextField fx:id="addGuestPassport" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Passport number" styleClass="last" />
+                                                            <ButtonBar>
+                                                               <buttons>
+                                                                  <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
+                                                               </buttons>
+                                                            </ButtonBar>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <FlowPane.margin>
+                                                <Insets />
+                                             </FlowPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </TitledPane>
                                           <TitledPane fx:id="searchGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Search guests">
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
@@ -554,46 +587,13 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="addGuestBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Add guest">
-                                             <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
-                                                   <children>
-                                                      <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <children>
-                                                            <TextField fx:id="addGuestFirstName" onKeyReleased="#keyReleasedProperty" prefWidth="309.0" promptText="Firstname" styleClass="first" />
-                                                            <TextField fx:id="addGuestLastName" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
-                                                            <TextField fx:id="addGuestAddress" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Address" styleClass="middle" />
-                                                            <TextField fx:id="addGuestTelephone" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
-                                                            <TextField fx:id="addGuestCreditCard" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
-                                                            <TextField fx:id="addGuestPassport" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Passport number" styleClass="last" />
-                                                            <ButtonBar>
-                                                               <buttons>
-                                                                  <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">
-                                                                     <cursor>
-                                                                        <Cursor fx:constant="HAND" />
-                                                                     </cursor>
-                                                                  </Button>
-                                                               </buttons>
-                                                            </ButtonBar>
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                </AnchorPane>
-                                             </content>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </TitledPane>
                                           <TitledPane fx:id="resultsBox" minWidth="520.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
                                                 <AnchorPane minWidth="520.0" prefWidth="1050.0">
                                                    <children>
                                                       <StackPane layoutX="9.600000381469727" layoutY="9.600000381469727" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TableView fx:id="searchResultTable" minWidth="520.0" onMouseClicked="#checkSingularGuest">
+                                                            <TableView fx:id="searchResultTable" minWidth="520.0" onMouseClicked="#checkSingularGuest" prefHeight="520.0">
                                                               <columns>
                                                                 <TableColumn fx:id="firstNameCol" editable="false" minWidth="100.0" prefWidth="255.0" resizable="false" text="First name" />
                                                                 <TableColumn fx:id="lastNameCol" editable="false" minWidth="100.0" prefWidth="255.0" resizable="false" text="Last name" />
