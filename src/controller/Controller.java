@@ -446,12 +446,18 @@ public class Controller {
 
 	@FXML
 	void clearCheckin(MouseEvent event) {
-
+		Fx.textFieldClear(checkInReservationID, checkInFirstName, checkInLastName, checkInAddress, checkInTelephone,
+				checkInCreditCard, checkInPassportNumber, checkInArrivalDate, checkInDepartureDate, checkinHotel,
+				checkinRoom, checkinQuality);
+		checkinPrice.setText("0");
 	}
 
 	@FXML
 	void clearCheckout(MouseEvent event) {
-
+		Fx.textFieldClear(checkOutReservationID, checkOutFirstName, checkOutLastName, checkOutAddress,
+				checkOutTelephone, checkOutCreditCard, checkOutPassportNumber, checkOutArrivalDate,
+				checkOutDepartureDate, checkoutHotel, checkoutRoom, checkoutQuality);
+		checkoutPrice.setText("0");
 	}
 
 	/*

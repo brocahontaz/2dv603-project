@@ -287,7 +287,11 @@
                                                                   </HBox>
                                                                   <ButtonBar prefHeight="40.0" HBox.hgrow="ALWAYS">
                                                                     <buttons>
-                                                                        <Button fx:id="clearCheckinButton" mnemonicParsing="false" onMouseClicked="#clearCheckin" styleClass="first" text="Clear" />
+                                                                        <Button fx:id="clearCheckinButton" mnemonicParsing="false" onMouseClicked="#clearCheckin" styleClass="first" text="Clear">
+                                                                           <cursor>
+                                                                              <Cursor fx:constant="HAND" />
+                                                                           </cursor>
+                                                                        </Button>
                                                                       <Button fx:id="checkInButton" mnemonicParsing="false" onMouseClicked="#checkInGuest" text="Check in">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
@@ -391,7 +395,11 @@
                                                                   </HBox>
                                                                   <ButtonBar prefHeight="40.0" HBox.hgrow="ALWAYS">
                                                                      <buttons>
-                                                                        <Button fx:id="clearCheckoutButton" mnemonicParsing="false" onMouseClicked="#clearCheckout" styleClass="first" text="Clear" />
+                                                                        <Button fx:id="clearCheckoutButton" mnemonicParsing="false" onMouseClicked="#clearCheckout" styleClass="first" text="Clear">
+                                                                           <cursor>
+                                                                              <Cursor fx:constant="HAND" />
+                                                                           </cursor>
+                                                                        </Button>
                                                                         <Button fx:id="checkOutButton" mnemonicParsing="false" onMouseClicked="#checkOutGuest" text="Check out">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
