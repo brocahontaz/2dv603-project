@@ -45,54 +45,82 @@ public class DBParser {
 	public DBParser() {
 
 	}
-	
-	public ArrayList<Room> checkAvailableRoomsBetweenDates(String arrivalDate, String departureDate, String hotelName, String quality) {
+
+	public ArrayList<Reservation> searchReservations(String passportNumber, String arrivalDate, String departureDate,
+			String hotelName) {
+		
+		System.out.println(hotelName);
+		
+		ArrayList<Reservation> data = new ArrayList<Reservation>();
+		
+		if (passportNumber.isEmpty() || passportNumber == null) {
+			passportNumber = "%";
+		}
+		if (arrivalDate.isEmpty() || arrivalDate == null) {
+			arrivalDate = "%";
+		}
+		if (departureDate.isEmpty() || departureDate == null) {
+			departureDate = "%";
+		}
+		if (hotelName.isEmpty() || hotelName == null) {
+			hotelName = "%";
+		}
+
+		String[] temp = { passportNumber, arrivalDate, departureDate, hotelName };
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS, temp);
+		populateReservations(data, crsTemp);
+		System.out.println(data);
+		return data;
+	}
+
+	public ArrayList<Room> checkAvailableRoomsBetweenDates(String arrivalDate, String departureDate, String hotelName,
+			String quality) {
 		ArrayList<Room> data = new ArrayList<Room>();
 		if (hotelName.isEmpty() || hotelName == null) {
 			hotelName = "%";
-		} 
+		}
 		if (quality.isEmpty() || quality == null) {
 			quality = "%";
-		} 
-		String[] temp = {arrivalDate, arrivalDate, departureDate, departureDate, arrivalDate, departureDate, hotelName, quality};
+		}
+		String[] temp = { arrivalDate, arrivalDate, departureDate, departureDate, arrivalDate, departureDate, hotelName,
+				quality };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.CHECK_AVAILABLE_ROOMS, temp);
 		populateRoomArray(data, crsTemp);
-		//System.out.println(data);
+		// System.out.println(data);
 		return data;
 	}
 
 	public boolean checkIn(String reservationID) {
-		String[] temp = {"1", "0", reservationID};
-		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);	
-	}
-
-	public boolean checkOut(String reservationID) {
-		String[] temp = {"0", "1", reservationID};
+		String[] temp = { "1", "0", reservationID };
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
-	public boolean makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate, String departureDate,
-			 String price) {
-		
-		String[] temp = {passportNumber, roomNumber, hotel, arrivalDate, departureDate,
-				 price};
-		
+	public boolean checkOut(String reservationID) {
+		String[] temp = { "0", "1", reservationID };
+		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
+	}
+
+	public boolean makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate,
+			String departureDate, String price) {
+
+		String[] temp = { passportNumber, roomNumber, hotel, arrivalDate, departureDate, price };
+
 		return this.executeUpdate(Queries.MAKE_RESERVATION, temp);
 	}
-	
+
 	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
 
 		ArrayList<Object> data = new ArrayList<Object>();
-		String[] temp = {reservationID};
+		String[] temp = { reservationID };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_GUESTS_N_RES_BY_ID, temp);
 		populateGuestReservation(data, crsTemp);
 		return data;
 	}
-	
+
 	public ArrayList<Reservation> getReservationByPassport(String passportNumber) {
 
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-		String[] temp = {passportNumber};
+		String[] temp = { passportNumber };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATION_BY_PASSPORT, temp);
 
 		populateReservations(reservations, crsTemp);
@@ -109,24 +137,23 @@ public class DBParser {
 
 		return rooms;
 	}
-	
+
 	public ArrayList<Room> searchRooms(String roomNumber, String hotelName, String quality) {
 		if (roomNumber.isEmpty() || roomNumber == null) {
 			roomNumber = "%";
-		} 
+		}
 		if (hotelName.isEmpty() || hotelName == null) {
 			hotelName = "%";
-		} 
+		}
 		if (quality.isEmpty() || quality == null) {
 			quality = "%";
-		} 
-		/*if (numberOfBeds.isEmpty() || numberOfBeds == null) {
-			numberOfBeds = "%";
-		}*/
-		
-		
+		}
+		/*
+		 * if (numberOfBeds.isEmpty() || numberOfBeds == null) { numberOfBeds = "%"; }
+		 */
+
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		String[] temp = {roomNumber, hotelName, quality};
+		String[] temp = { roomNumber, hotelName, quality };
 
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_ROOMS, temp);
 
@@ -135,7 +162,6 @@ public class DBParser {
 		return rooms;
 	}
 
-	
 	public model.Guest getGuest(String passportNumber) {
 		return null;
 	}
@@ -143,17 +169,17 @@ public class DBParser {
 	public model.Room getRoom(int roomNumber) {
 		return null;
 	}
-	
+
 	public model.RoomQuality getQuality(String hotelName, String quality) {
 		ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
-		String[] temp = {hotelName, quality};
-		
+		String[] temp = { hotelName, quality };
+
 		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_QUALITY, temp);
 
 		populateQualities(qualities, crsTemp);
 
 		return qualities.get(0);
-		
+
 	}
 
 	public ArrayList<RoomQuality> getQualities() {
@@ -166,7 +192,7 @@ public class DBParser {
 
 		return qualities;
 	}
-	
+
 	public ArrayList<Discount> getDiscounts() {
 		ArrayList<Discount> discounts = new ArrayList<Discount>();
 		String[] temp = {};
@@ -305,7 +331,7 @@ public class DBParser {
 		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber };
 		return this.executeUpdate(Queries.ADD_NEW_GUEST, temp);
 	}
-	
+
 	/**
 	 * Update the guest to the database
 	 * 
@@ -325,7 +351,7 @@ public class DBParser {
 	public boolean updateGuest(String firstName, String lastName, String address, String telephoneNumber,
 			String creditCard, String passportNumber, String key) {
 
-		String[] temp = {firstName, lastName, address, telephoneNumber, creditCard, passportNumber, key};
+		String[] temp = { firstName, lastName, address, telephoneNumber, creditCard, passportNumber, key };
 		return this.executeUpdate(Queries.UPDATE_GUEST, temp);
 	}
 
@@ -344,7 +370,7 @@ public class DBParser {
 
 		return guests;
 	}
-	
+
 	/*
 	 * Get Guest by Reservation ID
 	 */
@@ -356,7 +382,6 @@ public class DBParser {
 		populateGuestArray(guests, crsTemp);
 		return guests;
 	}
-	
 
 	/**
 	 * EXAMPLE FUNCTION.
@@ -383,9 +408,12 @@ public class DBParser {
 				list.add(new Guest(crsTemp.getString("firstName"), crsTemp.getString("lastName"),
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
-				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
-				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"), crsTemp.getString("quality")));
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"),
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"),
+						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
+				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"),
+						crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -399,7 +427,7 @@ public class DBParser {
 			}
 		}
 	}
-	
+
 	/**
 	 * Private help method to populate ArrayList with guests from cached row set
 	 * 
@@ -431,8 +459,7 @@ public class DBParser {
 	private void populateRoomArray(ArrayList<Room> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				list.add(new Room(crsTemp.getInt("roomNumber"),
-						crsTemp.getString("hotelName"), 
+				list.add(new Room(crsTemp.getInt("roomNumber"), crsTemp.getString("hotelName"),
 						crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
@@ -448,7 +475,6 @@ public class DBParser {
 		}
 	}
 
-	
 	private void populateHotelArray(ArrayList<Hotel> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -521,7 +547,7 @@ public class DBParser {
 			}
 		}
 	}
-	
+
 	private void populateDiscounts(ArrayList<Discount> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -544,11 +570,13 @@ public class DBParser {
 		try {
 			while (crsTemp.next()) {
 				/*
-				 * TODO: if departureDate > currentDate add to list, else don't.
-				 * Done to only show active reservations
+				 * TODO: if departureDate > currentDate add to list, else don't. Done to only
+				 * show active reservations
 				 */
-				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"), crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"), 
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"), crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
+				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"),
+						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"),
+						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

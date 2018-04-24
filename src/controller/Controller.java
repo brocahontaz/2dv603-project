@@ -36,7 +36,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -62,6 +61,7 @@ public class Controller {
 	private Stage primaryStage;
 	private Stage splashScreen = new Stage();
 	private Guest pickedGuest = null;
+	private Guest pickedCheckGuest = null;
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
@@ -291,21 +291,6 @@ public class Controller {
 	 */
 
 	@FXML
-	private TableView<?> searchResultTable2;
-
-	@FXML
-	private TableColumn<?, ?> roomNumberCol;
-
-	@FXML
-	private TableColumn<?, ?> qualityCol;
-
-	@FXML
-	private TableColumn<?, ?> priceCol;
-
-	@FXML
-	private TableColumn<?, ?> reservedCol;
-
-	@FXML
 	private TableView<model.Guest> searchResultTable;
 
 	@FXML
@@ -359,6 +344,8 @@ public class Controller {
 
 	@FXML
 	private TextField checkReservationGuest;
+	@FXML
+	private TextField checkReservationID;
 
 	@FXML
 	private Button pickCheckGuestButton;
@@ -370,7 +357,7 @@ public class Controller {
 	private DatePicker departureCheckDate;
 
 	@FXML
-	private ComboBox<?> hotelCheckChoice;
+	private ComboBox<Hotel> hotelCheckChoice;
 
 	@FXML
 	private ComboBox<?> roomQualityCheckChoice;
@@ -380,6 +367,24 @@ public class Controller {
 
 	@FXML
 	private Button checkReservationButton;
+
+	@FXML
+	private TableView<Reservation> checkResResultsTable;
+
+	@FXML
+	private TableColumn<Reservation, String> idCol;
+
+	@FXML
+	private TableColumn<Reservation, String> hotelCol;
+
+	@FXML
+	private TableColumn<Reservation, String> roomCol;
+
+	@FXML
+	private TableColumn<Reservation, String> arrivalCol;
+
+	@FXML
+	private TableColumn<Reservation, String> departureCol;
 
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
@@ -472,16 +477,48 @@ public class Controller {
 	void pickCheckGuest(MouseEvent event) {
 		setupGuestPopUp(checkReservationGuest);
 	}
-	
-	@FXML
-    void checkReservation(MouseEvent event) {
 
-    }
-	
 	@FXML
-    void clearCheckReservation(MouseEvent event) {
+	void checkReservation(MouseEvent event) {
+		String resID = checkReservationID.getText().trim();
+		
+		if (resID.isEmpty() || resID == null) {
+			
+			System.out.println("test");
+			executor.submit(() -> {
+				System.out.println("test2");
+				String passport;
+				
+				if (pickedCheckGuest != null) {
+					passport = pickedCheckGuest.getPassportNumber();
+				} else {
+					passport = "";
+				}
+				
+				String arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
+				String departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+				String hotelCheck = hotelCheckChoice.getSelectionModel().getSelectedItem().getName();
+				
+				System.out.println(hotelCheck);
+				
+				if (hotelCheck.equals(DEFAULT_HOTEL_CHOICE) || hotelCheck.isEmpty() || hotelCheck == null) {
+					hotelCheck = "";
+				}
+				reservations = FXCollections.observableArrayList(dbParser.searchReservations(passport, arrival, departure, hotelCheck));
+				
+				System.out.println(reservations);
+				
+				checkResResultsTable.setItems(reservations);
+			});
+		} else if (resID.matches("[0-9]+")) {
+			
+		}
+	}
 
-    }
+	@FXML
+	void clearCheckReservation(MouseEvent event) {
+
+	}
 
 	@FXML
 	void clearCheckin(MouseEvent event) {
@@ -771,7 +808,12 @@ public class Controller {
 	}
 
 	public void displayPickedGuest(Guest guest, TextField Textfield) {
-		pickedGuest = guest;
+		if (Textfield.equals(makeReservationGuest)) {
+			pickedGuest = guest;
+		} else if (Textfield.equals(checkReservationGuest)) {
+			pickedCheckGuest = guest;
+		}
+		
 		Textfield.setText(guest.getFirstName() + " " + guest.getLastName());
 	}
 
@@ -901,6 +943,9 @@ public class Controller {
 
 			hotelChoice.setItems(hotels);
 			hotelChoice.getSelectionModel().selectFirst();
+			
+			hotelCheckChoice.setItems(hotels);
+			hotelCheckChoice.getSelectionModel().selectFirst();
 
 			initializeHotelQualities();
 			initializeHotelDiscounts();
@@ -1159,6 +1204,12 @@ public class Controller {
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
+
+		idCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id"));
+		hotelCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("hotel"));
+		roomCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNumber"));
+		arrivalCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("arrivalDate"));
+		departureCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("departureDate"));
 
 		initializeHotels();
 

@@ -54,7 +54,8 @@ public enum Queries {
 			"AND ?) " + 
 			"AND hotelName LIKE ? " + 
 			"AND quality LIKE ?"),
-	MAKE_RESERVATION("INSERT INTO Reservations (passportNumber, roomNumber, hotelName, arrivalDate, departureDate, price) VALUES(?, ?, ?, ?, ?, ?)");
+	MAKE_RESERVATION("INSERT INTO Reservations (passportNumber, roomNumber, hotelName, arrivalDate, departureDate, price) VALUES(?, ?, ?, ?, ?, ?)"),
+	SEARCH_RESERVATIONS("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND arrivalDate LIKE ? AND departureDate LIKE ? AND hotelName LIKE ?");
 	
 
 	

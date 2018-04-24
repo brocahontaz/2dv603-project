@@ -53,7 +53,7 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField fx:id="makeReservationGuest" editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="makeReservationGuest" editable="false" promptText="Guest" styleClass="first" HBox.hgrow="ALWAYS" />
                                                                 <Button fx:id="pickGuestButton" mnemonicParsing="false" onMouseClicked="#pickGuest" text="Pick Guest" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
@@ -140,7 +140,7 @@
                                                          <children>
                                                             <HBox>
                                                                <children>
-                                                                  <TextField fx:id="checkReservationGuest" editable="false" styleClass="first" HBox.hgrow="ALWAYS" />
+                                                                  <TextField fx:id="checkReservationGuest" editable="false" promptText="Guest" styleClass="first" HBox.hgrow="ALWAYS" />
                                                                   <Button fx:id="pickCheckGuestButton" mnemonicParsing="false" onMouseClicked="#pickCheckGuest" text="Pick Guest" HBox.hgrow="ALWAYS">
                                                                      <styleClass>
                                                                         <String fx:value="last" />
@@ -152,6 +152,11 @@
                                                                   </Button>
                                                                </children>
                                                             </HBox>
+                                                            <HBox>
+                                                               <children>
+                                                                  <TextField fx:id="checkReservationID" promptText="Reservation ID" HBox.hgrow="ALWAYS" />
+                                                               </children>
+                                                            </HBox>
                                                             <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
@@ -160,15 +165,10 @@
                                                                   <DatePicker fx:id="departureCheckDate" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
                                                                </children>
                                                             </HBox>
-                                                            <HBox prefHeight="50.0" />
+                                                            <HBox prefHeight="45.0" />
                                                             <HBox>
                                                                <children>
                                                                   <ComboBox fx:id="hotelCheckChoice" prefWidth="175.0" promptText="Hotel Preference" />
-                                                               </children>
-                                                            </HBox>
-                                                            <HBox>
-                                                               <children>
-                                                                  <ComboBox fx:id="roomQualityCheckChoice" prefWidth="175.0" promptText="Room Quality" />
                                                                </children>
                                                             </HBox>
                                                             <HBox layoutX="10.0" layoutY="279.0" prefHeight="100.0" prefWidth="200.0" />
@@ -234,12 +234,13 @@
                                              <content>
                                                 <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
                                                    <children>
-                                                      <TableView fx:id="searchResultTable2" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <TableView fx:id="checkResResultsTable" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <columns>
-                                                            <TableColumn fx:id="roomNumberCol" editable="false" minWidth="-1.0" prefWidth="260.0" resizable="false" text="Hotel" />
-                                                            <TableColumn fx:id="qualityCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Room" />
-                                                            <TableColumn fx:id="priceCol" editable="false" minWidth="0.0" prefWidth="260.0" resizable="false" text="Arrival" />
-                                                            <TableColumn fx:id="reservedCol" editable="false" prefWidth="260.0" resizable="false" text="Departure" />
+                                                            <TableColumn fx:id="idCol" prefWidth="160.0" resizable="false" text="ID" />
+                                                            <TableColumn fx:id="hotelCol" editable="false" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Hotel" />
+                                                            <TableColumn fx:id="roomCol" editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="Room" />
+                                                            <TableColumn fx:id="arrivalCol" editable="false" minWidth="0.0" prefWidth="230.0" resizable="false" text="Arrival" />
+                                                            <TableColumn fx:id="departureCol" editable="false" prefWidth="230.0" resizable="false" text="Departure" />
                                                          </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
