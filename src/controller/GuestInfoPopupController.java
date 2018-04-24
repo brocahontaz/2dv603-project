@@ -48,6 +48,9 @@ public class GuestInfoPopupController {
     
     @FXML
     private TableColumn<model.Reservation, String> reservationIdCol;
+    
+    @FXML
+    private TableColumn<model.Reservation, String> reservationHotelCol;
 
     @FXML
     private TableColumn<model.Reservation, String> reservationRoomCol;
@@ -124,9 +127,6 @@ public class GuestInfoPopupController {
     	guestInfoCreditCard.setText(guest.getCreditCard());
     	guestInfoPassport.setText(guest.getPassportNumber());
     	tempPassportnumber = guest.getPassportNumber();
-    	
-		reservationIdCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("id"));
-		reservationRoomCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("roomNumber"));
 		
 		executor.submit(() -> {
 				reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(tempPassportnumber));		
@@ -141,6 +141,13 @@ public class GuestInfoPopupController {
 				guestInfoTelephone.getText().isEmpty() || guestInfoCreditCard.getText().isEmpty() || guestInfoPassport.getText().isEmpty()) || 
 				guestInfoPassport.getText().isEmpty();
 		saveGuestInfoPopup.setDisable(isDisabled);
+    }
+    
+    @FXML
+	void initialize() {
+    	reservationIdCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("id"));
+    	reservationHotelCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("hotel"));
+		reservationRoomCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("roomNumber"));
     }
 }
 

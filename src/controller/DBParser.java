@@ -92,8 +92,8 @@ public class DBParser {
 	public ArrayList<Reservation> getReservationByPassport(String passportNumber) {
 
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-		String[] temp = {"%", passportNumber};
-		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATION, temp);
+		String[] temp = {passportNumber};
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATION_BY_PASSPORT, temp);
 
 		populateReservations(reservations, crsTemp);
 		return reservations;

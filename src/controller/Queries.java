@@ -22,7 +22,7 @@ public enum Queries {
 	UPDATE_GUEST("UPDATE Guests SET firstName = ?, lastName = ?, address = ?, telephoneNumber = ?, creditCard = ?, passportNumber = ? WHERE passportNumber = ?"),
 	GET_ROOMS("SELECT * FROM Rooms"),
 	SEARCH_ROOMS("SELECT * FROM Rooms WHERE roomNumber LIKE ? AND hotelName LIKE ?  AND quality LIKE ?"),
-	GET_RESERVATION("SELECT * FROM Reservations WHERE id LIKE ? AND passportNumber LIKE ?"),
+	GET_RESERVATION_BY_PASSPORT("SELECT * FROM Reservations WHERE passportNumber = ?"),
 	GET_GUEST_FROM_RESERVATION_ID("SELECT * FROM Guests WHERE passportNumber=(SELECT passportNumber FROM Reservations WHERE id = ?)"),
 	CHECK_GUEST_IN_N_OUT("UPDATE Reservations SET checkedIn = ?, checkedOut = ? WHERE id = ?"),
 	GET_GUESTS_N_RES_BY_ID("SELECT Guests.passportNumber, Guests.firstName, Guests.lastName, Guests.address, Guests.telephoneNumber, " + 
