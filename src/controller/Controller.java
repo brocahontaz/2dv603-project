@@ -542,6 +542,9 @@ public class Controller {
 	void clearCheckReservation(MouseEvent event) {
 		arrivalCheckDate.setValue(null);
 		departureCheckDate.setValue(null);
+		checkReservationGuest.clear();
+		checkReservationID.clear();
+		hotelCheckChoice.getSelectionModel().selectFirst();
 	}
 
 	@FXML
