@@ -137,6 +137,7 @@ public class ReservationPopupController {
 				@Override
 				public void run() {
 					Fx.titledPaneColorNotification(title, "success");
+					loadAvailableRooms();
 				}
 			});
 		}else {
@@ -176,12 +177,16 @@ public class ReservationPopupController {
 				&& !(hotelChoice.getName() == Controller.DEFAULT_HOTEL_CHOICE)) {
 			hotel.setText(hotelChoice.getName());
 		} else {
+			hotelChoice = new Hotel();
+			hotelChoice.setName("");
 			hotel.clear();
 		}
 		if (roomQualityChoice.getQuality() != null && roomQualityChoice.getQuality() != ""
 				&& !(roomQualityChoice.getQuality() == Controller.DEFAULT_QUALITY_CHOICE)) {
 			quality.setText(roomQualityChoice.getQuality());
 		} else {
+			roomQualityChoice = new RoomQuality();
+			roomQualityChoice.setQuality("");
 			quality.clear();
 		}
 		if (discountChoice > 0) {
@@ -199,12 +204,9 @@ public class ReservationPopupController {
 			roomResultsTable.setVisible(false);
 			progress.setVisible(true);
 			room.clear();
-			System.out.println(arrivalDate.toString().trim().replaceAll("-", ""));
-			System.out.println(departureDate.toString().trim().replaceAll("-", ""));
-			System.out.println(quality.getText());
 			rooms = FXCollections.observableArrayList(
 					dbParser.checkAvailableRoomsBetweenDates(arrivalDate.toString().trim().replaceAll("-", ""),
-							departureDate.toString().trim().replaceAll("-", ""), hotel.getText(), quality.getText()));
+							departureDate.toString().trim().replaceAll("-", ""), hotelChoice.getName(), roomQualityChoice.getQuality()));
 			roomResultsTable.setItems(rooms);
 			progress.setVisible(false);
 			roomResultsTable.setVisible(true);
