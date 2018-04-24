@@ -202,7 +202,13 @@ public class Controller {
 	private Button checkInButton;
 
 	@FXML
+	private Button clearCheckinButton;
+
+	@FXML
 	private Button checkOutButton;
+
+	@FXML
+	private Button clearCheckoutButton;
 
 	@FXML
 	private Button chooseReservationButtonCheckOut;
@@ -436,6 +442,16 @@ public class Controller {
 				});
 			}
 		});
+	}
+
+	@FXML
+	void clearCheckin(MouseEvent event) {
+
+	}
+
+	@FXML
+	void clearCheckout(MouseEvent event) {
+
 	}
 
 	/*
