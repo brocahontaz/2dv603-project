@@ -450,6 +450,7 @@ public class Controller {
 				checkInCreditCard, checkInPassportNumber, checkInArrivalDate, checkInDepartureDate, checkinHotel,
 				checkinRoom, checkinQuality);
 		checkinPrice.setText("0");
+		checkInButton.setDisable(true);
 	}
 
 	@FXML
@@ -458,6 +459,7 @@ public class Controller {
 				checkOutTelephone, checkOutCreditCard, checkOutPassportNumber, checkOutArrivalDate,
 				checkOutDepartureDate, checkoutHotel, checkoutRoom, checkoutQuality);
 		checkoutPrice.setText("0");
+		checkOutButton.setDisable(true);
 	}
 
 	/*
