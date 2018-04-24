@@ -47,9 +47,9 @@ public class PickGuestPopupController {
 
 	@FXML
 	private TableColumn<model.Guest, String> popTelephoneCol;
-	
+
 	@FXML
-    private ProgressIndicator progress;
+	private ProgressIndicator progress;
 
 	@FXML
 	void closeGuestsPopUp(MouseEvent event) {
@@ -57,8 +57,8 @@ public class PickGuestPopupController {
 	}
 
 	/**
-	 * Clear the TableView and return the result of the search. Temporarily
-	 * using firstname for testing.
+	 * Clear the TableView and return the result of the search. Temporarily using
+	 * firstname for testing.
 	 */
 	@FXML
 	void popupGuestSearch(ActionEvent event) {
@@ -67,13 +67,19 @@ public class PickGuestPopupController {
 			guestsResultTable.setVisible(false);
 			guestsResultTable.getItems().clear();
 			String searchInput = popupGuestSearch.getText();
-			
-			// If search-box input is all numeric, search by passport number, else search by first name.
-			if (searchInput.matches("^[0-9]*$")) {
+			searchInput = searchInput.trim();
+
+			// If search-box input is all numeric, search by passport number, else search by
+			// last name.
+			if (searchInput.matches("[0-9]+")) {
 				guests = FXCollections.observableArrayList(dbParser.searchGuests("", "", "", "", "", searchInput));
-			} else {				
-				guests = FXCollections.observableArrayList(dbParser.searchGuests(searchInput, "", "", "", "", ""));
-			}			
+			} else if (searchInput.contains(" ")) {
+				String[] firstAndLastName = searchInput.split(" ");
+				guests = FXCollections.observableArrayList(
+						dbParser.searchGuests(firstAndLastName[0], firstAndLastName[1], "", "", "", ""));
+			} else {
+				guests = FXCollections.observableArrayList(dbParser.searchGuests("", searchInput, "", "", "", ""));
+			}
 			guestsResultTable.setItems(guests);
 			progress.setVisible(false);
 			guestsResultTable.setVisible(true);
@@ -92,19 +98,19 @@ public class PickGuestPopupController {
 			closeGuestsPopUp(event);
 		}
 	}
-	
+
 	/**
 	 * Fire Search-button event when clicking ENTER in TextField.
 	 */
-    @FXML
-    void onEnterClick(ActionEvent event) {
-    	popupGuestSearchButton.fire();
-    }
-    
-    /**
-     * Loading all guests from database when opening the window
-     */
-    private void getAllGuestsOnPopup() {
+	@FXML
+	void onEnterClick(ActionEvent event) {
+		popupGuestSearchButton.fire();
+	}
+
+	/**
+	 * Loading all guests from database when opening the window
+	 */
+	private void getAllGuestsOnPopup() {
 		executor.submit(() -> {
 			progress.setVisible(true);
 			guestsResultTable.setVisible(false);
@@ -127,7 +133,7 @@ public class PickGuestPopupController {
 		popPassportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		popTelephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
 	}
-	
+
 	public void injectMainController(Controller controller) {
 		this.controller = controller;
 	}
