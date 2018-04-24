@@ -285,12 +285,17 @@
                                                                         <Insets right="10.0" top="8.0" />
                                                                      </padding>
                                                                   </HBox>
-                                                                  <ButtonBar prefHeight="40.0">
+                                                                  <ButtonBar prefHeight="40.0" HBox.hgrow="ALWAYS">
                                                                     <buttons>
-                                                                      <Button fx:id="checkInButton" mnemonicParsing="false" onMouseClicked="#checkInGuest" styleClass="primary" text="Check in">
+                                                                        <Button fx:id="clearCheckinButton" mnemonicParsing="false" onMouseClicked="#clearCheckin" styleClass="first" text="Clear" />
+                                                                      <Button fx:id="checkInButton" mnemonicParsing="false" onMouseClicked="#checkInGuest" text="Check in">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
+                                                                           <styleClass>
+                                                                              <String fx:value="primary" />
+                                                                              <String fx:value="last" />
+                                                                           </styleClass>
                                                                         </Button>
                                                                     </buttons>
                                                                   </ButtonBar>
@@ -384,12 +389,17 @@
                                                                         <Insets />
                                                                      </HBox.margin>
                                                                   </HBox>
-                                                                  <ButtonBar prefHeight="40.0">
+                                                                  <ButtonBar prefHeight="40.0" HBox.hgrow="ALWAYS">
                                                                      <buttons>
-                                                                        <Button fx:id="checkOutButton" mnemonicParsing="false" onMouseClicked="#checkOutGuest" styleClass="danger" text="Check out">
+                                                                        <Button fx:id="clearCheckoutButton" mnemonicParsing="false" onMouseClicked="#clearCheckout" styleClass="first" text="Clear" />
+                                                                        <Button fx:id="checkOutButton" mnemonicParsing="false" onMouseClicked="#checkOutGuest" text="Check out">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
+                                                                           <styleClass>
+                                                                              <String fx:value="danger" />
+                                                                              <String fx:value="last" />
+                                                                           </styleClass>
                                                                         </Button>
                                                                      </buttons>
                                                                   </ButtonBar>
