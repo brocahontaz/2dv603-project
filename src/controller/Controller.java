@@ -504,7 +504,7 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
-		String reservationID = checkInReservationID.getText();
+		String reservationID = checkInReservationID.getText().trim();
 		if (reservationID.matches("[0-9]+")) {
 			chooseReservationButtonCheckIn.setDisable(true);
 			checkInButton.setDisable(true);
@@ -565,7 +565,7 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
-		String reservationID = checkOutReservationID.getText();
+		String reservationID = checkOutReservationID.getText().trim();
 		if (reservationID.matches("[0-9]+")) {
 			chooseReservationButtonCheckOut.setDisable(true);
 			checkOutButton.setDisable(true);
@@ -750,9 +750,10 @@ public class Controller {
 
 			searchGuestButton.setDisable(true);
 			searchResultTable.getItems().clear();
-			guests = FXCollections.observableArrayList(dbParser.searchGuests(searchGuestFirstName.getText(),
-					searchGuestLastName.getText(), searchGuestAddress.getText(), searchGuestTelephone.getText(),
-					searchGuestCreditCard.getText(), searchGuestPassportNumber.getText()));
+			guests = FXCollections.observableArrayList(
+					dbParser.searchGuests(searchGuestFirstName.getText().trim(), searchGuestLastName.getText().trim(),
+							searchGuestAddress.getText().trim(), searchGuestTelephone.getText().trim(),
+							searchGuestCreditCard.getText().trim(), searchGuestPassportNumber.getText().trim()));
 			if (guests.size() > 0) {
 				Fx.titledPaneColorNotification(searchGuestsBox, "success");
 			} else {
@@ -775,8 +776,9 @@ public class Controller {
 	@FXML
 	void addNewGuest(MouseEvent event) {
 		executor.submit(() -> {
-			if (dbParser.addNewGuest(addGuestFirstName.getText(), addGuestLastName.getText(), addGuestAddress.getText(),
-					addGuestTelephone.getText(), addGuestCreditCard.getText(), addGuestPassport.getText()) == true) {
+			if (dbParser.addNewGuest(addGuestFirstName.getText().trim(), addGuestLastName.getText().trim(),
+					addGuestAddress.getText().trim(), addGuestTelephone.getText().trim(),
+					addGuestCreditCard.getText().trim(), addGuestPassport.getText().trim()) == true) {
 				Fx.titledPaneColorNotification(addGuestBox, "success");
 				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
 						addGuestCreditCard, addGuestPassport);
