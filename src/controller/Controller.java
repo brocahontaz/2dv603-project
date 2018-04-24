@@ -542,8 +542,32 @@ public class Controller {
 				reservationsProgress.setVisible(false);
 			});
 		} else if (resID.matches("[0-9]+")) {
-			
+			setupReservationInfoPopup(resID);
 		}
+	}
+	
+	private void setupReservationInfoPopup(String resID) {
+		System.out.print("--Setting up Reservation Info popup.. ");
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationInfoPopup.fxml"));
+			BorderPane root = (BorderPane) loader.load();
+			Scene scene = new Scene(root, 600, 600);
+			Stage reservationInfoPopup = new Stage();
+			reservationInfoPopup.initModality(Modality.APPLICATION_MODAL);
+			reservationInfoPopup.setScene(scene);
+			reservationInfoPopup.setMinHeight(650);
+			reservationInfoPopup.setMinWidth(600);
+			reservationInfoPopup.setResizable(false);
+			reservationInfoPopup.initStyle(StageStyle.UNDECORATED);
+			root.getScene().getWindow().sizeToScene();
+			reservationInfoPopup.setTitle("Reservation");
+			loader.<ReservationInfoPopupController>getController().setupReservation(resID);
+			reservationInfoPopup.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Exception from Crontroller setupGuestInfoPopup");
+		}
+		System.out.print("done!\r");
 	}
 
 	@FXML

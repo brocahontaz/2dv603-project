@@ -857,6 +857,10 @@ VBox > .split-menu-button.last > .arrow-button {
 .check-box:selected > .box > .mark {
 	-fx-background-color: linear-gradient(to bottom, #56c0e0, #40b8dc);
 }
+.check-box:disabled {
+	-fx-opacity: 1.0;
+}
+
 
 /*******************************************************************************
  *                                                                             *
