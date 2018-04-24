@@ -234,18 +234,23 @@
                                              <content>
                                                 <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
                                                    <children>
-                                                      <TableView fx:id="checkResResultsTable" layoutX="14.0" layoutY="14.0" prefHeight="540.0" prefWidth="1050.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                         <columns>
-                                                            <TableColumn fx:id="idCol" prefWidth="160.0" resizable="false" text="ID" />
-                                                            <TableColumn fx:id="hotelCol" editable="false" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Hotel" />
-                                                            <TableColumn fx:id="roomCol" editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="Room" />
-                                                            <TableColumn fx:id="arrivalCol" editable="false" minWidth="0.0" prefWidth="230.0" resizable="false" text="Arrival" />
-                                                            <TableColumn fx:id="departureCol" editable="false" prefWidth="230.0" resizable="false" text="Departure" />
-                                                         </columns>
-                                                         <columnResizePolicy>
-                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                         </columnResizePolicy>
-                                                      </TableView>
+                                                      <StackPane layoutX="9.600000381469727" layoutY="9.600000381469727" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <children>
+                                                            <TableView fx:id="checkResResultsTable" prefHeight="540.0" prefWidth="1050.0">
+                                                               <columns>
+                                                                  <TableColumn fx:id="idCol" prefWidth="160.0" resizable="false" text="ID" />
+                                                                  <TableColumn fx:id="hotelCol" editable="false" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Hotel" />
+                                                                  <TableColumn fx:id="roomCol" editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="Room" />
+                                                                  <TableColumn fx:id="arrivalCol" editable="false" minWidth="0.0" prefWidth="230.0" resizable="false" text="Arrival" />
+                                                                  <TableColumn fx:id="departureCol" editable="false" prefWidth="230.0" resizable="false" text="Departure" />
+                                                               </columns>
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                            </TableView>
+                                                            <ProgressIndicator fx:id="reservationsProgress" visible="false" />
+                                                         </children>
+                                                      </StackPane>
                                                    </children>
                                                 </AnchorPane>
                                              </content>

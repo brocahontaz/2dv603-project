@@ -275,6 +275,9 @@ public class Controller {
 
 	@FXML
 	private ProgressIndicator checkoutProgress;
+	
+	@FXML
+	private ProgressIndicator reservationsProgress;
 
 	/**
 	 * DATE PICKERS
@@ -481,43 +484,64 @@ public class Controller {
 	@FXML
 	void checkReservation(MouseEvent event) {
 		String resID = checkReservationID.getText().trim();
-		
+
 		if (resID.isEmpty() || resID == null) {
-			
-			System.out.println("test");
+
 			executor.submit(() -> {
-				System.out.println("test2");
+
+				checkResResultsTable.getItems().clear();
+				checkResResultsTable.setVisible(false);
+				reservationsProgress.setVisible(true);
 				String passport;
-				
+				String arrival;
+				String departure;
+
 				if (pickedCheckGuest != null) {
 					passport = pickedCheckGuest.getPassportNumber();
 				} else {
 					passport = "";
 				}
-				
-				String arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-				String departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+
 				String hotelCheck = hotelCheckChoice.getSelectionModel().getSelectedItem().getName();
-				
-				System.out.println(hotelCheck);
-				
+
 				if (hotelCheck.equals(DEFAULT_HOTEL_CHOICE) || hotelCheck.isEmpty() || hotelCheck == null) {
 					hotelCheck = "";
 				}
-				reservations = FXCollections.observableArrayList(dbParser.searchReservations(passport, arrival, departure, hotelCheck));
-				
+
+				if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
+					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
+					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+					reservations = FXCollections.observableArrayList(
+							dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
+				} else if (arrivalCheckDate.getValue() != null) {
+					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
+					reservations = FXCollections.observableArrayList(
+							dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
+				} else if (departureCheckDate.getValue() != null) {
+					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+					reservations = FXCollections.observableArrayList(
+							dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
+				} else {
+					reservations = FXCollections
+							.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
+				}
+
 				System.out.println(reservations);
-				
+
 				checkResResultsTable.setItems(reservations);
+				
+				checkResResultsTable.setVisible(true);
+				reservationsProgress.setVisible(false);
 			});
 		} else if (resID.matches("[0-9]+")) {
-			
+
 		}
 	}
 
 	@FXML
 	void clearCheckReservation(MouseEvent event) {
-
+		arrivalCheckDate.setValue(null);
+		departureCheckDate.setValue(null);
 	}
 
 	@FXML
@@ -813,7 +837,7 @@ public class Controller {
 		} else if (Textfield.equals(checkReservationGuest)) {
 			pickedCheckGuest = guest;
 		}
-		
+
 		Textfield.setText(guest.getFirstName() + " " + guest.getLastName());
 	}
 
@@ -943,7 +967,7 @@ public class Controller {
 
 			hotelChoice.setItems(hotels);
 			hotelChoice.getSelectionModel().selectFirst();
-			
+
 			hotelCheckChoice.setItems(hotels);
 			hotelCheckChoice.getSelectionModel().selectFirst();
 

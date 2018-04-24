@@ -46,30 +46,72 @@ public class DBParser {
 
 	}
 
-	public ArrayList<Reservation> searchReservations(String passportNumber, String arrivalDate, String departureDate,
-			String hotelName) {
-		
-		System.out.println(hotelName);
-		
+	public ArrayList<Reservation> searchReservationsWithDates(String passportNumber, String arrivalDate,
+			String departureDate, String hotelName) {
+
 		ArrayList<Reservation> data = new ArrayList<Reservation>();
-		
+
 		if (passportNumber.isEmpty() || passportNumber == null) {
 			passportNumber = "%";
-		}
-		if (arrivalDate.isEmpty() || arrivalDate == null) {
-			arrivalDate = "%";
-		}
-		if (departureDate.isEmpty() || departureDate == null) {
-			departureDate = "%";
 		}
 		if (hotelName.isEmpty() || hotelName == null) {
 			hotelName = "%";
 		}
 
 		String[] temp = { passportNumber, arrivalDate, departureDate, hotelName };
-		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS, temp);
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_DATES, temp);
 		populateReservations(data, crsTemp);
-		System.out.println(data);
+		return data;
+	}
+	
+	public ArrayList<Reservation> searchReservationsWithArrivalDate(String passportNumber, String arrivalDate, String hotelName) {
+
+		ArrayList<Reservation> data = new ArrayList<Reservation>();
+
+		if (passportNumber.isEmpty() || passportNumber == null) {
+			passportNumber = "%";
+		}
+		if (hotelName.isEmpty() || hotelName == null) {
+			hotelName = "%";
+		}
+
+		String[] temp = { passportNumber, arrivalDate, hotelName };
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_ARRIVAL, temp);
+		populateReservations(data, crsTemp);
+		return data;
+	}
+	
+	public ArrayList<Reservation> searchReservationsWithDepartureDate(String passportNumber, String departureDate, String hotelName) {
+
+		ArrayList<Reservation> data = new ArrayList<Reservation>();
+
+		if (passportNumber.isEmpty() || passportNumber == null) {
+			passportNumber = "%";
+		}
+		if (hotelName.isEmpty() || hotelName == null) {
+			hotelName = "%";
+		}
+
+		String[] temp = { passportNumber, departureDate, hotelName };
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_DEPARTURE, temp);
+		populateReservations(data, crsTemp);
+		return data;
+	}
+
+	public ArrayList<Reservation> searchReservationsWithoutDates(String passportNumber, String hotelName) {
+
+		ArrayList<Reservation> data = new ArrayList<Reservation>();
+
+		if (passportNumber.isEmpty() || passportNumber == null) {
+			passportNumber = "%";
+		}
+		if (hotelName.isEmpty() || hotelName == null) {
+			hotelName = "%";
+		}
+
+		String[] temp = { passportNumber, hotelName };
+		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_NO_DATES, temp);
+		populateReservations(data, crsTemp);
 		return data;
 	}
 
