@@ -105,15 +105,19 @@
                                                             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button fx:id="clearReservationButton" mnemonicParsing="false" onMouseClicked="#clearReservation" text="Clear">
+                                                                  <Button fx:id="clearReservationButton" mnemonicParsing="false" onMouseClicked="#clearReservation" styleClass="first" text="Clear">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
                                                                   </Button>
-                                                                  <Button fx:id="makeReservationButton" mnemonicParsing="false" onMouseClicked="#makeReservation" styleClass="primary" text="Make Reservation">
+                                                                  <Button fx:id="makeReservationButton" mnemonicParsing="false" onMouseClicked="#makeReservation" text="Make Reservation">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
+                                                                     <styleClass>
+                                                                        <String fx:value="primary" />
+                                                                        <String fx:value="last" />
+                                                                     </styleClass>
                                                                   </Button>
                                                                </buttons>
                                                             </ButtonBar>
@@ -257,6 +261,11 @@
                                                                <children>
                                                                   <HBox alignment="TOP_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                                                      <children>
+                                                                        <HBox HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <ProgressIndicator fx:id="checkinProgress" prefHeight="30.0" prefWidth="30.0" visible="false" />
+                                                                           </children>
+                                                                        </HBox>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                                                                            <font>
                                                                               <Font name="System Bold" size="18.0" />
@@ -348,6 +357,11 @@
                                                                <children>
                                                                   <HBox alignment="TOP_RIGHT" spacing="5.0" HBox.hgrow="ALWAYS">
                                                                      <children>
+                                                                        <HBox HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <ProgressIndicator fx:id="checkoutProgress" prefHeight="30.0" prefWidth="30.0" visible="false" />
+                                                                           </children>
+                                                                        </HBox>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                                                                            <font>
                                                                               <Font name="System Bold" size="18.0" />

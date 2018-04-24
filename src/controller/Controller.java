@@ -264,6 +264,12 @@ public class Controller {
 	@FXML
 	private ProgressIndicator dbLoad;
 
+	@FXML
+	private ProgressIndicator checkinProgress;
+
+	@FXML
+	private ProgressIndicator checkoutProgress;
+
 	/**
 	 * DATE PICKERS
 	 */
@@ -320,30 +326,30 @@ public class Controller {
 
 	@FXML
 	private MenuItem closeSystem;
-	
+
 	@FXML
-    private TextField checkinHotel;
+	private TextField checkinHotel;
 
-    @FXML
-    private TextField checkinQuality;
+	@FXML
+	private TextField checkinQuality;
 
-    @FXML
-    private TextField checkinRoom;
+	@FXML
+	private TextField checkinRoom;
 
-    @FXML
-    private Text checkinPrice;
-    
-    @FXML
-    private TextField checkoutHotel;
+	@FXML
+	private Text checkinPrice;
 
-    @FXML
-    private TextField checkoutQuality;
+	@FXML
+	private TextField checkoutHotel;
 
-    @FXML
-    private TextField checkoutRoom;
+	@FXML
+	private TextField checkoutQuality;
 
-    @FXML
-    private Text checkoutPrice;
+	@FXML
+	private TextField checkoutRoom;
+
+	@FXML
+	private Text checkoutPrice;
 
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
@@ -383,7 +389,7 @@ public class Controller {
 						}
 					});
 				}
-			} else {				
+			} else {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
@@ -474,11 +480,14 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
-		chooseReservationButtonCheckIn.setDisable(true);
-		checkInButton.setDisable(true);
 		String reservationID = checkInReservationID.getText();
-		executor.submit(() -> {
-			if (reservationID.matches("^[0-9]*$")) {
+		if (reservationID.matches("[0-9]+")) {
+			chooseReservationButtonCheckIn.setDisable(true);
+			checkInButton.setDisable(true);
+
+			executor.submit(() -> {
+				checkinProgress.setVisible(true);
+
 				ObservableList<Object> data = FXCollections
 						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
 				// Running element manipulation on fx-thread
@@ -486,7 +495,8 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn, "success", 1);
+							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
+									"success", 1);
 						}
 					});
 
@@ -494,11 +504,12 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn, "danger");
+							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
+									"danger");
 						}
 					});
 				}
-
+				checkinProgress.setVisible(false);
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				Room room = (Room) data.get(2);
@@ -514,13 +525,13 @@ public class Controller {
 				checkinRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkinQuality.setText(room.getQuality());
 				checkinPrice.setText(Integer.toString(reservation.getPrice()));
-				
-				if(reservation.getCheckedIn() == false) {
+
+				if (reservation.getCheckedIn() == false) {
 					checkInButton.setDisable(false);
 				}
-				
-			}
-		});
+
+			});
+		}
 	}
 
 	/**
@@ -530,11 +541,12 @@ public class Controller {
 	 */
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
-		chooseReservationButtonCheckOut.setDisable(true);
-		checkOutButton.setDisable(true);
 		String reservationID = checkOutReservationID.getText();
-		executor.submit(() -> {
-			if (reservationID.matches("^[0-9]*$")) {
+		if (reservationID.matches("[0-9]+")) {
+			chooseReservationButtonCheckOut.setDisable(true);
+			checkOutButton.setDisable(true);
+			executor.submit(() -> {
+				checkoutProgress.setVisible(true);
 				ObservableList<Object> data = FXCollections
 						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
 				// Running element manipulation on fx-thread
@@ -542,7 +554,8 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut, "success", 1);
+							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
+									"success", 1);
 						}
 					});
 
@@ -550,11 +563,13 @@ public class Controller {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut, "danger");
+							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
+									"danger");
 						}
 					});
 				}
 
+				checkoutProgress.setVisible(false);
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				Room room = (Room) data.get(2);
@@ -571,12 +586,12 @@ public class Controller {
 				checkoutQuality.setText(room.getQuality());
 				checkoutPrice.setText(Integer.toString(reservation.getPrice()));
 
-				if(reservation.getCheckedIn() == true) {
+				if (reservation.getCheckedIn() == true) {
 					checkOutButton.setDisable(false);
 				}
-				
-			}
-		});
+
+			});
+		}
 	}
 
 	/**
@@ -755,11 +770,11 @@ public class Controller {
 	@FXML
 	void keyReleasedProperty(KeyEvent event) {
 
-		/*if (arrivalDate.getValue() == null && departureDate.getValue() == null) {
-			makeReservationButton.setDisable(true);
-		} else {
-			makeReservationButton.setDisable(false);
-		}*/
+		/*
+		 * if (arrivalDate.getValue() == null && departureDate.getValue() == null) {
+		 * makeReservationButton.setDisable(true); } else {
+		 * makeReservationButton.setDisable(false); }
+		 */
 
 		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
 				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
@@ -1086,7 +1101,7 @@ public class Controller {
 		addGuestButton.setDisable(true);
 		checkInButton.setDisable(true);
 		checkOutButton.setDisable(true);
-		//makeReservationButton.setDisable(true);
+		// makeReservationButton.setDisable(true);
 
 		System.out.println("#Popups done!");
 
