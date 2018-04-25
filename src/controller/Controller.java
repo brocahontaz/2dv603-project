@@ -608,6 +608,14 @@ public class Controller {
 			setupGuestInfoPopup(guest);
 		}
 	}
+	
+	@FXML
+    void getReservationInfo(MouseEvent event) {
+		if (event.getClickCount() == 2) {
+			String id = checkResResultsTable.getSelectionModel().getSelectedItem().getId() + "";
+			setupReservationInfoPopup(id);
+		}
+    }
 
 	private void setupGuestInfoPopup(Guest guest) {
 		System.out.print("--Setting up Guest Info popup.. ");

@@ -149,6 +149,14 @@ public class DBParser {
 
 		return this.executeUpdate(Queries.MAKE_RESERVATION, temp);
 	}
+	
+	public boolean cancelReservation(String id) {
+
+		String[] temp = { id };
+
+		return this.executeUpdate(Queries.CANCEL_RESERVATION, temp);
+	}
+
 
 	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
 

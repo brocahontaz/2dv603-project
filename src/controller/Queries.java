@@ -58,7 +58,8 @@ public enum Queries {
 	SEARCH_RESERVATIONS_NO_DATES("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND hotelName LIKE ?"),
 	SEARCH_RESERVATIONS_DATES("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND arrivalDate = ? AND departureDate = ? AND hotelName LIKE ?"),
 	SEARCH_RESERVATIONS_ARRIVAL("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND arrivalDate = ? AND hotelName LIKE ?"),
-	SEARCH_RESERVATIONS_DEPARTURE("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND departureDate = ? AND hotelName LIKE ?");
+	SEARCH_RESERVATIONS_DEPARTURE("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND departureDate = ? AND hotelName LIKE ?"),
+	CANCEL_RESERVATION("DELETE FROM Reservations WHERE id = ?");
 	
 
 	

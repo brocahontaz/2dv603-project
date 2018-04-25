@@ -236,7 +236,7 @@
                                                    <children>
                                                       <StackPane layoutX="9.600000381469727" layoutY="9.600000381469727" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TableView fx:id="checkResResultsTable" prefHeight="540.0" prefWidth="1050.0">
+                                                            <TableView fx:id="checkResResultsTable" onMouseClicked="#getReservationInfo" prefHeight="540.0" prefWidth="1050.0">
                                                                <columns>
                                                                   <TableColumn fx:id="idCol" prefWidth="160.0" resizable="false" text="ID" />
                                                                   <TableColumn fx:id="hotelCol" editable="false" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Hotel" />

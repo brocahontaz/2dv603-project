@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -17,7 +18,7 @@ import model.Reservation;
 import model.Room;
 
 public class ReservationInfoPopupController {
-	
+
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private DBParser dbParser = new DBParser();
 
@@ -69,20 +70,27 @@ public class ReservationInfoPopupController {
 	@FXML
 	private Button close;
 
-	private String id;
+	@FXML
+	private ProgressIndicator progress;
 	
+	@FXML
+    private Button cancelReservationButton;
+
+	private String id;
+
 	public void setupReservation(String id) {
 		this.id = id;
-		
+
 		reservationID.setText(id);
-		
+
 		executor.submit(() -> {
-			ObservableList<Object> data = FXCollections
-					.observableArrayList(dbParser.getGuestAndReservationById(id));
+			progress.setVisible(true);
+			ObservableList<Object> data = FXCollections.observableArrayList(dbParser.getGuestAndReservationById(id));
+			progress.setVisible(false);
 			Guest guest = (Guest) data.get(0);
 			Reservation reservation = (Reservation) data.get(1);
 			Room resRoom = (Room) data.get(2);
-			
+
 			arrivalDate.setText(reservation.getArrivalDate() + "");
 			departureDate.setText(reservation.getDepartureDate() + "");
 			hotel.setText(reservation.getHotel());
@@ -97,17 +105,27 @@ public class ReservationInfoPopupController {
 			price.setText(reservation.getPrice() + "");
 			if (reservation.getCheckedIn()) {
 				checkedIN.setSelected(true);
+				cancelReservationButton.setDisable(true);
 			}
 			if (reservation.getCheckedOut()) {
 				checkedOUT.setSelected(true);
+				cancelReservationButton.setDisable(true);
 			}
-			
+
 		});
 	}
 
 	@FXML
 	void cancelReservation(MouseEvent event) {
-		
+
+		if (!checkedIN.isSelected() && !checkedOUT.isSelected()) {
+			if (dbParser.cancelReservation(id)) {
+				executor.submit(() -> {
+					((Node) (event.getSource())).getScene().getWindow().hide();
+				});
+			}
+		}
+
 	}
 
 	@FXML
