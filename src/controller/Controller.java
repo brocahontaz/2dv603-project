@@ -551,11 +551,11 @@ public class Controller {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationInfoPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 600, 600);
+			Scene scene = new Scene(root);
 			Stage reservationInfoPopup = new Stage();
 			reservationInfoPopup.initModality(Modality.APPLICATION_MODAL);
 			reservationInfoPopup.setScene(scene);
-			reservationInfoPopup.setMinHeight(650);
+			reservationInfoPopup.setMinHeight(600);
 			reservationInfoPopup.setMinWidth(600);
 			reservationInfoPopup.setResizable(false);
 			reservationInfoPopup.initStyle(StageStyle.UNDECORATED);
@@ -565,7 +565,7 @@ public class Controller {
 			reservationInfoPopup.show();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupGuestInfoPopup");
+			System.out.println("Exception from Crontroller setupReservationInfoPopup");
 		}
 		System.out.print("done!\r");
 	}
@@ -656,8 +656,7 @@ public class Controller {
 			executor.submit(() -> {
 				checkinProgress.setVisible(true);
 
-				ObservableList<Object> data = FXCollections
-						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
+				ArrayList<Object> data = dbParser.getGuestAndReservationById(reservationID);
 				// Running element manipulation on fx-thread
 				if (data.size() > 0) {
 					Platform.runLater(new Runnable() {
