@@ -275,7 +275,7 @@ public class Controller {
 
 	@FXML
 	private ProgressIndicator checkoutProgress;
-	
+
 	@FXML
 	private ProgressIndicator reservationsProgress;
 
@@ -509,35 +509,35 @@ public class Controller {
 				}
 
 				if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
-					
+
 					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
-					
+
 				} else if (arrivalCheckDate.getValue() != null) {
-					
+
 					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
-					
+
 				} else if (departureCheckDate.getValue() != null) {
-					
+
 					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 					reservations = FXCollections.observableArrayList(
 							dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
-					
+
 				} else {
-					
+
 					reservations = FXCollections
 							.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
-					
+
 				}
 
 				System.out.println(reservations);
 
 				checkResResultsTable.setItems(reservations);
-				
+
 				checkResResultsTable.setVisible(true);
 				reservationsProgress.setVisible(false);
 			});
@@ -545,7 +545,7 @@ public class Controller {
 			setupReservationInfoPopup(resID);
 		}
 	}
-	
+
 	private void setupReservationInfoPopup(String resID) {
 		System.out.print("--Setting up Reservation Info popup.. ");
 		try {
@@ -559,10 +559,16 @@ public class Controller {
 			reservationInfoPopup.setMinWidth(600);
 			reservationInfoPopup.setResizable(false);
 			reservationInfoPopup.initStyle(StageStyle.UNDECORATED);
-			root.getScene().getWindow().sizeToScene();
-			reservationInfoPopup.setTitle("Reservation");
+			// root.getScene().getWindow().sizeToScene();
+			// reservationInfoPopup.setTitle("Reservation");
 			reservationInfoPopup.show();
-			loader.<ReservationInfoPopupController>getController().setupReservation(resID);
+			executor.submit(() -> {
+				loader.<ReservationInfoPopupController>getController().showLoader(true);
+				ArrayList<Object> data = dbParser.getGuestAndReservationById(resID.trim());
+				loader.<ReservationInfoPopupController>getController().setupReservation((Guest) data.get(0), (Reservation) data.get(1), (Room) data.get(2));
+				loader.<ReservationInfoPopupController>getController().showLoader(false);
+			});
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupReservationInfoPopup");
@@ -608,14 +614,14 @@ public class Controller {
 			setupGuestInfoPopup(guest);
 		}
 	}
-	
+
 	@FXML
-    void getReservationInfo(MouseEvent event) {
+	void getReservationInfo(MouseEvent event) {
 		if (event.getClickCount() == 2) {
 			String id = checkResResultsTable.getSelectionModel().getSelectedItem().getId() + "";
 			setupReservationInfoPopup(id);
 		}
-    }
+	}
 
 	private void setupGuestInfoPopup(Guest guest) {
 		System.out.print("--Setting up Guest Info popup.. ");
