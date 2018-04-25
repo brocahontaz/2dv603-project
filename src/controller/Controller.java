@@ -562,12 +562,11 @@ public class Controller {
 			// root.getScene().getWindow().sizeToScene();
 			// reservationInfoPopup.setTitle("Reservation");
 			reservationInfoPopup.show();
-			executor.submit(() -> {
-				loader.<ReservationInfoPopupController>getController().showLoader(true);
-				ArrayList<Object> data = dbParser.getGuestAndReservationById(resID.trim());
-				loader.<ReservationInfoPopupController>getController().setupReservation((Guest) data.get(0), (Reservation) data.get(1), (Room) data.get(2));
-				loader.<ReservationInfoPopupController>getController().showLoader(false);
-			});
+				//loader.<ReservationInfoPopupController>getController().showLoader(true);
+				//ArrayList<Object> data = dbParser.getGuestAndReservationById(resID.trim());
+				loader.<ReservationInfoPopupController>getController().setupReservation(resID);
+				//loader.<ReservationInfoPopupController>getController().showLoader(false);
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();

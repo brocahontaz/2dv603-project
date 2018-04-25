@@ -91,7 +91,7 @@ public class ReservationInfoPopupController {
 
 	private String id;
 	
-	public void setupReservation(Guest guest, Reservation reservation, Room resRoom) {
+	/*public void setupReservation(Guest guest, Reservation reservation, Room resRoom) {
 		firstname.setText(guest.getFirstName());
 		lastname.setText(guest.getLastName());
 		passport.setText(guest.getPassportNumber());
@@ -130,14 +130,13 @@ public class ReservationInfoPopupController {
 	
 	public void showLoader(boolean load) {
 		progress.setVisible(load);
-	}
+	}*/
 
 	public void setupReservation(String id) {
 		this.id = id;
-
 		executor.submit(() -> {
 			System.out.println("hej???");
-			//progress.setVisible(true);
+			progress.setVisible(true);
 			ArrayList<Object> data = dbParser.getGuestAndReservationById(id.trim());
 
 			Guest guest = (Guest) data.get(0);
@@ -147,22 +146,26 @@ public class ReservationInfoPopupController {
 			System.out.println(guest);
 			System.out.println(reservation);
 			System.out.println(resRoom);
-			
-			firstname.setText(guest.getFirstName());
-			lastname.setText(guest.getLastName());
-			passport.setText(guest.getPassportNumber());
-			address.setText(guest.getAddress());
-			telephone.setText(guest.getTelephoneNumber());
-			creditcard.setText(guest.getCreditCard());
-			
-			reservationID.setText(Integer.toString(reservation.getId()));
-			arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
-			departureDate.setText(Integer.toString(reservation.getDepartureDate()));
-			hotel.setText(reservation.getHotel());
-			room.setText(Integer.toString(reservation.getRoomNumber()));
-			price.setText(Integer.toString(reservation.getPrice()));
-			
-			quality.setText(resRoom.getQuality());
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					firstname.setText(guest.getFirstName());
+					lastname.setText(guest.getLastName());
+					passport.setText(guest.getPassportNumber());
+					address.setText(guest.getAddress());
+					telephone.setText(guest.getTelephoneNumber());
+					creditcard.setText(guest.getCreditCard());
+					
+					reservationID.setText(Integer.toString(reservation.getId()));
+					arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
+					departureDate.setText(Integer.toString(reservation.getDepartureDate()));
+					hotel.setText(reservation.getHotel());
+					room.setText(Integer.toString(reservation.getRoomNumber()));
+					price.setText(Integer.toString(reservation.getPrice()));
+					
+					quality.setText(resRoom.getQuality());
+				}
+			});
 			/*
 			 * arrivalDate.setText("TEST"); departureDate.setText("TEST");
 			 * hotel.setText("TEST"); quality.setText("TEST"); room.setText("TEST");
@@ -173,25 +176,15 @@ public class ReservationInfoPopupController {
 
 			
 			if (reservation.getCheckedIn()) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
 						checkedIN.setSelected(true);
 						cancelReservationButton.setDisable(true);
-					}
-				});
+
 			}
 			if (reservation.getCheckedOut()) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
 						checkedOUT.setSelected(true);
 						cancelReservationButton.setDisable(true);
-					}
-				});
 			}
-			
-			//progress.setVisible(false);
+			progress.setVisible(false);
 		});
 	}
 
