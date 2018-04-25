@@ -555,14 +555,14 @@ public class Controller {
 			Stage reservationInfoPopup = new Stage();
 			reservationInfoPopup.initModality(Modality.APPLICATION_MODAL);
 			reservationInfoPopup.setScene(scene);
-			reservationInfoPopup.setMinHeight(600);
+			reservationInfoPopup.setMinHeight(650);
 			reservationInfoPopup.setMinWidth(600);
 			reservationInfoPopup.setResizable(false);
 			reservationInfoPopup.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
 			reservationInfoPopup.setTitle("Reservation");
-			loader.<ReservationInfoPopupController>getController().setupReservation(resID);
 			reservationInfoPopup.show();
+			loader.<ReservationInfoPopupController>getController().setupReservation(resID);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupReservationInfoPopup");

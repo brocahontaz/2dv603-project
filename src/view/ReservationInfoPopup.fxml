@@ -17,7 +17,7 @@
 
 <BorderPane maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationInfoPopupController">
    <center>
-      <TitledPane fx:id="reservationTitle" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="450.0" maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" styleClass="primary" text="Reservation" BorderPane.alignment="CENTER">
+      <TitledPane fx:id="reservationTitle" alignment="CENTER" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="450.0" maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" styleClass="primary" stylesheets="@bootstrap3.css" text="Reservation" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane>
                <children>
