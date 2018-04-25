@@ -486,64 +486,85 @@ public class Controller {
 		String resID = checkReservationID.getText().trim();
 
 		if (resID.isEmpty() || resID == null) {
-
-			executor.submit(() -> {
-
-				checkResResultsTable.getItems().clear();
-				checkResResultsTable.setVisible(false);
-				reservationsProgress.setVisible(true);
-				String passport;
-				String arrival;
-				String departure;
-
-				if (pickedCheckGuest != null) {
-					passport = pickedCheckGuest.getPassportNumber();
-				} else {
-					passport = "";
-				}
-
-				String hotelCheck = hotelCheckChoice.getSelectionModel().getSelectedItem().getName();
-
-				if (hotelCheck.equals(DEFAULT_HOTEL_CHOICE) || hotelCheck.isEmpty() || hotelCheck == null) {
-					hotelCheck = "";
-				}
-
-				if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
-
-					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
-					reservations = FXCollections.observableArrayList(
-							dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
-
-				} else if (arrivalCheckDate.getValue() != null) {
-
-					arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-					reservations = FXCollections.observableArrayList(
-							dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
-
-				} else if (departureCheckDate.getValue() != null) {
-
-					departure = departureCheckDate.getValue().toString().replaceAll("-", "");
-					reservations = FXCollections.observableArrayList(
-							dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
-
-				} else {
-
-					reservations = FXCollections
-							.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
-
-				}
-
-				System.out.println(reservations);
-
-				checkResResultsTable.setItems(reservations);
-
-				checkResResultsTable.setVisible(true);
-				reservationsProgress.setVisible(false);
-			});
+			
+			checkReservation();
+			
 		} else if (resID.matches("[0-9]+")) {
 			setupReservationInfoPopup(resID);
 		}
+	}
+
+	private void checkReservation() {
+		executor.submit(() -> {
+
+			checkResResultsTable.getItems().clear();
+			checkResResultsTable.setVisible(false);
+			reservationsProgress.setVisible(true);
+			String passport;
+			String arrival;
+			String departure;
+
+			if (pickedCheckGuest != null) {
+				passport = pickedCheckGuest.getPassportNumber();
+			} else {
+				passport = "";
+			}
+
+			String hotelCheck = hotelCheckChoice.getSelectionModel().getSelectedItem().getName();
+
+			if (hotelCheck.equals(DEFAULT_HOTEL_CHOICE) || hotelCheck.isEmpty() || hotelCheck == null) {
+				hotelCheck = "";
+			}
+
+			if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
+
+				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
+				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+				reservations = FXCollections.observableArrayList(
+						dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
+
+			} else if (arrivalCheckDate.getValue() != null) {
+
+				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
+				reservations = FXCollections.observableArrayList(
+						dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
+
+			} else if (departureCheckDate.getValue() != null) {
+
+				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+				reservations = FXCollections.observableArrayList(
+						dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
+
+			} else {
+
+				reservations = FXCollections
+						.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
+
+			}
+
+			System.out.println(reservations);
+
+			checkResResultsTable.setItems(reservations);
+
+			checkResResultsTable.setVisible(true);
+			reservationsProgress.setVisible(false);
+		});
+	}
+	
+	public void reloadReservationTable() {
+		checkReservation();
+	}
+	
+	public void removeElementFromReservationTable(String id) {
+
+		int tempId = Integer.parseInt(id);
+
+		List<Reservation> tempList = reservations.stream().filter(res -> res.getId() == tempId)
+				.collect(Collectors.toList());
+
+		Reservation tempRes = tempList.get(0);
+
+		reservations.remove(reservations.indexOf(tempRes));
 	}
 
 	private void setupReservationInfoPopup(String resID) {
@@ -559,15 +580,12 @@ public class Controller {
 			reservationInfoPopup.setMinWidth(600);
 			reservationInfoPopup.setResizable(false);
 			reservationInfoPopup.initStyle(StageStyle.UNDECORATED);
-			// root.getScene().getWindow().sizeToScene();
-			// reservationInfoPopup.setTitle("Reservation");
+			root.getScene().getWindow().sizeToScene();
+			reservationInfoPopup.setTitle("Reservation");
 			reservationInfoPopup.show();
-				//loader.<ReservationInfoPopupController>getController().showLoader(true);
-				//ArrayList<Object> data = dbParser.getGuestAndReservationById(resID.trim());
-				loader.<ReservationInfoPopupController>getController().setupReservation(resID);
-				//loader.<ReservationInfoPopupController>getController().showLoader(false);
+			loader.<ReservationInfoPopupController>getController().injectMainController(this);
+			loader.<ReservationInfoPopupController>getController().setupReservation(resID);
 
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Exception from Crontroller setupReservationInfoPopup");

@@ -17,7 +17,7 @@
 
 <BorderPane maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReservationInfoPopupController">
    <center>
-      <TitledPane fx:id="reservationTitle" alignment="CENTER" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="450.0" maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" stylesheets="@bootstrap3.css" text="Reservation" BorderPane.alignment="CENTER">
+      <TitledPane fx:id="reservationTitle" alignment="CENTER" animated="false" collapsible="false" contentDisplay="RIGHT" graphicTextGap="450.0" maxHeight="650.0" maxWidth="600.0" minHeight="600.0" minWidth="600.0" prefHeight="650.0" prefWidth="600.0" styleClass="primary" stylesheets="@bootstrap3.css" text="Reservation" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane>
                <children>
@@ -81,8 +81,14 @@
                               <HBox prefHeight="10.0" />
                               <HBox prefHeight="40.0" spacing="100.0">
                                  <children>
-                                    <CheckBox fx:id="checkedIN" disable="true" mnemonicParsing="false" text="Checked In" />
-                                    <CheckBox fx:id="checkedOUT" disable="true" mnemonicParsing="false" text="Checked Out" />
+                                    <CheckBox fx:id="checkedIN" disable="true" mnemonicParsing="false" text="Checked In">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></CheckBox>
+                                    <CheckBox fx:id="checkedOUT" disable="true" mnemonicParsing="false" text="Checked Out">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></CheckBox>
                                  </children>
                                  <padding>
                                     <Insets left="20.0" />
@@ -94,7 +100,7 @@
                                     <ProgressIndicator fx:id="progress" maxHeight="35.0" maxWidth="35.0" visible="false" />
                                     <ButtonBar prefWidth="200.0" HBox.hgrow="ALWAYS">
                                       <buttons>
-                                        <Button fx:id="cancelReservationButton" mnemonicParsing="false" onMouseClicked="#cancelReservation" styleClass="danger" text="Cancel Reservation">
+                                        <Button fx:id="cancelReservationButton" disable="true" mnemonicParsing="false" onMouseClicked="#cancelReservation" styleClass="danger" text="Cancel Reservation">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>

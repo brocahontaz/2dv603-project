@@ -27,11 +27,11 @@ public class ReservationInfoPopupController {
 	private DBParser dbParser = new DBParser();
 
 	@FXML
-    private ResourceBundle resources;
+	private ResourceBundle resources;
 
-    @FXML
-    private URL location;
-	
+	@FXML
+	private URL location;
+
 	@FXML
 	private TextField reservationID;
 
@@ -90,52 +90,15 @@ public class ReservationInfoPopupController {
 	private TitledPane reservationTitle;
 
 	private String id;
+	private Controller controller;
 	
-	/*public void setupReservation(Guest guest, Reservation reservation, Room resRoom) {
-		firstname.setText(guest.getFirstName());
-		lastname.setText(guest.getLastName());
-		passport.setText(guest.getPassportNumber());
-		address.setText(guest.getAddress());
-		telephone.setText(guest.getTelephoneNumber());
-		creditcard.setText(guest.getCreditCard());
-		
-		reservationID.setText(Integer.toString(reservation.getId()));
-		arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
-		departureDate.setText(Integer.toString(reservation.getDepartureDate()));
-		hotel.setText(reservation.getHotel());
-		room.setText(Integer.toString(reservation.getRoomNumber()));
-		price.setText(Integer.toString(reservation.getPrice()));
-		
-		quality.setText(resRoom.getQuality());
-		
-		if (reservation.getCheckedIn()) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					checkedIN.setSelected(true);
-					cancelReservationButton.setDisable(true);
-				}
-			});
-		}
-		if (reservation.getCheckedOut()) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					checkedOUT.setSelected(true);
-					cancelReservationButton.setDisable(true);
-				}
-			});
-		}
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
 	}
-	
-	public void showLoader(boolean load) {
-		progress.setVisible(load);
-	}*/
 
 	public void setupReservation(String id) {
 		this.id = id;
 		executor.submit(() -> {
-			System.out.println("hej???");
 			progress.setVisible(true);
 			ArrayList<Object> data = dbParser.getGuestAndReservationById(id.trim());
 
@@ -143,9 +106,6 @@ public class ReservationInfoPopupController {
 			Reservation reservation = (Reservation) data.get(1);
 			Room resRoom = (Room) data.get(2);
 
-			System.out.println(guest);
-			System.out.println(reservation);
-			System.out.println(resRoom);
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
@@ -155,35 +115,27 @@ public class ReservationInfoPopupController {
 					address.setText(guest.getAddress());
 					telephone.setText(guest.getTelephoneNumber());
 					creditcard.setText(guest.getCreditCard());
-					
+
 					reservationID.setText(Integer.toString(reservation.getId()));
 					arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
 					departureDate.setText(Integer.toString(reservation.getDepartureDate()));
 					hotel.setText(reservation.getHotel());
 					room.setText(Integer.toString(reservation.getRoomNumber()));
 					price.setText(Integer.toString(reservation.getPrice()));
-					
+
 					quality.setText(resRoom.getQuality());
 				}
 			});
-			/*
-			 * arrivalDate.setText("TEST"); departureDate.setText("TEST");
-			 * hotel.setText("TEST"); quality.setText("TEST"); room.setText("TEST");
-			 * firstname.setText("TEST"); lastname.setText("TEST");
-			 * passport.setText("TEST"); address.setText("TEST"); telephone.setText("TEST");
-			 * creditcard.setText("TEST"); price.setText("TEST");
-			 */
 
-			
 			if (reservation.getCheckedIn()) {
-						checkedIN.setSelected(true);
-						cancelReservationButton.setDisable(true);
+				checkedIN.setSelected(true);
 
+			} else if (reservation.getCheckedOut()) {
+				checkedOUT.setSelected(true);
+			} else {
+				cancelReservationButton.setDisable(false);
 			}
-			if (reservation.getCheckedOut()) {
-						checkedOUT.setSelected(true);
-						cancelReservationButton.setDisable(true);
-			}
+
 			progress.setVisible(false);
 		});
 	}
@@ -191,13 +143,22 @@ public class ReservationInfoPopupController {
 	@FXML
 	void cancelReservation(MouseEvent event) {
 
-		if (!checkedIN.isSelected() && !checkedOUT.isSelected()) {
+		executor.submit(() -> {
 			if (dbParser.cancelReservation(id)) {
-				executor.submit(() -> {
-					((Node) (event.getSource())).getScene().getWindow().hide();
+				
+				//controller.removeElementFromReservationTable(id);
+				
+				controller.reloadReservationTable();
+				
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						((Node) (event.getSource())).getScene().getWindow().hide();
+					}
 				});
+
 			}
-		}
+		});
 
 	}
 

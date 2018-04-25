@@ -13,6 +13,10 @@ public class Reservation {
 	private Boolean checkedIn;
 	private Boolean checkedOut;
 	private int price;
+	
+	public Reservation() {
+		
+	}
 
 	public Reservation(int id, String passportNumber, String hotel, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut, int price) {
 		this.id = id;
@@ -104,8 +108,7 @@ public class Reservation {
 	}
 
 	public String toString() {
-		return null;
-		// TODO - What should be returned? id+passport+name+duration dates?
+		return Integer.toString(this.id);
 	}
 	
 	@Override
