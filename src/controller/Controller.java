@@ -1300,10 +1300,20 @@ public class Controller {
 		}
 	}
 	
+	private void setTextFormattersForAddGuest() {
+		Fx.setTextFormatter(addGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(addGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(addGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(addGuestPassport, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(addGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
+	}
+	
 	private void setTextFormattersForSearchGuest() {
-		Fx.setTextFormatter(searchGuestCreditCard, 16, "[0-9]+");
-		Fx.setTextFormatter(searchGuestPassportNumber, 16, "[0-9]+");
-		Fx.setTextFormatter(searchGuestTelephone, 16, "[0-9]+");
+		Fx.setTextFormatter(searchGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(searchGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(searchGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(searchGuestPassportNumber, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 	
 	private void setCellFactoriesForGuestResultsTable() {
@@ -1339,7 +1349,8 @@ public class Controller {
 		setCellFactoriesForReservationResultsTable();
 		
 		setTextFormattersForSearchGuest();
-
+		setTextFormattersForAddGuest();
+		
 		initializeHotels();
 
 		addGuestButton.setDisable(true);

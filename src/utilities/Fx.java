@@ -16,6 +16,38 @@ import javafx.scene.control.TitledPane;
 import javafx.util.Duration;
 
 public class Fx {
+	
+	public enum Regex {
+		
+		ONLY_NUMBERS("[0-9]+", "This TextField can only\ncontain numbers!"),
+		NO_NUMBERS("[a-zA-Z- ',]+", "This TextField can not\ncontain numbers!");
+		private String regex;
+		private String message;
+		
+		Regex(String regex, String message) {
+			this.regex = regex;
+			this.message = message;
+		}
+		
+		public String regex() {
+			return this.regex;
+		}
+		
+		public String message() {
+			return this.message;
+		}
+		
+		@Override
+		public String toString() {
+			return "Regex: " + this.regex + " / Message " + this.message;
+		}
+	}
+	
+	public final static int FIRSTNAME_LENGTH = 30;
+	public final static int LASTNAME_LENGTH = 30;
+	public final static int PASSPORT_LENGTH = 16;
+	public final static int CREDITCARD_LENGTH = 16;
+	public final static int TELEPHONE_LENGTH = 16;
 
 	/**
 	 * Clear 6 textfields.
@@ -190,7 +222,7 @@ public class Fx {
 		pause.play();
 	}
 
-	public static void setTextFormatter(TextField field, int maxLength, String regex) {
+	public static void setTextFormatter(TextField field, int maxLength, Fx.Regex regex) {
 		
 		final ContextMenu menu = new ContextMenu();
 		UnaryOperator<Change> rejectChange = c -> {
@@ -209,14 +241,17 @@ public class Fx {
 					// return null to reject the change
 					return null;
 				}
-				if (!c.getControlNewText().matches(regex) || c.getControlNewText().isEmpty()) {
-					// invalid change
-					// sugar: show a context menu with error message
-					menu.getItems().clear();
-					menu.getItems().add(new MenuItem("This field takes\n numbers only."));
-					menu.show(c.getControl(), Side.BOTTOM, 0, 0);
-					// return null to reject the change
-					return null;
+				if (!c.getControlNewText().matches(regex.regex())) {
+					if (!c.getControlNewText().isEmpty()) {
+						// invalid change
+						// sugar: show a context menu with error message
+						menu.getItems().clear();
+						menu.getItems().add(new MenuItem(regex.message()));
+						menu.show(c.getControl(), Side.BOTTOM, 0, 0);
+						// return null to reject the change
+						return null;
+					}
+					
 				}
 			}
 			// valid change: accept the change by returning it
