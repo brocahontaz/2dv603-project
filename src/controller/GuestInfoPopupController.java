@@ -153,10 +153,23 @@ public class GuestInfoPopupController {
 		saveGuestInfoPopup.setDisable(isDisabled);
 	}
 
-	@FXML
-	void initialize() {
+	private void setTextFormatters() {
+		Fx.setTextFormatter(guestInfoFirstname, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(guestInfoLastname, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(guestInfoCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(guestInfoPassport, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(guestInfoTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
+	}
+
+	private void setCellFactories() {
 		reservationIdCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("id"));
 		reservationHotelCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("hotel"));
 		reservationRoomCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("roomNumber"));
+	}
+
+	@FXML
+	void initialize() {
+		setCellFactories();
+		setTextFormatters();
 	}
 }

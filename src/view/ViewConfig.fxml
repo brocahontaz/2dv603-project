@@ -339,7 +339,7 @@
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
                                                                         </Button>
-                                                                      <Button fx:id="checkInButton" mnemonicParsing="false" onMouseClicked="#checkInGuest" text="Check in">
+                                                                      <Button fx:id="checkInButton" disable="true" mnemonicParsing="false" onMouseClicked="#checkInGuest" text="Check in">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
@@ -447,7 +447,7 @@
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
                                                                         </Button>
-                                                                        <Button fx:id="checkOutButton" mnemonicParsing="false" onMouseClicked="#checkOutGuest" text="Check out">
+                                                                        <Button fx:id="checkOutButton" disable="true" mnemonicParsing="false" onMouseClicked="#checkOutGuest" text="Check out">
                                                                            <cursor>
                                                                               <Cursor fx:constant="HAND" />
                                                                            </cursor>
@@ -503,10 +503,19 @@
                                                             <TextField fx:id="addGuestPassport" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">
+                                                                  <Button fx:id="clearAddGuestFieldsButton" mnemonicParsing="false" onMouseClicked="#clearAddGuestFields" styleClass="first" text="Clear">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
+                                                                  </Button>
+                                                                  <Button fx:id="addGuestButton" disable="true" mnemonicParsing="false" onMouseClicked="#addNewGuest" text="Add">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                     <styleClass>
+                                                                        <String fx:value="success" />
+                                                                        <String fx:value="last" />
+                                                                     </styleClass>
                                                                   </Button>
                                                                </buttons>
                                                             </ButtonBar>
@@ -536,13 +545,18 @@
                                                             <TextField fx:id="searchGuestPassportNumber" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
+                                                                  <Button fx:id="clearSearchGuestFieldsButton" mnemonicParsing="false" onMouseClicked="#clearSearchGuestFields" styleClass="first" text="Clear">
+                                                                     <cursor>
+                                                                        <Cursor fx:constant="HAND" />
+                                                                     </cursor>
+                                                                  </Button>
                                                                   <Button fx:id="searchGuestButton" alignment="CENTER" disable="true" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#searchGuests" text="Search">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
                                                                      <styleClass>
                                                                         <String fx:value="success" />
-                                                                        <String fx:value="first" />
+                                                                        <String fx:value="middle" />
                                                                      </styleClass>
                                                                   </Button>
                                                                   <Button fx:id="listAllGuestsButton" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#listAllGuests" text="List all guests">

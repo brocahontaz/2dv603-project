@@ -391,6 +391,12 @@ public class Controller {
 	@FXML
 	private TableColumn<Reservation, String> departureCol;
 
+	@FXML
+	private Button clearSearchGuestFieldsButton;
+
+	@FXML
+	private Button clearAddGuestFieldsButton;
+
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
 				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice())
@@ -523,19 +529,20 @@ public class Controller {
 				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithDates(passport, arrivalCheckDate.getValue().toEpochDay(), departureCheckDate.getValue().toEpochDay(), hotelCheck));
+						dbParser.searchReservationsWithDates(passport, arrivalCheckDate.getValue().toEpochDay(),
+								departureCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else if (arrivalCheckDate.getValue() != null) {
 
 				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-				reservations = FXCollections
-						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrivalCheckDate.getValue().toEpochDay(), hotelCheck));
+				reservations = FXCollections.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport,
+						arrivalCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else if (departureCheckDate.getValue() != null) {
 
 				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
-				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithDepartureDate(passport, departureCheckDate.getValue().toEpochDay(), hotelCheck));
+				reservations = FXCollections.observableArrayList(dbParser.searchReservationsWithDepartureDate(passport,
+						departureCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else {
 
@@ -1034,6 +1041,20 @@ public class Controller {
 		});
 	}
 
+	@FXML
+	void clearSearchGuestFields(MouseEvent event) {
+		searchGuestButton.setDisable(true);
+		Fx.textFieldClear(searchGuestFirstName, searchGuestLastName, searchGuestAddress, searchGuestTelephone,
+				searchGuestCreditCard, searchGuestPassportNumber);
+	}
+
+	@FXML
+	void clearAddGuestFields(MouseEvent event) {
+		addGuestButton.setDisable(true);
+		Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone, addGuestCreditCard,
+				addGuestPassport);
+	}
+
 	private void initializeHotels() {
 		System.out.println("#Initializing hotels.. ");
 
@@ -1299,7 +1320,7 @@ public class Controller {
 			checkMakeReservationGuest = false;
 		}
 	}
-	
+
 	private void setTextFormattersForAddGuest() {
 		Fx.setTextFormatter(addGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
 		Fx.setTextFormatter(addGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
@@ -1307,7 +1328,7 @@ public class Controller {
 		Fx.setTextFormatter(addGuestPassport, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
 		Fx.setTextFormatter(addGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
-	
+
 	private void setTextFormattersForSearchGuest() {
 		Fx.setTextFormatter(searchGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
 		Fx.setTextFormatter(searchGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
@@ -1315,18 +1336,19 @@ public class Controller {
 		Fx.setTextFormatter(searchGuestPassportNumber, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
 		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
-	
+
 	private void setTextFormattersForCheckInCheckOut() {
+		Fx.setTextFormatter(checkInReservationID, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
 		Fx.setTextFormatter(checkOutReservationID, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
-	
+
 	private void setCellFactoriesForGuestResultsTable() {
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
 		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 	}
-	
+
 	private void setCellFactoriesForReservationResultsTable() {
 		idCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id"));
 		hotelCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("hotel"));
@@ -1351,20 +1373,12 @@ public class Controller {
 
 		setCellFactoriesForGuestResultsTable();
 		setCellFactoriesForReservationResultsTable();
-		
+
 		setTextFormattersForSearchGuest();
 		setTextFormattersForAddGuest();
 		setTextFormattersForCheckInCheckOut();
-		
+
 		initializeHotels();
-
-		addGuestButton.setDisable(true);
-		checkInButton.setDisable(true);
-		checkOutButton.setDisable(true);
-		// makeReservationButton.setDisable(true);
-
-		
-
 
 	}
 
