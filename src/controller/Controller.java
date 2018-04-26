@@ -968,11 +968,17 @@ public class Controller {
 	}
 
 	@FXML
-	void keyReleasedProperty(KeyEvent event) {
-		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
+	void GuestManagementButtons(KeyEvent event) {
+
+		boolean buttonSearchGuest = (searchGuestFirstName.getText().isEmpty() && searchGuestLastName.getText().isEmpty()
+				&& searchGuestAddress.getText().isEmpty() && searchGuestTelephone.getText().isEmpty()
+				&& searchGuestCreditCard.getText().isEmpty() && searchGuestPassportNumber.getText().isEmpty());
+		searchGuestButton.setDisable(buttonSearchGuest);
+
+		boolean buttonAddGuest = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
 				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
 				|| addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
-		addGuestButton.setDisable(isDisabled);
+		addGuestButton.setDisable(buttonAddGuest);
 	}
 
 	@FXML

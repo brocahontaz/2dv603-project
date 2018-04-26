@@ -68,9 +68,9 @@
                                                             <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
-                                                                  <DatePicker fx:id="arrivalDate" onAction="#arrivalDepatureAction" onKeyReleased="#keyReleasedProperty" promptText="Arrival" />
+                                                                  <DatePicker fx:id="arrivalDate" onAction="#arrivalDepatureAction" promptText="Arrival" />
                                                                   <VBox prefWidth="50.0" />
-                                                                  <DatePicker fx:id="departureDate" onAction="#arrivalDepatureAction" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
+                                                                  <DatePicker fx:id="departureDate" onAction="#arrivalDepatureAction" promptText="Departure" />
                                                                </children>
                                                             </HBox>
                                                             <HBox prefHeight="50.0" />
@@ -160,9 +160,9 @@
                                                             <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
-                                                                  <DatePicker fx:id="arrivalCheckDate" onKeyReleased="#keyReleasedProperty" promptText="Arrival" />
+                                                                  <DatePicker fx:id="arrivalCheckDate" promptText="Arrival" />
                                                                   <VBox prefWidth="50.0" />
-                                                                  <DatePicker fx:id="departureCheckDate" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
+                                                                  <DatePicker fx:id="departureCheckDate" promptText="Departure" />
                                                                </children>
                                                             </HBox>
                                                             <HBox prefHeight="45.0" />
@@ -514,12 +514,12 @@
                                                    <children>
                                                       <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField fx:id="addGuestFirstName" onKeyReleased="#keyReleasedProperty" prefWidth="309.0" promptText="Firstname" styleClass="first" />
-                                                            <TextField fx:id="addGuestLastName" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
-                                                            <TextField fx:id="addGuestAddress" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Address" styleClass="middle" />
-                                                            <TextField fx:id="addGuestTelephone" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
-                                                            <TextField fx:id="addGuestCreditCard" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
-                                                            <TextField fx:id="addGuestPassport" onKeyReleased="#keyReleasedProperty" prefWidth="310.0" promptText="Passport number" styleClass="last" />
+                                                            <TextField fx:id="addGuestFirstName" onKeyReleased="#GuestManagementButtons" prefWidth="309.0" promptText="Firstname" styleClass="first" />
+                                                            <TextField fx:id="addGuestLastName" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
+                                                            <TextField fx:id="addGuestAddress" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Address" styleClass="middle" />
+                                                            <TextField fx:id="addGuestTelephone" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
+                                                            <TextField fx:id="addGuestCreditCard" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
+                                                            <TextField fx:id="addGuestPassport" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
                                                                   <Button fx:id="addGuestButton" mnemonicParsing="false" onMouseClicked="#addNewGuest" styleClass="success" text="Add">
@@ -547,15 +547,15 @@
                                                    <children>
                                                       <VBox prefHeight="290.0" prefWidth="520.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                          <children>
-                                                            <TextField fx:id="searchGuestFirstName" prefWidth="309.0" promptText="Firstname" styleClass="first" />
-                                                            <TextField fx:id="searchGuestLastName" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
-                                                            <TextField fx:id="searchGuestAddress" prefWidth="310.0" promptText="Address" styleClass="middle" />
-                                                            <TextField fx:id="searchGuestTelephone" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
-                                                            <TextField fx:id="searchGuestCreditCard" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
-                                                            <TextField fx:id="searchGuestPassportNumber" prefWidth="310.0" promptText="Passport number" styleClass="last" />
+                                                            <TextField fx:id="searchGuestFirstName" onKeyReleased="#GuestManagementButtons" prefWidth="309.0" promptText="Firstname" styleClass="first" />
+                                                            <TextField fx:id="searchGuestLastName" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Lastname" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestAddress" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Address" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestTelephone" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Telephone number" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestCreditCard" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Credit card" styleClass="middle" />
+                                                            <TextField fx:id="searchGuestPassportNumber" onKeyReleased="#GuestManagementButtons" prefWidth="310.0" promptText="Passport number" styleClass="last" />
                                                             <ButtonBar>
                                                                <buttons>
-                                                                  <Button fx:id="searchGuestButton" alignment="CENTER" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#searchGuests" text="Search">
+                                                                  <Button fx:id="searchGuestButton" alignment="CENTER" disable="true" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#searchGuests" text="Search">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
