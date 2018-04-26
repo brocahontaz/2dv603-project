@@ -138,8 +138,8 @@ public class ReservationInfoPopupController {
 
 	@FXML
 	void cancelReservation(MouseEvent event) {
-
-		executor.submit(() -> {
+		executor.submit(() -> {	
+			cancelReservationButton.setDisable(true);
 			if (dbParser.cancelReservation(id)) {
 				// controller.removeElementFromReservationTable(id);
 				controller.reloadReservationTable();
@@ -147,7 +147,9 @@ public class ReservationInfoPopupController {
 					((Node) (event.getSource())).getScene().getWindow().hide();
 				});
 			}
+			cancelReservationButton.setDisable(false);
 		});
+		
 	}
 
 	@FXML

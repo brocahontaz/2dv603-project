@@ -61,8 +61,6 @@ public enum Queries {
 	SEARCH_RESERVATIONS_DEPARTURE("SELECT * FROM Reservations WHERE passportNumber LIKE ? AND departureDate = ? AND hotelName LIKE ?"),
 	CANCEL_RESERVATION("DELETE FROM Reservations WHERE id = ?");
 	
-
-	
 	private String query;
 	
 	Queries(String query) {

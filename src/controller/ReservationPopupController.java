@@ -84,6 +84,9 @@ public class ReservationPopupController {
 	private Text price;
 
 	@FXML
+	private Text reservationID;
+
+	@FXML
 	private Button close;
 
 	@FXML
@@ -106,9 +109,9 @@ public class ReservationPopupController {
 
 	@FXML
 	private ProgressIndicator progress;
-	
+
 	@FXML
-    private TitledPane title;
+	private TitledPane title;
 
 	@FXML
 	void close(MouseEvent event) {
@@ -124,35 +127,35 @@ public class ReservationPopupController {
 			room.setText(Integer.toString(tmpRoom.getRoomNumber()));
 		}
 	}
-	
+
 	@FXML
-    void confirmReservation(MouseEvent event) {
+	void confirmReservation(MouseEvent event) {
 		executor.submit(() -> {
-		String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
-		String trimmedDeparture = departureDate.toString().replaceAll("-", "");
-		
-		if(dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(), trimmedArrival, trimmedDeparture, price.getText())) {
-			// Running element manipulation on fx-thread
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
+			String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
+			String trimmedDeparture = departureDate.toString().replaceAll("-", "");
+
+			int key = dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(),
+					trimmedArrival, trimmedDeparture, price.getText());
+
+			System.out.println(key);
+
+			if (key != -1) {
+				// Running element manipulation on fx-thread
+				Platform.runLater(() -> {
+					reservationID.setText(Integer.toString(key));
 					Fx.titledPaneColorNotification(title, "success");
 					loadAvailableRooms();
-				}
-			});
-		}else {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
+				});
+			} else {
+				Platform.runLater(() -> {
 					Fx.titledPaneColorNotification(title, "danger");
-				}
-			});
-		}
-		});	
-    }
+				});
+			}
+		});
+	}
 
-	public void acceptValues(Guest guest, LocalDate arrivalDate, LocalDate departureDate,
-			Hotel hotelChoice, RoomQuality roomQualityChoice, int discountChoice) {
+	public void acceptValues(Guest guest, LocalDate arrivalDate, LocalDate departureDate, Hotel hotelChoice,
+			RoomQuality roomQualityChoice, int discountChoice) {
 
 		this.guest = guest;
 		this.arrivalDate = arrivalDate;
@@ -192,9 +195,8 @@ public class ReservationPopupController {
 		if (discountChoice > 0) {
 			discount.setText("(-" + discountChoice + "%)");
 		}
-		
+
 		loadAvailableRooms();
-		
 
 	}
 
@@ -206,7 +208,8 @@ public class ReservationPopupController {
 			room.clear();
 			rooms = FXCollections.observableArrayList(
 					dbParser.checkAvailableRoomsBetweenDates(arrivalDate.toString().trim().replaceAll("-", ""),
-							departureDate.toString().trim().replaceAll("-", ""), hotelChoice.getName(), roomQualityChoice.getQuality()));
+							departureDate.toString().trim().replaceAll("-", ""), hotelChoice.getName(),
+							roomQualityChoice.getQuality()));
 			roomResultsTable.setItems(rooms);
 			progress.setVisible(false);
 			roomResultsTable.setVisible(true);

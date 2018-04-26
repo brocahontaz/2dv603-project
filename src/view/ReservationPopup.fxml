@@ -37,7 +37,7 @@
                               <TextField fx:id="telephone" editable="false" promptText="Telephone" styleClass="last" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <HBox prefHeight="25.0" />
+                        <HBox prefHeight="15.0" />
                         <HBox layoutX="10.0" layoutY="50.0">
                            <children>
                               <TextField fx:id="arrival" editable="false" promptText="Arrival" styleClass="first" HBox.hgrow="ALWAYS" />
@@ -51,7 +51,7 @@
                               <TextField fx:id="room" editable="false" layoutX="299.0" layoutY="10.0" promptText="Room" styleClass="last" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="90.0" prefHeight="25.0" />
+                        <HBox layoutX="10.0" layoutY="90.0" prefHeight="15.0" />
                         <HBox>
                            <children>
                               <StackPane HBox.hgrow="ALWAYS">
@@ -68,10 +68,22 @@
                               </StackPane>
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="205.0" prefHeight="15.0" />
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="205.0" prefHeight="25.0" spacing="5.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reservation ID:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="reservationID" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children></HBox>
                         <HBox>
                            <children>
-                              <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
+                              <HBox alignment="CENTER_LEFT" spacing="5.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total price">
                                        <font>

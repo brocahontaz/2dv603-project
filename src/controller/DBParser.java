@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.sql.rowset.CachedRowSet;
+
+import com.mysql.jdbc.Statement;
 import com.sun.rowset.CachedRowSetImpl;
 
 import model.Discount;
@@ -142,12 +144,12 @@ public class DBParser {
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
-	public boolean makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate,
+	public int makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate,
 			String departureDate, String price) {
 
 		String[] temp = { passportNumber, roomNumber, hotel, arrivalDate, departureDate, price };
 
-		return this.executeUpdate(Queries.MAKE_RESERVATION, temp);
+		return this.executeUpdateReturnKey(Queries.MAKE_RESERVATION, temp);
 	}
 	
 	public boolean cancelReservation(String id) {
@@ -749,6 +751,45 @@ public class DBParser {
 			this.shutdown();
 		}
 		return success;
+	}
+	
+	private int executeUpdateReturnKey(Queries query, String[] params) {
+		this.initialize();
+		int generatedKey = -1;
+		try {
+
+			this.ps = this.connection.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
+
+			if (params != null) {
+				for (int i = 0; i < params.length; i++) {
+					this.ps.setString(i + 1, params[i]);
+				}
+			}
+
+			this.ps.executeUpdate();
+			this.connection.commit();
+			
+			ResultSet generatedKeys = this.ps.getGeneratedKeys();
+			
+			if (generatedKeys.next()) {	
+				generatedKey = generatedKeys.getInt(1);
+				System.out.println("KEY " + generatedKey);
+			}
+			
+
+		} catch (SQLException e) {
+			generatedKey = -1;
+			try {
+				e.printStackTrace();
+				System.err.print("Transaction is being rolled back");
+				this.connection.rollback();
+			} catch (SQLException excep) {
+				excep.printStackTrace();
+			}
+		} finally {
+			this.shutdown();
+		}
+		return generatedKey;
 	}
 
 	/**
