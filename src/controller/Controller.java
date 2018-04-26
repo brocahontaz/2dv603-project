@@ -17,7 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
-
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -65,6 +65,7 @@ public class Controller {
 	public static final String DEFAULT_HOTEL_CHOICE = "Hotel Preference";
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
+	private boolean checkMakeReservationGuest = false;
 
 	@FXML
 	private BorderPane rootPane;
@@ -976,8 +977,9 @@ public class Controller {
 
 	@FXML
 	void arrivalDepatureAction(ActionEvent event) {
-		//System.out.println(checkIfGuestIsEmpty);
-		boolean isDisabled = (arrivalDate.getValue() == null || departureDate.getValue() == null);
+		System.out.println(checkMakeReservationGuest);
+		boolean isDisabled = (arrivalDate.getValue() == null || departureDate.getValue() == null
+				|| checkMakeReservationGuest == false);
 		makeReservationButton.setDisable(isDisabled);
 	}
 
@@ -1283,6 +1285,14 @@ public class Controller {
 
 	}
 
+	private void checkIfmakeReservationGuestIsEmpty(String value) {
+		if (value.length() > 0) {
+			checkMakeReservationGuest = true;
+		} else {
+			checkMakeReservationGuest = false;
+		}
+	}
+
 	/**
 	 * Initialize
 	 */
@@ -1290,8 +1300,9 @@ public class Controller {
 	void initialize() {
 
 		makeReservationGuest.textProperty().addListener((observable, oldValue, newValue) -> {
-			//System.out.println("Old:" + oldValue + " new" + newValue);
-			//reservationTextFieldChanged(newValue);
+			Event event = new ActionEvent();
+			checkIfmakeReservationGuestIsEmpty(newValue);
+			arrivalDate.fireEvent(event);
 		});
 
 		setupSplashScreen();
