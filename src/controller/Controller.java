@@ -1316,6 +1316,10 @@ public class Controller {
 		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 	
+	private void setTextFormattersForCheckInCheckOut() {
+		Fx.setTextFormatter(checkOutReservationID, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
+	}
+	
 	private void setCellFactoriesForGuestResultsTable() {
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
@@ -1350,6 +1354,7 @@ public class Controller {
 		
 		setTextFormattersForSearchGuest();
 		setTextFormattersForAddGuest();
+		setTextFormattersForCheckInCheckOut();
 		
 		initializeHotels();
 

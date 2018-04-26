@@ -48,6 +48,7 @@ public class Fx {
 	public final static int PASSPORT_LENGTH = 16;
 	public final static int CREDITCARD_LENGTH = 16;
 	public final static int TELEPHONE_LENGTH = 16;
+	public final static int RESERVATION_ID_LENGTH = 10000;
 
 	/**
 	 * Clear 6 textfields.
