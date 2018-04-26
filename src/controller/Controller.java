@@ -1334,6 +1334,8 @@ public class Controller {
 		checkOutButton.setDisable(true);
 		// makeReservationButton.setDisable(true);
 
+		Fx.setTextFormatter(searchGuestCreditCard, 16);
+		
 		System.out.println("#Popups done!");
 
 	}

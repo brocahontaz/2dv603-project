@@ -2,10 +2,16 @@ package utilities;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.UnaryOperator;
 
 import javafx.animation.PauseTransition;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.TitledPane;
 import javafx.util.Duration;
 
@@ -55,9 +61,10 @@ public class Fx {
 		textField7.clear();
 		textField8.clear();
 	}
-	
+
 	/**
 	 * Clear 12 textfields.
+	 * 
 	 * @param textField1
 	 * @param textField2
 	 * @param textField3
@@ -73,7 +80,8 @@ public class Fx {
 	 */
 	public static void textFieldClear(TextField textField1, TextField textField2, TextField textField3,
 			TextField textField4, TextField textField5, TextField textField6, TextField textField7,
-			TextField textField8, TextField textField9, TextField textField10, TextField textField11, TextField textField12) {
+			TextField textField8, TextField textField9, TextField textField10, TextField textField11,
+			TextField textField12) {
 		textField1.clear();
 		textField2.clear();
 		textField3.clear();
@@ -180,6 +188,27 @@ public class Fx {
 		PauseTransition pause = new PauseTransition(Duration.seconds(time));
 		pause.setOnFinished(event -> titledPaneColorNotificationButtonHelp(titledPane, button, cssStyle, oldStyle));
 		pause.play();
+	}
+
+	public static void setTextFormatter(TextField field, int maxLength) {
+		UnaryOperator<Change> rejectChange = c -> {
+			// check if the change might effect the validating predicate
+			if (c.isContentChange()) {
+				// check if change is valid
+				if (c.getControlNewText().length() > maxLength) {
+					// invalid change
+					// sugar: show a context menu with error message
+					final ContextMenu menu = new ContextMenu();
+					menu.getItems().add(new MenuItem("This field takes\n" + maxLength + " characters only."));
+					menu.show(c.getControl(), Side.BOTTOM, 0, 0);
+					// return null to reject the change
+					return null;
+				}
+			}
+			// valid change: accept the change by returning it
+			return c;
+		};
+		field.setTextFormatter(new TextFormatter(rejectChange));
 	}
 
 	// Helper method to titledPaneColorNotificationButton
