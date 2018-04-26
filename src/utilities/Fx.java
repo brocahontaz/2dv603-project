@@ -209,7 +209,7 @@ public class Fx {
 					// return null to reject the change
 					return null;
 				}
-				if (!c.getControlNewText().matches(regex)) {
+				if (!c.getControlNewText().matches(regex) || c.getControlNewText().isEmpty()) {
 					// invalid change
 					// sugar: show a context menu with error message
 					menu.getItems().clear();

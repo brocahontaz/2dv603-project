@@ -1299,6 +1299,27 @@ public class Controller {
 			checkMakeReservationGuest = false;
 		}
 	}
+	
+	private void setTextFormattersForSearchGuest() {
+		Fx.setTextFormatter(searchGuestCreditCard, 16, "[0-9]+");
+		Fx.setTextFormatter(searchGuestPassportNumber, 16, "[0-9]+");
+		Fx.setTextFormatter(searchGuestTelephone, 16, "[0-9]+");
+	}
+	
+	private void setCellFactoriesForGuestResultsTable() {
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
+		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
+		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
+	}
+	
+	private void setCellFactoriesForReservationResultsTable() {
+		idCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id"));
+		hotelCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("hotel"));
+		roomCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNumber"));
+		arrivalCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("arrivalDate"));
+		departureCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("departureDate"));
+	}
 
 	/**
 	 * Initialize
@@ -1314,29 +1335,20 @@ public class Controller {
 
 		setupSplashScreen();
 
-		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
-		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
-		passportCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("passportNumber"));
-		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
-
-		idCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id"));
-		hotelCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("hotel"));
-		roomCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("roomNumber"));
-		arrivalCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("arrivalDate"));
-		departureCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("departureDate"));
+		setCellFactoriesForGuestResultsTable();
+		setCellFactoriesForReservationResultsTable();
+		
+		setTextFormattersForSearchGuest();
 
 		initializeHotels();
-
-		System.out.println("#Setting up popup windows..");
 
 		addGuestButton.setDisable(true);
 		checkInButton.setDisable(true);
 		checkOutButton.setDisable(true);
 		// makeReservationButton.setDisable(true);
 
-		Fx.setTextFormatter(searchGuestCreditCard, 16, "[0-9]+");
 		
-		System.out.println("#Popups done!");
+
 
 	}
 
