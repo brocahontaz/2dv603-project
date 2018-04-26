@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -522,19 +523,19 @@ public class Controller {
 				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
+						dbParser.searchReservationsWithDates(passport, arrivalCheckDate.getValue().toEpochDay(), departureCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else if (arrivalCheckDate.getValue() != null) {
 
 				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
 				reservations = FXCollections
-						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
+						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrivalCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else if (departureCheckDate.getValue() != null) {
 
 				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
 				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
+						dbParser.searchReservationsWithDepartureDate(passport, departureCheckDate.getValue().toEpochDay(), hotelCheck));
 
 			} else {
 
@@ -710,8 +711,8 @@ public class Controller {
 				checkInTelephone.setText(guest.getTelephoneNumber());
 				checkInCreditCard.setText(guest.getCreditCard());
 				checkInPassportNumber.setText(guest.getPassportNumber());
-				checkInArrivalDate.setText(reservation.getArrivalDate() + "");
-				checkInDepartureDate.setText(reservation.getDepartureDate() + "");
+				checkInArrivalDate.setText(reservation.getArrivalDate().toString());
+				checkInDepartureDate.setText(reservation.getDepartureDate().toString());
 				checkinHotel.setText(reservation.getHotel());
 				checkinRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkinQuality.setText(room.getQuality());
@@ -770,8 +771,8 @@ public class Controller {
 				checkOutTelephone.setText(guest.getTelephoneNumber());
 				checkOutCreditCard.setText(guest.getCreditCard());
 				checkOutPassportNumber.setText(guest.getPassportNumber());
-				checkOutArrivalDate.setText(reservation.getArrivalDate() + "");
-				checkOutDepartureDate.setText(reservation.getDepartureDate() + "");
+				checkOutArrivalDate.setText(reservation.getArrivalDate().toString());
+				checkOutDepartureDate.setText(reservation.getDepartureDate().toString());
 				checkoutHotel.setText(reservation.getHotel());
 				checkoutRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkoutQuality.setText(room.getQuality());

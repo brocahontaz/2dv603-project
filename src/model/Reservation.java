@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Reservation {
@@ -8,8 +9,8 @@ public class Reservation {
 	private String passportNumber;
 	private String hotel;
 	private int roomNumber;
-	private int arrivalDate;
-	private int departureDate;
+	private LocalDate arrivalDate;
+	private LocalDate departureDate;
 	private Boolean checkedIn;
 	private Boolean checkedOut;
 	private int price;
@@ -18,7 +19,7 @@ public class Reservation {
 		
 	}
 
-	public Reservation(int id, String passportNumber, String hotel, int roomNumber, int arrivalDate, int departureDate, Boolean checkedIn, Boolean checkedOut, int price) {
+	public Reservation(int id, String passportNumber, String hotel, int roomNumber, LocalDate arrivalDate, LocalDate departureDate, Boolean checkedIn, Boolean checkedOut, int price) {
 		this.id = id;
 		this.passportNumber = passportNumber;
 		this.hotel = hotel;
@@ -62,24 +63,24 @@ public class Reservation {
 		this.roomNumber = roomNumber;
 	}
 	
-	public int getArrivalDate() {
+	public LocalDate getArrivalDate() {
 		return arrivalDate;
 	}
 
-	public void setArrivalDate(int arrivalDate) {
+	public void setArrivalDate(LocalDate arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
 	
-	public int getDepartureDate() {
+	public LocalDate getDepartureDate() {
 		return departureDate;
 	}
 
-	public void setDepartureDate(int departureDate) {
+	public void setDepartureDate(LocalDate departureDate) {
 		this.departureDate = departureDate;
 	}
 
-	public int getDuration() {
-		return this.departureDate - this.arrivalDate;
+	public Long getDuration() {
+		return this.departureDate.toEpochDay() - this.arrivalDate.toEpochDay();
 	}
 	
 	public Boolean getCheckedIn() {

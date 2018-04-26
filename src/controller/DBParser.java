@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,8 +49,8 @@ public class DBParser {
 
 	}
 
-	public ArrayList<Reservation> searchReservationsWithDates(String passportNumber, String arrivalDate,
-			String departureDate, String hotelName) {
+	public ArrayList<Reservation> searchReservationsWithDates(String passportNumber, Long arrivalDate,
+			Long departureDate, String hotelName) {
 
 		ArrayList<Reservation> data = new ArrayList<Reservation>();
 
@@ -60,13 +61,14 @@ public class DBParser {
 			hotelName = "%";
 		}
 
-		String[] temp = { passportNumber, arrivalDate, departureDate, hotelName };
+		String[] temp = { passportNumber, arrivalDate.toString(), departureDate.toString(), hotelName };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_DATES, temp);
 		populateReservations(data, crsTemp);
 		return data;
 	}
-	
-	public ArrayList<Reservation> searchReservationsWithArrivalDate(String passportNumber, String arrivalDate, String hotelName) {
+
+	public ArrayList<Reservation> searchReservationsWithArrivalDate(String passportNumber, Long arrivalDate,
+			String hotelName) {
 
 		ArrayList<Reservation> data = new ArrayList<Reservation>();
 
@@ -77,13 +79,14 @@ public class DBParser {
 			hotelName = "%";
 		}
 
-		String[] temp = { passportNumber, arrivalDate, hotelName };
+		String[] temp = { passportNumber, arrivalDate.toString(), hotelName };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_ARRIVAL, temp);
 		populateReservations(data, crsTemp);
 		return data;
 	}
-	
-	public ArrayList<Reservation> searchReservationsWithDepartureDate(String passportNumber, String departureDate, String hotelName) {
+
+	public ArrayList<Reservation> searchReservationsWithDepartureDate(String passportNumber, Long departureDate,
+			String hotelName) {
 
 		ArrayList<Reservation> data = new ArrayList<Reservation>();
 
@@ -94,7 +97,7 @@ public class DBParser {
 			hotelName = "%";
 		}
 
-		String[] temp = { passportNumber, departureDate, hotelName };
+		String[] temp = { passportNumber, departureDate.toString(), hotelName };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.SEARCH_RESERVATIONS_DEPARTURE, temp);
 		populateReservations(data, crsTemp);
 		return data;
@@ -117,7 +120,7 @@ public class DBParser {
 		return data;
 	}
 
-	public ArrayList<Room> checkAvailableRoomsBetweenDates(String arrivalDate, String departureDate, String hotelName,
+	public ArrayList<Room> checkAvailableRoomsBetweenDates(Long arrivalDate, Long departureDate, String hotelName,
 			String quality) {
 		ArrayList<Room> data = new ArrayList<Room>();
 		if (hotelName.isEmpty() || hotelName == null) {
@@ -126,8 +129,11 @@ public class DBParser {
 		if (quality.isEmpty() || quality == null) {
 			quality = "%";
 		}
-		String[] temp = { arrivalDate, arrivalDate, departureDate, departureDate, arrivalDate, departureDate, hotelName,
-				quality };
+
+		String arrDate = arrivalDate.toString();
+		String depDate = departureDate.toString();
+
+		String[] temp = { arrDate, arrDate, depDate, depDate, arrDate, depDate, hotelName, quality };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.CHECK_AVAILABLE_ROOMS, temp);
 		populateRoomArray(data, crsTemp);
 		// System.out.println(data);
@@ -144,21 +150,20 @@ public class DBParser {
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
-	public int makeReservation(String passportNumber, String roomNumber, String hotel, String arrivalDate,
-			String departureDate, String price) {
+	public int makeReservation(String passportNumber, String roomNumber, String hotel, Long arrivalDate,
+			Long departureDate, String price) {
 
-		String[] temp = { passportNumber, roomNumber, hotel, arrivalDate, departureDate, price };
+		String[] temp = { passportNumber, roomNumber, hotel, arrivalDate.toString(), departureDate.toString(), price };
 
 		return this.executeUpdateReturnKey(Queries.MAKE_RESERVATION, temp);
 	}
-	
+
 	public boolean cancelReservation(String id) {
 
 		String[] temp = { id };
 
 		return this.executeUpdate(Queries.CANCEL_RESERVATION, temp);
 	}
-
 
 	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
 
@@ -461,8 +466,8 @@ public class DBParser {
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
-						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"),
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
+						LocalDate.ofEpochDay(crsTemp.getLong("departureDate")), crsTemp.getBoolean("checkedIn"),
 						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"),
 						crsTemp.getString("quality")));
@@ -626,8 +631,8 @@ public class DBParser {
 				 * show active reservations
 				 */
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
-						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), crsTemp.getInt("arrivalDate"),
-						crsTemp.getInt("departureDate"), crsTemp.getBoolean("checkedIn"),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
+						LocalDate.ofEpochDay(crsTemp.getLong("departureDate")), crsTemp.getBoolean("checkedIn"),
 						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
@@ -752,7 +757,7 @@ public class DBParser {
 		}
 		return success;
 	}
-	
+
 	private int executeUpdateReturnKey(Queries query, String[] params) {
 		this.initialize();
 		int generatedKey = -1;
@@ -768,14 +773,13 @@ public class DBParser {
 
 			this.ps.executeUpdate();
 			this.connection.commit();
-			
+
 			ResultSet generatedKeys = this.ps.getGeneratedKeys();
-			
-			if (generatedKeys.next()) {	
+
+			if (generatedKeys.next()) {
 				generatedKey = generatedKeys.getInt(1);
 				System.out.println("KEY " + generatedKey);
 			}
-			
 
 		} catch (SQLException e) {
 			generatedKey = -1;

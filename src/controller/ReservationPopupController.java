@@ -131,12 +131,18 @@ public class ReservationPopupController {
 	@FXML
 	void confirmReservation(MouseEvent event) {
 		executor.submit(() -> {
-			String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
-			String trimmedDeparture = departureDate.toString().replaceAll("-", "");
+			//String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
+			//String trimmedDeparture = departureDate.toString().replaceAll("-", "");
 
 			int key = dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(),
-					trimmedArrival, trimmedDeparture, price.getText());
+					arrivalDate.toEpochDay(), departureDate.toEpochDay(), price.getText());
 
+			System.out.println("Arrival " + arrivalDate.toEpochDay());
+			System.out.println("Departure " + departureDate.toEpochDay());
+			
+			System.out.println("Arrival convert" + LocalDate.ofEpochDay(arrivalDate.toEpochDay()));
+			System.out.println("Arrival convert" + LocalDate.ofEpochDay(departureDate.toEpochDay()));
+			
 			System.out.println(key);
 
 			if (key != -1) {
@@ -207,8 +213,8 @@ public class ReservationPopupController {
 			progress.setVisible(true);
 			room.clear();
 			rooms = FXCollections.observableArrayList(
-					dbParser.checkAvailableRoomsBetweenDates(arrivalDate.toString().trim().replaceAll("-", ""),
-							departureDate.toString().trim().replaceAll("-", ""), hotelChoice.getName(),
+					dbParser.checkAvailableRoomsBetweenDates(arrivalDate.toEpochDay(),
+							departureDate.toEpochDay(), hotelChoice.getName(),
 							roomQualityChoice.getQuality()));
 			roomResultsTable.setItems(rooms);
 			progress.setVisible(false);

@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -114,8 +115,8 @@ public class ReservationInfoPopupController {
 				telephone.setText(guest.getTelephoneNumber());
 				creditcard.setText(guest.getCreditCard());
 				reservationID.setText(Integer.toString(reservation.getId()));
-				arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
-				departureDate.setText(Integer.toString(reservation.getDepartureDate()));
+				arrivalDate.setText(reservation.getArrivalDate().toString());
+				departureDate.setText(reservation.getDepartureDate().toString());
 				hotel.setText(reservation.getHotel());
 				room.setText(Integer.toString(reservation.getRoomNumber()));
 				price.setText(Integer.toString(reservation.getPrice()));
@@ -138,7 +139,7 @@ public class ReservationInfoPopupController {
 
 	@FXML
 	void cancelReservation(MouseEvent event) {
-		executor.submit(() -> {	
+		executor.submit(() -> {
 			cancelReservationButton.setDisable(true);
 			if (dbParser.cancelReservation(id)) {
 				// controller.removeElementFromReservationTable(id);
@@ -149,7 +150,7 @@ public class ReservationInfoPopupController {
 			}
 			cancelReservationButton.setDisable(false);
 		});
-		
+
 	}
 
 	@FXML
