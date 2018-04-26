@@ -981,11 +981,13 @@ public class Controller {
 		boolean buttonSearchGuest = (searchGuestFirstName.getText().isEmpty() && searchGuestLastName.getText().isEmpty()
 				&& searchGuestAddress.getText().isEmpty() && searchGuestTelephone.getText().isEmpty()
 				&& searchGuestCreditCard.getText().isEmpty() && searchGuestPassportNumber.getText().isEmpty());
+		
 		searchGuestButton.setDisable(buttonSearchGuest);
 
 		boolean buttonAddGuest = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
-				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
-				|| addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
+				|| addGuestAddress.getText().isEmpty() || !(addGuestTelephone.getText().length() >= Fx.TELEPHONE_MIN_LENGTH)
+				|| !(addGuestCreditCard.getText().length() == Fx.CREDITCARD_LENGTH) || !(addGuestPassport.getText().length() == Fx.PASSPORT_LENGTH));
+		
 		addGuestButton.setDisable(buttonAddGuest);
 	}
 
@@ -1322,24 +1324,24 @@ public class Controller {
 	}
 
 	private void setTextFormattersForAddGuest() {
-		Fx.setTextFormatter(addGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(addGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(addGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(addGuestPassport, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(addGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(addGuestFirstName, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(addGuestLastName, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(addGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(addGuestPassport, Fx.PASSPORT_LENGTH, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(addGuestTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
 	private void setTextFormattersForSearchGuest() {
-		Fx.setTextFormatter(searchGuestFirstName, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(searchGuestLastName, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(searchGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(searchGuestPassportNumber, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(searchGuestFirstName, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(searchGuestLastName, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(searchGuestCreditCard, Fx.CREDITCARD_LENGTH, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(searchGuestPassportNumber, Fx.PASSPORT_LENGTH, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
 	private void setTextFormattersForCheckInCheckOut() {
-		Fx.setTextFormatter(checkInReservationID, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(checkOutReservationID, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(checkInReservationID, 1, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(checkOutReservationID, 1, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
 	private void setCellFactoriesForGuestResultsTable() {

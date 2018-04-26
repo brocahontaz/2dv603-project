@@ -154,11 +154,11 @@ public class GuestInfoPopupController {
 	}
 
 	private void setTextFormatters() {
-		Fx.setTextFormatter(guestInfoFirstname, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(guestInfoLastname, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
-		Fx.setTextFormatter(guestInfoCreditCard, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(guestInfoPassport, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
-		Fx.setTextFormatter(guestInfoTelephone, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(guestInfoFirstname, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(guestInfoLastname, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
+		Fx.setTextFormatter(guestInfoCreditCard, Fx.CREDITCARD_LENGTH, Fx.CREDITCARD_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(guestInfoPassport, Fx.PASSPORT_LENGTH, Fx.PASSPORT_LENGTH, Fx.Regex.ONLY_NUMBERS);
+		Fx.setTextFormatter(guestInfoTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
 	private void setCellFactories() {

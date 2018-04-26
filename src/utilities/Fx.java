@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 
 public class Fx {
@@ -47,6 +48,7 @@ public class Fx {
 	public final static int LASTNAME_LENGTH = 30;
 	public final static int PASSPORT_LENGTH = 16;
 	public final static int CREDITCARD_LENGTH = 16;
+	public final static int TELEPHONE_MIN_LENGTH = 9;
 	public final static int TELEPHONE_LENGTH = 20;
 	public final static int RESERVATION_ID_LENGTH = 10000;
 
@@ -223,7 +225,7 @@ public class Fx {
 		pause.play();
 	}
 
-	public static void setTextFormatter(TextField field, int maxLength, Fx.Regex regex) {
+	public static void setTextFormatter(TextField field, int minLength, int maxLength, Fx.Regex regex) {
 
 		final ContextMenu menu = new ContextMenu();
 		UnaryOperator<Change> rejectChange = c -> {
@@ -258,6 +260,10 @@ public class Fx {
 			// valid change: accept the change by returning it
 			return c;
 		};
+		
+		final Tooltip tooltip = new Tooltip();
+		tooltip.setText("Must be at least " + minLength + " characters long.");
+		field.setTooltip(tooltip);
 		field.setTextFormatter(new TextFormatter<TextField>(rejectChange));
 	}
 
