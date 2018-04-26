@@ -16,38 +16,38 @@ import javafx.scene.control.TitledPane;
 import javafx.util.Duration;
 
 public class Fx {
-	
+
 	public enum Regex {
-		
-		ONLY_NUMBERS("[0-9]+", "This TextField can only\ncontain numbers!"),
-		NO_NUMBERS("[a-zA-Z- ',]+", "This TextField can not\ncontain numbers!");
+
+		ONLY_NUMBERS("^[0-9]+$", "This TextField can only\ncontain numbers!"), NO_NUMBERS("^[a-zA-Z- ',]+$",
+				"This TextField can not\ncontain numbers!");
 		private String regex;
 		private String message;
-		
+
 		Regex(String regex, String message) {
 			this.regex = regex;
 			this.message = message;
 		}
-		
+
 		public String regex() {
 			return this.regex;
 		}
-		
+
 		public String message() {
 			return this.message;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Regex: " + this.regex + " / Message " + this.message;
 		}
 	}
-	
+
 	public final static int FIRSTNAME_LENGTH = 30;
 	public final static int LASTNAME_LENGTH = 30;
 	public final static int PASSPORT_LENGTH = 16;
 	public final static int CREDITCARD_LENGTH = 16;
-	public final static int TELEPHONE_LENGTH = 16;
+	public final static int TELEPHONE_LENGTH = 20;
 	public final static int RESERVATION_ID_LENGTH = 10000;
 
 	/**
@@ -224,12 +224,11 @@ public class Fx {
 	}
 
 	public static void setTextFormatter(TextField field, int maxLength, Fx.Regex regex) {
-		
+
 		final ContextMenu menu = new ContextMenu();
 		UnaryOperator<Change> rejectChange = c -> {
-			
 			menu.hide();
-			
+
 			// check if the change might effect the validating predicate
 			if (c.isContentChange()) {
 				// check if change is valid
@@ -242,6 +241,7 @@ public class Fx {
 					// return null to reject the change
 					return null;
 				}
+
 				if (!c.getControlNewText().matches(regex.regex())) {
 					if (!c.getControlNewText().isEmpty()) {
 						// invalid change
@@ -252,13 +252,13 @@ public class Fx {
 						// return null to reject the change
 						return null;
 					}
-					
+
 				}
 			}
 			// valid change: accept the change by returning it
 			return c;
 		};
-		field.setTextFormatter(new TextFormatter(rejectChange));
+		field.setTextFormatter(new TextFormatter<TextField>(rejectChange));
 	}
 
 	// Helper method to titledPaneColorNotificationButton
