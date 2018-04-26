@@ -486,9 +486,9 @@ public class Controller {
 		String resID = checkReservationID.getText().trim();
 
 		if (resID.isEmpty() || resID == null) {
-			
+
 			checkReservation();
-			
+
 		} else if (resID.matches("[0-9]+")) {
 			setupReservationInfoPopup(resID);
 		}
@@ -526,8 +526,8 @@ public class Controller {
 			} else if (arrivalCheckDate.getValue() != null) {
 
 				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
+				reservations = FXCollections
+						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
 
 			} else if (departureCheckDate.getValue() != null) {
 
@@ -550,11 +550,11 @@ public class Controller {
 			reservationsProgress.setVisible(false);
 		});
 	}
-	
+
 	public void reloadReservationTable() {
 		checkReservation();
 	}
-	
+
 	public void removeElementFromReservationTable(String id) {
 
 		int tempId = Integer.parseInt(id);
@@ -859,6 +859,8 @@ public class Controller {
 		displayAllQualities();
 		displayAllDiscounts();
 		estimatedPrice.setText("0");
+		makeReservationButton.setDisable(true);
+
 	}
 
 	/**
@@ -966,17 +968,17 @@ public class Controller {
 
 	@FXML
 	void keyReleasedProperty(KeyEvent event) {
-
-		/*
-		 * if (arrivalDate.getValue() == null && departureDate.getValue() == null) {
-		 * makeReservationButton.setDisable(true); } else {
-		 * makeReservationButton.setDisable(false); }
-		 */
-
 		boolean isDisabled = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
 				|| addGuestAddress.getText().isEmpty() || addGuestTelephone.getText().isEmpty()
 				|| addGuestCreditCard.getText().isEmpty() || addGuestPassport.getText().isEmpty());
 		addGuestButton.setDisable(isDisabled);
+	}
+
+	@FXML
+	void arrivalDepatureAction(ActionEvent event) {
+		//System.out.println(checkIfGuestIsEmpty);
+		boolean isDisabled = (arrivalDate.getValue() == null || departureDate.getValue() == null);
+		makeReservationButton.setDisable(isDisabled);
 	}
 
 	/**
@@ -1286,6 +1288,11 @@ public class Controller {
 	 */
 	@FXML
 	void initialize() {
+
+		makeReservationGuest.textProperty().addListener((observable, oldValue, newValue) -> {
+			//System.out.println("Old:" + oldValue + " new" + newValue);
+			//reservationTextFieldChanged(newValue);
+		});
 
 		setupSplashScreen();
 

@@ -91,7 +91,7 @@ public class ReservationInfoPopupController {
 
 	private String id;
 	private Controller controller;
-	
+
 	public void injectMainController(Controller controller) {
 		this.controller = controller;
 	}
@@ -106,25 +106,21 @@ public class ReservationInfoPopupController {
 			Reservation reservation = (Reservation) data.get(1);
 			Room resRoom = (Room) data.get(2);
 
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					firstname.setText(guest.getFirstName());
-					lastname.setText(guest.getLastName());
-					passport.setText(guest.getPassportNumber());
-					address.setText(guest.getAddress());
-					telephone.setText(guest.getTelephoneNumber());
-					creditcard.setText(guest.getCreditCard());
+			Platform.runLater(() -> {
+				firstname.setText(guest.getFirstName());
+				lastname.setText(guest.getLastName());
+				passport.setText(guest.getPassportNumber());
+				address.setText(guest.getAddress());
+				telephone.setText(guest.getTelephoneNumber());
+				creditcard.setText(guest.getCreditCard());
+				reservationID.setText(Integer.toString(reservation.getId()));
+				arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
+				departureDate.setText(Integer.toString(reservation.getDepartureDate()));
+				hotel.setText(reservation.getHotel());
+				room.setText(Integer.toString(reservation.getRoomNumber()));
+				price.setText(Integer.toString(reservation.getPrice()));
 
-					reservationID.setText(Integer.toString(reservation.getId()));
-					arrivalDate.setText(Integer.toString(reservation.getArrivalDate()));
-					departureDate.setText(Integer.toString(reservation.getDepartureDate()));
-					hotel.setText(reservation.getHotel());
-					room.setText(Integer.toString(reservation.getRoomNumber()));
-					price.setText(Integer.toString(reservation.getPrice()));
-
-					quality.setText(resRoom.getQuality());
-				}
+				quality.setText(resRoom.getQuality());
 			});
 
 			if (reservation.getCheckedIn()) {
@@ -145,21 +141,13 @@ public class ReservationInfoPopupController {
 
 		executor.submit(() -> {
 			if (dbParser.cancelReservation(id)) {
-				
-				//controller.removeElementFromReservationTable(id);
-				
+				// controller.removeElementFromReservationTable(id);
 				controller.reloadReservationTable();
-				
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						((Node) (event.getSource())).getScene().getWindow().hide();
-					}
+				Platform.runLater(() -> {
+					((Node) (event.getSource())).getScene().getWindow().hide();
 				});
-
 			}
 		});
-
 	}
 
 	@FXML

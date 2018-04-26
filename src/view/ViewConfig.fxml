@@ -68,9 +68,9 @@
                                                             <HBox prefHeight="50.0" />
                                                             <HBox>
                                                                <children>
-                                                                  <DatePicker fx:id="arrivalDate" onKeyReleased="#keyReleasedProperty" promptText="Arrival" />
+                                                                  <DatePicker fx:id="arrivalDate" onAction="#arrivalDepatureAction" onKeyReleased="#keyReleasedProperty" promptText="Arrival" />
                                                                   <VBox prefWidth="50.0" />
-                                                                  <DatePicker fx:id="departureDate" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
+                                                                  <DatePicker fx:id="departureDate" onAction="#arrivalDepatureAction" onKeyReleased="#keyReleasedProperty" promptText="Departure" />
                                                                </children>
                                                             </HBox>
                                                             <HBox prefHeight="50.0" />
@@ -110,7 +110,7 @@
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
                                                                   </Button>
-                                                                  <Button fx:id="makeReservationButton" mnemonicParsing="false" onMouseClicked="#makeReservation" text="Make Reservation">
+                                                                  <Button fx:id="makeReservationButton" disable="true" mnemonicParsing="false" onMouseClicked="#makeReservation" text="Make Reservation">
                                                                      <cursor>
                                                                         <Cursor fx:constant="HAND" />
                                                                      </cursor>
