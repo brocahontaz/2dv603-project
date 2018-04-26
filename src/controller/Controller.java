@@ -1334,7 +1334,7 @@ public class Controller {
 		checkOutButton.setDisable(true);
 		// makeReservationButton.setDisable(true);
 
-		Fx.setTextFormatter(searchGuestCreditCard, 16);
+		Fx.setTextFormatter(searchGuestCreditCard, 16, "[0-9]+");
 		
 		System.out.println("#Popups done!");
 

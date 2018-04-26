@@ -190,16 +190,30 @@ public class Fx {
 		pause.play();
 	}
 
-	public static void setTextFormatter(TextField field, int maxLength) {
+	public static void setTextFormatter(TextField field, int maxLength, String regex) {
+		
+		final ContextMenu menu = new ContextMenu();
 		UnaryOperator<Change> rejectChange = c -> {
+			
+			menu.hide();
+			
 			// check if the change might effect the validating predicate
 			if (c.isContentChange()) {
 				// check if change is valid
 				if (c.getControlNewText().length() > maxLength) {
 					// invalid change
 					// sugar: show a context menu with error message
-					final ContextMenu menu = new ContextMenu();
+					menu.getItems().clear();
 					menu.getItems().add(new MenuItem("This field takes\n" + maxLength + " characters only."));
+					menu.show(c.getControl(), Side.BOTTOM, 0, 0);
+					// return null to reject the change
+					return null;
+				}
+				if (!c.getControlNewText().matches(regex)) {
+					// invalid change
+					// sugar: show a context menu with error message
+					menu.getItems().clear();
+					menu.getItems().add(new MenuItem("This field takes\n numbers only."));
 					menu.show(c.getControl(), Side.BOTTOM, 0, 0);
 					// return null to reject the change
 					return null;
