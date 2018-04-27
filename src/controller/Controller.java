@@ -459,24 +459,24 @@ public class Controller {
 	void checkOutGuest(MouseEvent event) {
 		checkOutButton.setDisable(true);
 		executor.submit(() -> {
-				if (dbParser.checkOut(Integer.toString(checkOutResId)) == true) {
-					
-					// Running element manipulation on fx-thread
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							createBillPDF(Integer.toString(checkOutResId));
-							Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
-						}
-					});
-				} else {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
-						}
-					});
-				}
+			if (dbParser.checkOut(Integer.toString(checkOutResId)) == true) {
+
+				// Running element manipulation on fx-thread
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						createBillPDF(Integer.toString(checkOutResId));
+						Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
+					}
+				});
+			} else {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+					}
+				});
+			}
 		});
 	}
 
@@ -1426,48 +1426,50 @@ public class Controller {
 
 	private void createBillPDF(String id) {
 
-		System.out.println("create");
 		try {
-			System.out.println("bill");
-			
-			File template = new File("C:\\temp\\pdftemplate.pdf");
-			PDDocument templaceDocument = new PDDocument().load(template);
-			PDDocumentCatalog docCatalog = templaceDocument.getDocumentCatalog();
-		    PDAcroForm acroForm = docCatalog.getAcroForm();
-			
-		    acroForm.getField("resID").setValue(id);
-		    //acroForm.getField("resID").setReadOnly(true);
-		    PDPageTree pages = docCatalog.getPages();
-		    acroForm.flatten();
+
+			File template = new File("C:\\Temp\\pdftemplate.pdf");
+			PDDocument templateDocument = PDDocument.load(template);
+			PDDocumentCatalog docCatalog = templateDocument.getDocumentCatalog();
+			PDAcroForm acroForm = docCatalog.getAcroForm();
+			acroForm.setNeedAppearances(false);
+
+			acroForm.getField("reservationID").setValue(id);
+			acroForm.getField("reservationID").setReadOnly(true);
+			acroForm.getField("firstName").setValue(checkOutFirstName.getText());
+			acroForm.getField("firstName").setReadOnly(true);
+			acroForm.getField("lastName").setValue(checkOutLastName.getText());
+			acroForm.getField("lastName").setReadOnly(true);
+			acroForm.getField("address").setValue(checkOutAddress.getText());
+			acroForm.getField("address").setReadOnly(true);
+			acroForm.getField("telephone").setValue(checkOutTelephone.getText());
+			acroForm.getField("telephone").setReadOnly(true);
+			acroForm.getField("creditCard").setValue(checkOutCreditCard.getText());
+			acroForm.getField("creditCard").setReadOnly(true);
+			acroForm.getField("passport").setValue(checkOutPassportNumber.getText());
+			acroForm.getField("passport").setReadOnly(true);
+			acroForm.getField("arrivalDate").setValue(checkOutArrivalDate.getText());
+			acroForm.getField("arrivalDate").setReadOnly(true);
+			acroForm.getField("departureDate").setValue(checkOutDepartureDate.getText());
+			acroForm.getField("departureDate").setReadOnly(true);
+			acroForm.getField("hotel").setValue(checkoutHotel.getText());
+			acroForm.getField("hotel").setReadOnly(true);
+			acroForm.getField("quality").setValue(checkoutQuality.getText());
+			acroForm.getField("quality").setReadOnly(true);
+			acroForm.getField("room").setValue(checkoutRoom.getText());
+			acroForm.getField("room").setReadOnly(true);
+			acroForm.getField("price").setValue(checkoutPrice.getText());
+			acroForm.getField("price").setReadOnly(true);
+
+			PDPageTree pages = docCatalog.getPages();
 			PDDocument document = new PDDocument();
-			
 			document.addPage(pages.get(0));
-			
-			document.save("C:\\temp\\" + id + ".pdf");
-			
-			/*
-			PDPage bill = new PDPage();
-			document.addPage(bill);
-			
-			PDPageContentStream contentStream = new PDPageContentStream(document, bill);
-			contentStream.beginText();
-			contentStream.setFont(PDType1Font.HELVETICA, 14);
-			contentStream.newLineAtOffset(25, 750);
-			contentStream.showText("HotelFX");
-			contentStream.endText();
-			contentStream.beginText();
-			contentStream.setFont(PDType1Font.HELVETICA, 10);
-			contentStream.newLineAtOffset(125, 750);
-			contentStream.showText("HotelFX");
-			contentStream.endText();
-			contentStream.close();
-			
-			*/
-			templaceDocument.close();
+			document.save("C:\\Temp\\" + id + ".pdf");
+
+			templateDocument.close();
 			document.close();
 			openBillPDF(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
