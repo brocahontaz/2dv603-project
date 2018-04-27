@@ -619,6 +619,7 @@ public class Controller {
 				checkinRoom, checkinQuality);
 		checkinPrice.setText("0");
 		checkInButton.setDisable(true);
+		chooseReservationButtonCheckIn.setDisable(true);
 	}
 
 	@FXML
@@ -628,6 +629,7 @@ public class Controller {
 				checkOutDepartureDate, checkoutHotel, checkoutRoom, checkoutQuality);
 		checkoutPrice.setText("0");
 		checkOutButton.setDisable(true);
+		chooseReservationButtonCheckOut.setDisable(true);
 	}
 
 	/*
@@ -975,22 +977,69 @@ public class Controller {
 
 	}
 
+	/**
+	 * Handles the enable/disable of button Search in tab Guest Management
+	 * 
+	 * @param event
+	 */
 	@FXML
-	void GuestManagementButtons(KeyEvent event) {
+	void guestManagementButtonSearch(KeyEvent event) {
 
 		boolean buttonSearchGuest = (searchGuestFirstName.getText().isEmpty() && searchGuestLastName.getText().isEmpty()
 				&& searchGuestAddress.getText().isEmpty() && searchGuestTelephone.getText().isEmpty()
 				&& searchGuestCreditCard.getText().isEmpty() && searchGuestPassportNumber.getText().isEmpty());
-		
+
 		searchGuestButton.setDisable(buttonSearchGuest);
 
-		boolean buttonAddGuest = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
-				|| addGuestAddress.getText().isEmpty() || !(addGuestTelephone.getText().length() >= Fx.TELEPHONE_MIN_LENGTH)
-				|| !(addGuestCreditCard.getText().length() == Fx.CREDITCARD_LENGTH) || !(addGuestPassport.getText().length() == Fx.PASSPORT_LENGTH));
-		
-		addGuestButton.setDisable(buttonAddGuest);
 	}
 
+	/**
+	 * Handles the enable/disable of button Add in tab Guest Management
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void guestManagementButtonAdd(KeyEvent event) {
+		boolean buttonAddGuest = (addGuestFirstName.getText().isEmpty() || addGuestLastName.getText().isEmpty()
+				|| addGuestAddress.getText().isEmpty()
+				|| !(addGuestTelephone.getText().length() >= Fx.TELEPHONE_MIN_LENGTH)
+				|| !(addGuestCreditCard.getText().length() == Fx.CREDITCARD_LENGTH)
+				|| !(addGuestPassport.getText().length() == Fx.PASSPORT_LENGTH));
+
+		addGuestButton.setDisable(buttonAddGuest);
+
+	}
+
+	/**
+	 * Handles the enable/disable of button Choose Reservation(Add) in tab
+	 * Checkin/Checkout Management
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void checkInButtonChoseReservation(KeyEvent event) {
+		boolean chooseReservation = checkInReservationID.getText().isEmpty();
+		chooseReservationButtonCheckIn.setDisable(chooseReservation);
+	}
+
+	/**
+	 * Handles the enable/disable of button Choose Reservation(Search) in tab
+	 * Checkin/Checkout Management
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void checkOutButtonChoseReservation(KeyEvent event) {
+		boolean chooseReservation = checkOutReservationID.getText().isEmpty();
+		chooseReservationButtonCheckOut.setDisable(chooseReservation);
+	}
+
+	/**
+	 * Handles the enable/disable of button Make Reservation in tab Reservation
+	 * Management
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void arrivalDepatureAction(ActionEvent event) {
 		System.out.println(checkMakeReservationGuest);
@@ -1031,18 +1080,21 @@ public class Controller {
 			dbLoad.setVisible(true);
 			searchResultTable.setVisible(false);
 			searchResultTable.getItems().clear();
-
 			listAllGuestsButton.setDisable(true);
 			searchResultTable.getItems().clear();
 			guests = FXCollections.observableArrayList(dbParser.getAllGuests());
 			searchResultTable.setItems(guests);
 			listAllGuestsButton.setDisable(false);
-
 			dbLoad.setVisible(false);
 			searchResultTable.setVisible(true);
 		});
 	}
 
+	/**
+	 * Clears all textfields in search guests in the tab Guest Management
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearSearchGuestFields(MouseEvent event) {
 		searchGuestButton.setDisable(true);
@@ -1315,7 +1367,7 @@ public class Controller {
 
 	}
 
-	private void checkIfmakeReservationGuestIsEmpty(String value) {
+	private void checkIfMakeReservationGuestIsEmpty(String value) {
 		if (value.length() > 0) {
 			checkMakeReservationGuest = true;
 		} else {
@@ -1360,26 +1412,30 @@ public class Controller {
 	}
 
 	/**
+	 * Adds an observable listener to textfield makeReservationGuest in tab
+	 * Reservation Management, to listen to changes in the textfield and fire an
+	 * ActionEvent to method arrivalDepatureAction when changes occur
+	 */
+	private void makeReservationGuestListener() {
+		makeReservationGuest.textProperty().addListener((observable, oldValue, newValue) -> {
+			Event event = new ActionEvent();
+			checkIfMakeReservationGuestIsEmpty(newValue);
+			arrivalDate.fireEvent(event);
+		});
+	}
+
+	/**
 	 * Initialize
 	 */
 	@FXML
 	void initialize() {
-
-		makeReservationGuest.textProperty().addListener((observable, oldValue, newValue) -> {
-			Event event = new ActionEvent();
-			checkIfmakeReservationGuestIsEmpty(newValue);
-			arrivalDate.fireEvent(event);
-		});
-
 		setupSplashScreen();
-
+		makeReservationGuestListener();
 		setCellFactoriesForGuestResultsTable();
 		setCellFactoriesForReservationResultsTable();
-
 		setTextFormattersForSearchGuest();
 		setTextFormattersForAddGuest();
 		setTextFormattersForCheckInCheckOut();
-
 		initializeHotels();
 
 	}
