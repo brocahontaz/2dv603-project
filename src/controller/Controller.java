@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -9,6 +11,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -67,6 +77,9 @@ public class Controller {
 	public static final String DEFAULT_QUALITY_CHOICE = "Room Quality";
 	private Hotel defaultHotel = new Hotel(DEFAULT_HOTEL_CHOICE, "");
 	private boolean checkMakeReservationGuest = false;
+
+	private int checkInResId = -1;
+	private int checkOutResId = -1;
 
 	@FXML
 	private BorderPane rootPane;
@@ -418,23 +431,14 @@ public class Controller {
 	void checkInGuest(MouseEvent event) {
 		checkInButton.setDisable(true);
 		executor.submit(() -> {
-			if (!(checkInReservationID.getText().isEmpty())) {
-				if (dbParser.checkIn(checkInReservationID.getText()) == true) {
-					// Running element manipulation on fx-thread
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotification(checkInGuestsBox, "success");
-						}
-					});
-				} else {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
-						}
-					});
-				}
+			if (dbParser.checkIn(Integer.toString(checkInResId)) == true) {
+				// Running element manipulation on fx-thread
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						Fx.titledPaneColorNotification(checkInGuestsBox, "success");
+					}
+				});
 			} else {
 				Platform.runLater(new Runnable() {
 					@Override
@@ -443,7 +447,6 @@ public class Controller {
 					}
 				});
 			}
-
 		});
 	}
 
@@ -456,12 +459,13 @@ public class Controller {
 	void checkOutGuest(MouseEvent event) {
 		checkOutButton.setDisable(true);
 		executor.submit(() -> {
-			if (!(checkOutReservationID.getText().isEmpty())) {
-				if (dbParser.checkOut(checkOutReservationID.getText()) == true) {
+				if (dbParser.checkOut(Integer.toString(checkOutResId)) == true) {
+					
 					// Running element manipulation on fx-thread
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
+							createBillPDF(Integer.toString(checkOutResId));
 							Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
 						}
 					});
@@ -473,14 +477,6 @@ public class Controller {
 						}
 					});
 				}
-			} else {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
-					}
-				});
-			}
 		});
 	}
 
@@ -727,6 +723,8 @@ public class Controller {
 				checkinQuality.setText(room.getQuality());
 				checkinPrice.setText(Integer.toString(reservation.getPrice()));
 
+				checkInResId = reservation.getId();
+
 				if (reservation.getCheckedIn() == false) {
 					checkInButton.setDisable(false);
 				}
@@ -786,6 +784,8 @@ public class Controller {
 				checkoutRoom.setText(Integer.toString(reservation.getRoomNumber()));
 				checkoutQuality.setText(room.getQuality());
 				checkoutPrice.setText(Integer.toString(reservation.getPrice()));
+
+				checkOutResId = reservation.getId();
 
 				if (reservation.getCheckedIn() == true) {
 					checkOutButton.setDisable(false);
@@ -1422,6 +1422,65 @@ public class Controller {
 			checkIfMakeReservationGuestIsEmpty(newValue);
 			arrivalDate.fireEvent(event);
 		});
+	}
+
+	private void createBillPDF(String id) {
+
+		System.out.println("create");
+		try {
+			System.out.println("bill");
+			
+			File template = new File("C:\\temp\\pdftemplate.pdf");
+			PDDocument templaceDocument = new PDDocument().load(template);
+			PDDocumentCatalog docCatalog = templaceDocument.getDocumentCatalog();
+		    PDAcroForm acroForm = docCatalog.getAcroForm();
+			
+		    acroForm.getField("resID").setValue(id);
+		    //acroForm.getField("resID").setReadOnly(true);
+		    PDPageTree pages = docCatalog.getPages();
+		    acroForm.flatten();
+			PDDocument document = new PDDocument();
+			
+			document.addPage(pages.get(0));
+			
+			document.save("C:\\temp\\" + id + ".pdf");
+			
+			/*
+			PDPage bill = new PDPage();
+			document.addPage(bill);
+			
+			PDPageContentStream contentStream = new PDPageContentStream(document, bill);
+			contentStream.beginText();
+			contentStream.setFont(PDType1Font.HELVETICA, 14);
+			contentStream.newLineAtOffset(25, 750);
+			contentStream.showText("HotelFX");
+			contentStream.endText();
+			contentStream.beginText();
+			contentStream.setFont(PDType1Font.HELVETICA, 10);
+			contentStream.newLineAtOffset(125, 750);
+			contentStream.showText("HotelFX");
+			contentStream.endText();
+			contentStream.close();
+			
+			*/
+			templaceDocument.close();
+			document.close();
+			openBillPDF(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void openBillPDF(String id) {
+		try {
+			File file = new File("C:\\temp\\" + id + ".pdf");
+			Desktop.getDesktop().open(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
