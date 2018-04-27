@@ -1428,18 +1428,22 @@ public class Controller {
 
 		try {
 
-			File template = new File("C:\\Temp\\pdftemplate.pdf");
+			File template = new File("C:\\Temp\\hotelpdftemplate.pdf");
 			PDDocument templateDocument = PDDocument.load(template);
 			PDDocumentCatalog docCatalog = templateDocument.getDocumentCatalog();
 			PDAcroForm acroForm = docCatalog.getAcroForm();
 			acroForm.setNeedAppearances(false);
 
+			String fullname = checkOutFirstName.getText() + " " + checkOutLastName.getText();
+			
+			
+			
 			acroForm.getField("reservationID").setValue(id);
 			acroForm.getField("reservationID").setReadOnly(true);
-			acroForm.getField("firstName").setValue(checkOutFirstName.getText());
-			acroForm.getField("firstName").setReadOnly(true);
-			acroForm.getField("lastName").setValue(checkOutLastName.getText());
-			acroForm.getField("lastName").setReadOnly(true);
+			acroForm.getField("name").setValue(fullname);
+			acroForm.getField("name").setReadOnly(true);
+			acroForm.getField("dateBox").setValue(LocalDate.now().toString());
+			acroForm.getField("dateBox").setReadOnly(true);
 			acroForm.getField("address").setValue(checkOutAddress.getText());
 			acroForm.getField("address").setReadOnly(true);
 			acroForm.getField("telephone").setValue(checkOutTelephone.getText());
