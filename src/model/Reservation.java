@@ -239,7 +239,7 @@ public class Reservation {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.getId());
+		return Objects.hash(this.id);
 	}
 
 	/**
