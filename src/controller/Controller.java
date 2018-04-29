@@ -1436,8 +1436,6 @@ public class Controller {
 
 			String fullname = checkOutFirstName.getText() + " " + checkOutLastName.getText();
 			
-			
-			
 			acroForm.getField("reservationID").setValue(id);
 			acroForm.getField("reservationID").setReadOnly(true);
 			acroForm.getField("name").setValue(fullname);
@@ -1502,7 +1500,6 @@ public class Controller {
 		setTextFormattersForAddGuest();
 		setTextFormattersForCheckInCheckOut();
 		initializeHotels();
-
 	}
 
 }
