@@ -161,7 +161,7 @@ public class Guest {
 	}
 
 	/**
-	 * Get the hashCode for the Guest object
+	 * Get the hash code for the Guest object
 	 */
 	@Override
 	public int hashCode() {

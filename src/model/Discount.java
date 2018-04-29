@@ -73,7 +73,7 @@ public class Discount {
 	}
 
 	/**
-	 * Get the hashCode for the discount object
+	 * Get the hash code for the discount object
 	 */
 	@Override
 	public int hashCode() {
