@@ -101,7 +101,7 @@ public class Discount {
 	}
 
 	/**
-	 * Get a string representation of the discount
+	 * Get a string representation of the Discount object
 	 */
 	@Override
 	public String toString() {

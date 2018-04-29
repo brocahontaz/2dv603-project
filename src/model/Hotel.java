@@ -39,7 +39,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Get the name of the hotel
+	 * Get the name of the Hotel
 	 * @return<String> the name
 	 */
 	public String getName() {
@@ -47,7 +47,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Set the name of the hotel
+	 * Set the name of the Hotel
 	 * 
 	 * @param name
 	 *            the name of the hotel
@@ -57,7 +57,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Get the address of the hotel
+	 * Get the address of the Hotel
 	 * @return<String> the address
 	 */
 	public String getAddress() {
@@ -65,7 +65,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Set the address of the hotel
+	 * Set the address of the Hotel
 	 * 
 	 * @param address
 	 *            the address of the hotel
@@ -75,7 +75,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Get the list of discounts of the hotel
+	 * Get the list of discounts of the Hotel
 	 * @return<ArrayList> the discounts
 	 */
 	public ArrayList<Integer> getDiscounts() {
@@ -83,7 +83,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Set the list of discounts for the hotel
+	 * Set the list of discounts for the Hotel
 	 * 
 	 * @param discounts
 	 *            the discounts
@@ -93,7 +93,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Get the list of qualities of the hotel
+	 * Get the list of qualities of the Hotel
 	 * @return<ArrayList> the qualities
 	 */
 	public ArrayList<RoomQuality> getQualities() {
@@ -101,7 +101,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Set the list of qualities for the hotel
+	 * Set the list of qualities for the Hotel
 	 * 
 	 * @param qualities
 	 *            the qualities
@@ -111,7 +111,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Get the hash code for the hotel object
+	 * Get the hash code for the Hotel object
 	 */
 	@Override
 	public int hashCode() {
@@ -119,7 +119,7 @@ public class Hotel {
 	}
 
 	/**
-	 * Equals method for comparing two hotel objects
+	 * Equals method for comparing two Hotel objects
 	 * 
 	 * @param obj
 	 *            the other object to compare against
@@ -136,11 +136,11 @@ public class Hotel {
 
 		Hotel other = (Hotel) obj;
 
-		return this.getName().equals(other.getName());
+		return this.name.equals(other.name);
 	}
 
 	/**
-	 * Get a String representation of the hotel object
+	 * Get a String representation of the Hotel object
 	 */
 	@Override
 	public String toString() {

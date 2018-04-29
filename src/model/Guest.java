@@ -151,7 +151,7 @@ public class Guest {
 	}
 
 	/**
-	 * Set the passport number of the guest
+	 * Set the passport number of the Guest
 	 * 
 	 * @param passportNumber
 	 *            the passport number
