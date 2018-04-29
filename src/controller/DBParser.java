@@ -589,7 +589,7 @@ public class DBParser {
 	private void populateQualities(ArrayList<RoomQuality> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"),
+				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"), crsTemp.getInt("numberOfBeds"),
 						crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
