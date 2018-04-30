@@ -1,15 +1,10 @@
 package application;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -40,20 +35,14 @@ public class Main extends Application {
 			primaryStage.setMinWidth(800);
 			primaryStage.setMaxHeight(1080);
 			primaryStage.setMaxWidth(1920);
-			// primaryStage.initStyle(StageStyle.UNDECORATED);
-
-			// primaryStage.getIcons().add(new Image("/apeemoji.png"));
-			// primaryStage.getIcons().add(new
-			// Image(getClass().getResource("/apeemoji.png").toExternalForm()));
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
 			primaryStage.setTitle("HotelFX");
 			loader.<Controller>getController().setStage(primaryStage);
-			//primaryStage.show();
 
 			primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent window) {
-					System.out.println("Fungerar jag?");
+
 				}
 			});
 
@@ -66,7 +55,6 @@ public class Main extends Application {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Main setupMainStage");
 		}
 
 	}

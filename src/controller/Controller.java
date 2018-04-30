@@ -3,7 +3,6 @@ package controller;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,27 +10,19 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDPageTree;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -43,7 +34,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -183,6 +173,30 @@ public class Controller {
 
 	@FXML
 	private TextField makeReservationRoom;
+	
+	@FXML
+	private TextField checkinHotel;
+
+	@FXML
+	private TextField checkinQuality;
+
+	@FXML
+	private TextField checkinRoom;
+	
+	@FXML
+	private TextField checkoutHotel;
+
+	@FXML
+	private TextField checkoutQuality;
+
+	@FXML
+	private TextField checkoutRoom;
+
+	@FXML
+	private TextField checkReservationGuest;
+	
+	@FXML
+	private TextField checkReservationID;
 
 	/**
 	 * TEXT
@@ -190,6 +204,12 @@ public class Controller {
 
 	@FXML
 	private Text estimatedPrice;
+	
+	@FXML
+	private Text checkinPrice;
+	
+	@FXML
+	private Text checkoutPrice;
 
 	/**
 	 * BUTTONS
@@ -233,6 +253,21 @@ public class Controller {
 
 	@FXML
 	private Button clearReservationButton;
+	
+	@FXML
+	private Button pickCheckGuestButton;
+	
+	@FXML
+	private Button clearSearchGuestFieldsButton;
+
+	@FXML
+	private Button clearAddGuestFieldsButton;
+	
+	@FXML
+	private Button clearCheckReservationButton;
+
+	@FXML
+	private Button checkReservationButton;
 
 	/**
 	 * TITLED PANES
@@ -277,6 +312,12 @@ public class Controller {
 
 	@FXML
 	private ComboBox<Hotel> hotelChoice;
+	
+	@FXML
+	private ComboBox<Hotel> hotelCheckChoice;
+
+	@FXML
+	private ComboBox<?> roomQualityCheckChoice;
 
 	/**
 	 * PROGRESS INDICATORS
@@ -303,6 +344,12 @@ public class Controller {
 
 	@FXML
 	private DatePicker departureDate;
+	
+	@FXML
+	private DatePicker arrivalCheckDate;
+
+	@FXML
+	private DatePicker departureCheckDate;
 
 	/**
 	 * TABLE VIEWS
@@ -322,70 +369,7 @@ public class Controller {
 
 	@FXML
 	private TableColumn<model.Guest, String> telephoneCol;
-
-	/**
-	 * MENU ITEMS
-	 */
-
-	@FXML
-	private MenuItem vaxjoChange;
-
-	@FXML
-	private MenuItem kalmarChange;
-
-	@FXML
-	private MenuItem closeSystem;
-
-	@FXML
-	private TextField checkinHotel;
-
-	@FXML
-	private TextField checkinQuality;
-
-	@FXML
-	private TextField checkinRoom;
-
-	@FXML
-	private Text checkinPrice;
-
-	@FXML
-	private TextField checkoutHotel;
-
-	@FXML
-	private TextField checkoutQuality;
-
-	@FXML
-	private TextField checkoutRoom;
-
-	@FXML
-	private Text checkoutPrice;
-
-	@FXML
-	private TextField checkReservationGuest;
-	@FXML
-	private TextField checkReservationID;
-
-	@FXML
-	private Button pickCheckGuestButton;
-
-	@FXML
-	private DatePicker arrivalCheckDate;
-
-	@FXML
-	private DatePicker departureCheckDate;
-
-	@FXML
-	private ComboBox<Hotel> hotelCheckChoice;
-
-	@FXML
-	private ComboBox<?> roomQualityCheckChoice;
-
-	@FXML
-	private Button clearCheckReservationButton;
-
-	@FXML
-	private Button checkReservationButton;
-
+	
 	@FXML
 	private TableView<Reservation> checkResResultsTable;
 
@@ -404,11 +388,18 @@ public class Controller {
 	@FXML
 	private TableColumn<Reservation, String> departureCol;
 
-	@FXML
-	private Button clearSearchGuestFieldsButton;
+	/**
+	 * MENU ITEMS
+	 */
 
 	@FXML
-	private Button clearAddGuestFieldsButton;
+	private MenuItem vaxjoChange;
+
+	@FXML
+	private MenuItem kalmarChange;
+
+	@FXML
+	private MenuItem closeSystem;
 
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
@@ -417,8 +408,6 @@ public class Controller {
 		if (temp.size() == 0) {
 			temp.add(0);
 		}
-		System.out.println(temp.size());
-		System.out.println(temp.get(0));
 		return temp.get(0);
 	}
 
@@ -547,7 +536,6 @@ public class Controller {
 
 			}
 
-			System.out.println(reservations);
 
 			checkResResultsTable.setItems(reservations);
 
@@ -573,7 +561,6 @@ public class Controller {
 	}
 
 	private void setupReservationInfoPopup(String resID) {
-		System.out.print("--Setting up Reservation Info popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationInfoPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -593,9 +580,7 @@ public class Controller {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupReservationInfoPopup");
 		}
-		System.out.print("done!\r");
 	}
 
 	@FXML
@@ -648,7 +633,6 @@ public class Controller {
 	}
 
 	private void setupGuestInfoPopup(Guest guest) {
-		System.out.print("--Setting up Guest Info popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -666,9 +650,8 @@ public class Controller {
 			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupGuestInfoPopup");
 		}
-		System.out.print("done!\r");
+
 	}
 
 	/**
@@ -828,7 +811,6 @@ public class Controller {
 	}
 
 	private void setupReservationPopUp(Hotel tmpHotel, RoomQuality tmpQuality) {
-		System.out.print("--Setting up reservation popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -849,9 +831,8 @@ public class Controller {
 			reservationPopup.show();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupReservationPopUp");
 		}
-		System.out.print("done!\r");
+
 	}
 
 	@FXML
@@ -885,7 +866,6 @@ public class Controller {
 	}
 
 	private void setupGuestPopUp(TextField textfield) {
-		System.out.print("--Setting up guest popup.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -904,9 +884,8 @@ public class Controller {
 			guestPopup.show();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupGuestPopUp");
 		}
-		System.out.print("done!\r");
+
 	}
 
 	public void displayPickedGuest(Guest guest, TextField Textfield) {
@@ -1042,7 +1021,6 @@ public class Controller {
 	 */
 	@FXML
 	void arrivalDepatureAction(ActionEvent event) {
-		System.out.println(checkMakeReservationGuest);
 		boolean isDisabled = (arrivalDate.getValue() == null || departureDate.getValue() == null
 				|| checkMakeReservationGuest == false);
 		makeReservationButton.setDisable(isDisabled);
@@ -1110,7 +1088,6 @@ public class Controller {
 	}
 
 	private void initializeHotels() {
-		System.out.println("#Initializing hotels.. ");
 
 		executor.submit(() -> {
 			hotels = FXCollections.observableArrayList(dbParser.getHotels());
@@ -1187,16 +1164,11 @@ public class Controller {
 
 		});
 
-		// System.out.println(hotels);
 
-		System.out.println("#Hotels initialized!");
 	}
 
 	private void initializeHotelQualities() {
-		// executor.submit(() -> {
 		roomQualities = dbParser.getQualities();
-		// });
-
 	}
 
 	private void setHotelQualities(Hotel hotel) {
@@ -1304,7 +1276,6 @@ public class Controller {
 			}
 		}
 
-		System.out.println(prices);
 
 		return (sb.toString());
 	}
@@ -1318,7 +1289,6 @@ public class Controller {
 	}
 
 	private void setupSplashScreen() {
-		System.out.print("--Setting up splash screen.. ");
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SplashScreen.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -1340,9 +1310,7 @@ public class Controller {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller setupSplashScreen");
 		}
-		System.out.print("done!\r");
 	}
 
 	public void setStage(Stage stage) {
@@ -1362,7 +1330,6 @@ public class Controller {
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Exception from Crontroller hideSplashDisplayMain");
 		}
 
 	}
