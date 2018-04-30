@@ -1302,6 +1302,7 @@ public class Controller {
 	private void hideSplashDisplayMain() {
 
 		try {
+			// Running element manipulation on fx-thread
 			Platform.runLater(() -> {
 
 				splashScreen.hide();

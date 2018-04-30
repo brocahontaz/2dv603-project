@@ -107,6 +107,7 @@ public class ReservationInfoPopupController {
 			Reservation reservation = (Reservation) data.get(1);
 			Room resRoom = (Room) data.get(2);
 
+			// Running element manipulation on fx-thread
 			Platform.runLater(() -> {
 				firstname.setText(guest.getFirstName());
 				lastname.setText(guest.getLastName());
@@ -142,8 +143,8 @@ public class ReservationInfoPopupController {
 		executor.submit(() -> {
 			cancelReservationButton.setDisable(true);
 			if (dbParser.cancelReservation(id)) {
-				// controller.removeElementFromReservationTable(id);
 				controller.reloadReservationTable();
+				// Running element manipulation on fx-thread
 				Platform.runLater(() -> {
 					((Node) (event.getSource())).getScene().getWindow().hide();
 				});
