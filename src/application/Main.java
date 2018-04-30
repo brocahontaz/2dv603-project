@@ -3,9 +3,7 @@ package application;
 import controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -38,13 +36,6 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
 			primaryStage.setTitle("HotelFX");
 			loader.<Controller>getController().setStage(primaryStage);
-
-			primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, new EventHandler<WindowEvent>() {
-				@Override
-				public void handle(WindowEvent window) {
-
-				}
-			});
 
 			
 			// Completely closes the application and all threads.

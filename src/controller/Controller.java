@@ -173,7 +173,7 @@ public class Controller {
 
 	@FXML
 	private TextField makeReservationRoom;
-	
+
 	@FXML
 	private TextField checkinHotel;
 
@@ -182,7 +182,7 @@ public class Controller {
 
 	@FXML
 	private TextField checkinRoom;
-	
+
 	@FXML
 	private TextField checkoutHotel;
 
@@ -194,7 +194,7 @@ public class Controller {
 
 	@FXML
 	private TextField checkReservationGuest;
-	
+
 	@FXML
 	private TextField checkReservationID;
 
@@ -204,10 +204,10 @@ public class Controller {
 
 	@FXML
 	private Text estimatedPrice;
-	
+
 	@FXML
 	private Text checkinPrice;
-	
+
 	@FXML
 	private Text checkoutPrice;
 
@@ -253,16 +253,16 @@ public class Controller {
 
 	@FXML
 	private Button clearReservationButton;
-	
+
 	@FXML
 	private Button pickCheckGuestButton;
-	
+
 	@FXML
 	private Button clearSearchGuestFieldsButton;
 
 	@FXML
 	private Button clearAddGuestFieldsButton;
-	
+
 	@FXML
 	private Button clearCheckReservationButton;
 
@@ -312,12 +312,9 @@ public class Controller {
 
 	@FXML
 	private ComboBox<Hotel> hotelChoice;
-	
-	@FXML
-	private ComboBox<Hotel> hotelCheckChoice;
 
 	@FXML
-	private ComboBox<?> roomQualityCheckChoice;
+	private ComboBox<Hotel> hotelCheckChoice;
 
 	/**
 	 * PROGRESS INDICATORS
@@ -344,7 +341,7 @@ public class Controller {
 
 	@FXML
 	private DatePicker departureDate;
-	
+
 	@FXML
 	private DatePicker arrivalCheckDate;
 
@@ -369,7 +366,7 @@ public class Controller {
 
 	@FXML
 	private TableColumn<model.Guest, String> telephoneCol;
-	
+
 	@FXML
 	private TableView<Reservation> checkResResultsTable;
 
@@ -422,18 +419,16 @@ public class Controller {
 		executor.submit(() -> {
 			if (dbParser.checkIn(Integer.toString(checkInResId)) == true) {
 				// Running element manipulation on fx-thread
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Fx.titledPaneColorNotification(checkInGuestsBox, "success");
-					}
+				Platform.runLater(() -> {
+
+					Fx.titledPaneColorNotification(checkInGuestsBox, "success");
+
 				});
 			} else {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
-					}
+				Platform.runLater(() -> {
+
+					Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
+
 				});
 			}
 		});
@@ -451,19 +446,17 @@ public class Controller {
 			if (dbParser.checkOut(Integer.toString(checkOutResId)) == true) {
 
 				// Running element manipulation on fx-thread
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						createBillPDF(Integer.toString(checkOutResId));
-						Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
-					}
+				Platform.runLater(() -> {
+
+					createBillPDF(Integer.toString(checkOutResId));
+					Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
+
 				});
 			} else {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
-					}
+				Platform.runLater(() -> {
+
+					Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
+
 				});
 			}
 		});
@@ -494,8 +487,8 @@ public class Controller {
 			checkResResultsTable.setVisible(false);
 			reservationsProgress.setVisible(true);
 			String passport;
-			String arrival;
-			String departure;
+			Long arrival;
+			Long departure;
 
 			if (pickedCheckGuest != null) {
 				passport = pickedCheckGuest.getPassportNumber();
@@ -511,23 +504,22 @@ public class Controller {
 
 			if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
 
-				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
+				arrival = arrivalCheckDate.getValue().toEpochDay();
+				departure = departureCheckDate.getValue().toEpochDay();
 				reservations = FXCollections.observableArrayList(
-						dbParser.searchReservationsWithDates(passport, arrivalCheckDate.getValue().toEpochDay(),
-								departureCheckDate.getValue().toEpochDay(), hotelCheck));
+						dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
 
 			} else if (arrivalCheckDate.getValue() != null) {
 
-				arrival = arrivalCheckDate.getValue().toString().replaceAll("-", "");
-				reservations = FXCollections.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport,
-						arrivalCheckDate.getValue().toEpochDay(), hotelCheck));
+				arrival = arrivalCheckDate.getValue().toEpochDay();
+				reservations = FXCollections
+						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
 
 			} else if (departureCheckDate.getValue() != null) {
 
-				departure = departureCheckDate.getValue().toString().replaceAll("-", "");
-				reservations = FXCollections.observableArrayList(dbParser.searchReservationsWithDepartureDate(passport,
-						departureCheckDate.getValue().toEpochDay(), hotelCheck));
+				departure = departureCheckDate.getValue().toEpochDay();
+				reservations = FXCollections.observableArrayList(
+						dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
 
 			} else {
 
@@ -535,7 +527,6 @@ public class Controller {
 						.observableArrayList(dbParser.searchReservationsWithoutDates(passport, hotelCheck));
 
 			}
-
 
 			checkResResultsTable.setItems(reservations);
 
@@ -672,21 +663,19 @@ public class Controller {
 				ArrayList<Object> data = dbParser.getGuestAndReservationById(reservationID);
 				// Running element manipulation on fx-thread
 				if (data.size() > 0) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
-									"success", 1);
-						}
+					Platform.runLater(() -> {
+
+						Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
+								"success", 1);
+
 					});
 
 				} else {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
-									"danger");
-						}
+					Platform.runLater(() -> {
+
+						Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
+								"danger");
+
 					});
 				}
 				checkinProgress.setVisible(false);
@@ -733,21 +722,19 @@ public class Controller {
 						.observableArrayList(dbParser.getGuestAndReservationById(reservationID));
 				// Running element manipulation on fx-thread
 				if (data.size() > 0) {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
-									"success", 1);
-						}
+					Platform.runLater(() -> {
+
+						Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
+								"success", 1);
+
 					});
 
 				} else {
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
-									"danger");
-						}
+					Platform.runLater(() -> {
+
+						Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
+								"danger");
+
 					});
 				}
 
@@ -1164,7 +1151,6 @@ public class Controller {
 
 		});
 
-
 	}
 
 	private void initializeHotelQualities() {
@@ -1188,7 +1174,6 @@ public class Controller {
 
 	private void displayHotelQualities(Hotel hotel) {
 		roomQualityChoice.setItems(FXCollections.observableArrayList(hotel.getQualities()));
-		// roomQualityChoice.getSelectionModel().selectFirst();
 		if (roomQualityChoice.getSelectionModel().getSelectedItem() == null) {
 			roomQualityChoice.getSelectionModel().select(0);
 		}
@@ -1200,9 +1185,7 @@ public class Controller {
 	}
 
 	private void initializeHotelDiscounts() {
-		// executor.submit(() -> {
 		hotelDiscounts = dbParser.getDiscounts();
-		// });
 	}
 
 	private void setHotelDiscounts(Hotel hotel) {
@@ -1276,7 +1259,6 @@ public class Controller {
 			}
 		}
 
-
 		return (sb.toString());
 	}
 
@@ -1293,7 +1275,6 @@ public class Controller {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SplashScreen.fxml"));
 			BorderPane root = (BorderPane) loader.load();
 			Scene scene = new Scene(root, 600, 400);
-			// splashScreen = new Stage();
 			splashScreen.initModality(Modality.APPLICATION_MODAL);
 			splashScreen.setScene(scene);
 			splashScreen.setMinHeight(400);
@@ -1321,12 +1302,11 @@ public class Controller {
 	private void hideSplashDisplayMain() {
 
 		try {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					splashScreen.hide();
-					primaryStage.show();
-				}
+			Platform.runLater(() -> {
+
+				splashScreen.hide();
+				primaryStage.show();
+
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1402,7 +1382,7 @@ public class Controller {
 			acroForm.setNeedAppearances(false);
 
 			String fullname = checkOutFirstName.getText() + " " + checkOutLastName.getText();
-			
+
 			acroForm.getField("reservationID").setValue(id);
 			acroForm.getField("reservationID").setReadOnly(true);
 			acroForm.getField("name").setValue(fullname);
