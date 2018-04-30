@@ -1387,6 +1387,12 @@ public class Controller {
 		});
 	}
 
+	/**
+	 * Loads a PDF template and creates a bill when checking out a guest
+	 * 
+	 * @param id
+	 *            of the reservation
+	 */
 	private void createBillPDF(String id) {
 
 		try {
@@ -1440,6 +1446,12 @@ public class Controller {
 
 	}
 
+	/**
+	 * Opens the bill created from the method createBillPDF
+	 * 
+	 * @param id
+	 *            of the reservation
+	 */
 	private void openBillPDF(String id) {
 		try {
 			File file = new File("C:\\temp\\" + id + ".pdf");
