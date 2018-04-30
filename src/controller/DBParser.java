@@ -428,8 +428,10 @@ public class DBParser {
 		return guests;
 	}
 
-	/*
+	/**
 	 * Get Guest by Reservation ID
+	 * @param reservationID
+	 * @return
 	 */
 	public ArrayList<Guest> getGuestByReservationID(String reservationID) {
 
