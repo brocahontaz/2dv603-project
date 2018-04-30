@@ -1067,6 +1067,11 @@ public class Controller {
 				searchGuestCreditCard, searchGuestPassportNumber);
 	}
 
+	/**
+	 * Clears all textfields in add guests in the tab Guest Management
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearAddGuestFields(MouseEvent event) {
 		addGuestButton.setDisable(true);
@@ -1315,6 +1320,14 @@ public class Controller {
 
 	}
 
+	/**
+	 * Helper method for makeReservationGuestListener to set true/false depending on
+	 * if textfield makeReservationGuest is empty or not. The method
+	 * arrivalDepatureAction uses this booleans value to enable/disable the button
+	 * Make Reservation in tab Reservation Management
+	 * 
+	 * @param value
+	 */
 	private void checkIfMakeReservationGuestIsEmpty(String value) {
 		if (value.length() > 0) {
 			checkMakeReservationGuest = true;
@@ -1362,7 +1375,9 @@ public class Controller {
 	/**
 	 * Adds an observable listener to textfield makeReservationGuest in tab
 	 * Reservation Management, to listen to changes in the textfield and fire an
-	 * ActionEvent to method arrivalDepatureAction when changes occur
+	 * ActionEvent to method arrivalDepatureAction when changes occur it also calls
+	 * the method checkIfMakeReservationGuestIsEmpty to set the boolean value of
+	 * checkMakeReservationGuest
 	 */
 	private void makeReservationGuestListener() {
 		makeReservationGuest.textProperty().addListener((observable, oldValue, newValue) -> {
