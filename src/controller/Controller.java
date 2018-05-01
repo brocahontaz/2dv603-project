@@ -929,6 +929,7 @@ public class Controller {
 			if (dbParser.addNewGuest(addGuestFirstName.getText().trim(), addGuestLastName.getText().trim(),
 					addGuestAddress.getText().trim(), addGuestTelephone.getText().trim(),
 					addGuestCreditCard.getText().trim(), addGuestPassport.getText().trim()) == true) {
+				
 				Fx.titledPaneColorNotification(addGuestBox, "success");
 				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
 						addGuestCreditCard, addGuestPassport);
@@ -940,7 +941,6 @@ public class Controller {
 				addGuestButton.setDisable(true);
 			}
 		});
-
 	}
 
 	/**
@@ -956,7 +956,6 @@ public class Controller {
 				&& searchGuestCreditCard.getText().isEmpty() && searchGuestPassportNumber.getText().isEmpty());
 
 		searchGuestButton.setDisable(buttonSearchGuest);
-
 	}
 
 	/**
@@ -973,12 +972,11 @@ public class Controller {
 				|| !(addGuestPassport.getText().length() == Fx.PASSPORT_LENGTH));
 
 		addGuestButton.setDisable(buttonAddGuest);
-
 	}
 
 	/**
 	 * Handles the enable/disable of button Choose Reservation(Add) in tab
-	 * Checkin/Checkout Management
+	 * CheckIn/CheckOut Management
 	 * 
 	 * @param event
 	 */
@@ -990,7 +988,7 @@ public class Controller {
 
 	/**
 	 * Handles the enable/disable of button Choose Reservation(Search) in tab
-	 * Checkin/Checkout Management
+	 * CheckIn/CheckOut Management
 	 * 
 	 * @param event
 	 */
@@ -1041,7 +1039,6 @@ public class Controller {
 	@FXML
 	void listAllGuests(MouseEvent event) {
 		executor.submit(() -> {
-
 			dbLoad.setVisible(true);
 			searchResultTable.setVisible(false);
 			searchResultTable.getItems().clear();
@@ -1056,7 +1053,7 @@ public class Controller {
 	}
 
 	/**
-	 * Clears all textfields in search guests in the tab Guest Management
+	 * Clears all TextFields in search guests in the tab Guest Management
 	 * 
 	 * @param event
 	 */
@@ -1068,7 +1065,7 @@ public class Controller {
 	}
 
 	/**
-	 * Clears all textfields in add guests in the tab Guest Management
+	 * Clears all TextFields in add guests in the tab Guest Management
 	 * 
 	 * @param event
 	 */
@@ -1082,92 +1079,141 @@ public class Controller {
 	private void initializeHotels() {
 
 		executor.submit(() -> {
-			hotels = FXCollections.observableArrayList(dbParser.getHotels());
-			hotels.add(0, defaultHotel);
 
+			// Get the Hotels from the database
+			hotels = FXCollections.observableArrayList(dbParser.getHotels());
+
+			/**
+			 * Add the default value for the ComboBox (no hotel), and set the items for the
+			 * Hotel ComboBox.
+			 */
+			hotels.add(0, defaultHotel);
 			hotelChoice.setItems(hotels);
 			hotelChoice.getSelectionModel().selectFirst();
 
+			// Also set the hotels for the search function for reservations
 			hotelCheckChoice.setItems(hotels);
 			hotelCheckChoice.getSelectionModel().selectFirst();
 
+			// Get the qualities and discounts from the database
 			initializeHotelQualities();
 			initializeHotelDiscounts();
 
+			// Set the qualities and discounts for each hotel
 			for (Hotel hotel : hotels) {
-
 				setHotelQualities(hotel);
 				setHotelDiscounts(hotel);
-
 			}
 
+			// Populate quality/discount ComboBoxes with default values (all)
 			displayAllQualities();
 			displayAllDiscounts();
 
+			// Add change listeners
+			addHotelListener();
+			addRoomQualityListener();
+			addDiscountListener();
+			addDateListeners();
+
+			// Hide splash screen and display main window
 			hideSplashDisplayMain();
-
-			hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
-				@Override
-				public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
-					if (newValue != null) {
-
-						displayHotelQualities(newValue);
-						displayHotelDiscounts(newValue);
-
-					} else {
-						displayAllQualities();
-						displayAllDiscounts();
-					}
-
-				}
-
-			});
-
-			roomQualityChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RoomQuality>() {
-				@Override
-				public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
-						RoomQuality newValue) {
-					if (newValue != null) {
-						displayEstimatedPrice();
-					}
-				}
-
-			});
-
-			discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
-				@Override
-				public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-					if (newValue != null) {
-						displayEstimatedPrice();
-					}
-				}
-
-			});
-
-			arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-				displayEstimatedPrice();
-
-			});
-
-			departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
-				displayEstimatedPrice();
-
-			});
 
 		});
 
+	}
+
+	/**
+	 * Add change listener to the Hotel ComboBox. Calling methods for updating the
+	 * values for room qualities and discounts ComboBoxes depending on selected
+	 * Hotel. If the default value (no Hotel) is selected, calls the methods for
+	 * displaying all qualities and discounts.
+	 */
+	private void addHotelListener() {
+		hotelChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Hotel>() {
+			@Override
+			public void changed(ObservableValue<? extends Hotel> observable, Hotel oldValue, Hotel newValue) {
+				if (newValue != null) {
+					displayHotelQualities(newValue);
+					displayHotelDiscounts(newValue);
+				} else {
+					displayAllQualities();
+					displayAllDiscounts();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Add change listener to the room quality ComboBox. Calling the
+	 * displayEstimatedPrice() method when value is changed.
+	 */
+	private void addRoomQualityListener() {
+		roomQualityChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RoomQuality>() {
+			@Override
+			public void changed(ObservableValue<? extends RoomQuality> observable, RoomQuality oldValue,
+					RoomQuality newValue) {
+				if (newValue != null) {
+					displayEstimatedPrice();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Add change listener to the discount ComboBox. Calling the
+	 * displayEstimatedPrice() method when value is changed.
+	 */
+	private void addDiscountListener() {
+		discountChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				if (newValue != null) {
+					displayEstimatedPrice();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Add change listeners to the DatePickers a reservation. Calling the
+	 * displayEstimatedPrice() method when value is changed.
+	 */
+	private void addDateListeners() {
+		arrivalDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+			displayEstimatedPrice();
+
+		});
+		departureDate.valueProperty().addListener((ov, oldValue, newValue) -> {
+			displayEstimatedPrice();
+
+		});
 	}
 
 	private void initializeHotelQualities() {
 		roomQualities = dbParser.getQualities();
 	}
 
+	/**
+	 * Set the room qualities for a select Hotel
+	 * 
+	 * @param hotel
+	 *            the Hotel
+	 */
 	private void setHotelQualities(Hotel hotel) {
 		ArrayList<RoomQuality> temp1 = new ArrayList<RoomQuality>();
+
+		// Create default room quality, to be used for no selection
 		RoomQuality defQual = new RoomQuality();
 		defQual.setQuality(DEFAULT_QUALITY_CHOICE);
 		defQual.setPrice(0);
+
+		// Add default value for no quality chosen
 		temp1.add(0, defQual);
+
+		/**
+		 * If the select Hotel is not the default hotel, then get the room qualities for
+		 * select hotel. Otherwise get all room qualities available.
+		 */
 		if (!hotel.equals(defaultHotel)) {
 			roomQualities.stream().filter(room -> room.getHotelName().equals(hotel.getName())).forEach(temp1::add);
 		} else {
@@ -1177,6 +1223,12 @@ public class Controller {
 		hotel.setQualities(temp1);
 	}
 
+	/**
+	 * Display the room qualities for a select Hotel
+	 * 
+	 * @param hotel
+	 *            the Hotel
+	 */
 	private void displayHotelQualities(Hotel hotel) {
 		roomQualityChoice.setItems(FXCollections.observableArrayList(hotel.getQualities()));
 		if (roomQualityChoice.getSelectionModel().getSelectedItem() == null) {
@@ -1185,21 +1237,38 @@ public class Controller {
 
 	}
 
+	/**
+	 * Display all the room qualities available in all hotels
+	 */
 	private void displayAllQualities() {
 		displayHotelQualities(defaultHotel);
 	}
 
+	/**
+	 * Fetch all the Hotel Discounts from the database
+	 */
 	private void initializeHotelDiscounts() {
 		hotelDiscounts = dbParser.getDiscounts();
 	}
 
+	/**
+	 * Set the discounts for a select Hotel
+	 * 
+	 * @param hotel
+	 *            the Hotel
+	 */
 	private void setHotelDiscounts(Hotel hotel) {
 
 		ArrayList<Integer> temp1 = new ArrayList<Integer>();
+
+		// Add default value for no discount
 		temp1.add(0);
 
+		/**
+		 * If the select Hotel is not the default hotel, then get the discounts for
+		 * select hotel. Otherwise get all discounts available.
+		 */
 		if (!hotel.equals(defaultHotel)) {
-
 			hotelDiscounts.stream().filter(discount -> discount.getHotelName().equals(hotel.getName()))
 					.map(discount -> discount.getDiscountPercentage()).sorted().forEach(temp1::add);
 
@@ -1211,6 +1280,12 @@ public class Controller {
 		hotel.setDiscounts(temp1);
 	}
 
+	/**
+	 * Display the discounts for a select Hotel
+	 * 
+	 * @param hotel
+	 *            the Hotel
+	 */
 	private void displayHotelDiscounts(Hotel hotel) {
 		discountChoice.setItems(FXCollections.observableArrayList(hotel.getDiscounts()));
 		if (discountChoice.getSelectionModel().getSelectedItem() == null) {
@@ -1218,22 +1293,41 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Display all the discounts available in all hotels
+	 */
 	private void displayAllDiscounts() {
 		displayHotelDiscounts(defaultHotel);
 	}
 
+	/**
+	 * Display the estimated price for chosen options for a reservation
+	 */
 	private void displayEstimatedPrice() {
 
 		estimatedPrice.setText(calculateEstimatedOverallPrice());
 
 	}
 
+	/**
+	 * Calculate the estimated price for chosen options for a reservation.
+	 * Calculation depending on room quality choice, number of days and possible
+	 * discount.
+	 * 
+	 * @return<String> the calculated estimation
+	 */
 	private String calculateEstimatedOverallPrice() {
 
 		ArrayList<Integer> prices = new ArrayList<Integer>();
 		ArrayList<RoomQuality> temp = new ArrayList<RoomQuality>();
 
 		String qual = roomQualityChoice.getSelectionModel().getSelectedItem().getQuality();
+
+		/**
+		 * If a quality is selected, but no hotel, then get the prices for picked
+		 * quality from all hotels. Else, get the selected quality for the selected
+		 * hotel.
+		 */
 		if ((hotelChoice.getSelectionModel().isEmpty() || hotelChoice.getSelectionModel().isSelected(0))
 				&& !roomQualityChoice.getSelectionModel().isSelected(0)) {
 			temp = (ArrayList<RoomQuality>) roomQualities.stream().filter(quality -> quality.getQuality().equals(qual))
@@ -1242,6 +1336,10 @@ public class Controller {
 			temp.add(roomQualityChoice.getSelectionModel().getSelectedItem());
 		}
 
+		/**
+		 * For all selected qualities, calculate the estimated price depending on number
+		 * of days and possible discount
+		 */
 		for (RoomQuality quality : temp) {
 			int tempPrice = quality.getPrice();
 			if (!discountChoice.getSelectionModel().isEmpty()) {
@@ -1254,9 +1352,12 @@ public class Controller {
 			prices.add(tempPrice);
 		}
 
+		// Sort the list of saved prices
 		Collections.sort(prices);
 
 		StringBuilder sb = new StringBuilder();
+
+		// For all saved prices, append to StringBuilder
 		for (int price : prices) {
 			sb.append(price);
 			if (prices.size() > 1 && prices.indexOf(price) == 0) {
@@ -1267,6 +1368,12 @@ public class Controller {
 		return (sb.toString());
 	}
 
+	/**
+	 * Get the number of days between two dates entered in the make reservation box,
+	 * in the reservation management tab
+	 * 
+	 * @return<Integer> the number of days
+	 */
 	private int getDays() {
 		long arrival = arrivalDate.getValue().toEpochDay();
 		long departure = departureDate.getValue().toEpochDay();
@@ -1275,6 +1382,9 @@ public class Controller {
 		return days;
 	}
 
+	/**
+	 * Set up and show the splash screen at app initialization
+	 */
 	private void setupSplashScreen() {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SplashScreen.fxml"));
@@ -1304,6 +1414,9 @@ public class Controller {
 
 	}
 
+	/**
+	 * Hide the splash screen and display the main window
+	 */
 	private void hideSplashDisplayMain() {
 
 		try {
@@ -1322,7 +1435,7 @@ public class Controller {
 
 	/**
 	 * Helper method for makeReservationGuestListener to set true/false depending on
-	 * if textfield makeReservationGuest is empty or not. The method
+	 * if TextField makeReservationGuest is empty or not. The method
 	 * arrivalDepatureAction uses this booleans value to enable/disable the button
 	 * Make Reservation in tab Reservation Management
 	 * 
@@ -1336,6 +1449,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Set the text formatters for the text fields in the add guest box, in the
+	 * guest management tab
+	 */
 	private void setTextFormattersForAddGuest() {
 		Fx.setTextFormatter(addGuestFirstName, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
 		Fx.setTextFormatter(addGuestLastName, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
@@ -1344,6 +1461,10 @@ public class Controller {
 		Fx.setTextFormatter(addGuestTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
+	/**
+	 * Set the text formatters for the text fields in the search guest box, in the
+	 * guest management tab
+	 */
 	private void setTextFormattersForSearchGuest() {
 		Fx.setTextFormatter(searchGuestFirstName, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
 		Fx.setTextFormatter(searchGuestLastName, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
@@ -1352,11 +1473,18 @@ public class Controller {
 		Fx.setTextFormatter(searchGuestTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
+	/**
+	 * Set text formatters for the text fields in the check in and check out boxes
+	 */
 	private void setTextFormattersForCheckInCheckOut() {
 		Fx.setTextFormatter(checkInReservationID, 1, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
 		Fx.setTextFormatter(checkOutReservationID, 1, Fx.RESERVATION_ID_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
+	/**
+	 * Set the cell value factories for the guest results TableView in the guest
+	 * management tab
+	 */
 	private void setCellFactoriesForGuestResultsTable() {
 		firstNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("firstName"));
 		lastNameCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("lastName"));
@@ -1364,6 +1492,10 @@ public class Controller {
 		telephoneCol.setCellValueFactory(new PropertyValueFactory<Guest, String>("telephoneNumber"));
 	}
 
+	/**
+	 * Set the cell value factories for the reservation results TableView in the
+	 * reservation management tab
+	 */
 	private void setCellFactoriesForReservationResultsTable() {
 		idCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("id"));
 		hotelCol.setCellValueFactory(new PropertyValueFactory<Reservation, String>("hotel"));
@@ -1373,8 +1505,8 @@ public class Controller {
 	}
 
 	/**
-	 * Adds an observable listener to textfield makeReservationGuest in tab
-	 * Reservation Management, to listen to changes in the textfield and fire an
+	 * Adds an observable listener to the TextField makeReservationGuest in tab
+	 * Reservation Management, to listen to changes in the Textfield and fire an
 	 * ActionEvent to method arrivalDepatureAction when changes occur it also calls
 	 * the method checkIfMakeReservationGuestIsEmpty to set the boolean value of
 	 * checkMakeReservationGuest
