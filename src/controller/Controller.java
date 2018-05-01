@@ -535,10 +535,19 @@ public class Controller {
 		});
 	}
 
+	/**
+	 * Reload the Reservations TableView
+	 */
 	public void reloadReservationTable() {
 		checkReservation();
 	}
 
+	/**
+	 * Remove an item from the Reservations TableView
+	 * 
+	 * @param id
+	 *            the ID of the item to be removed
+	 */
 	public void removeElementFromReservationTable(String id) {
 
 		int tempId = Integer.parseInt(id);
@@ -551,6 +560,26 @@ public class Controller {
 		reservations.remove(reservations.indexOf(tempRes));
 	}
 
+	/**
+	 * Get the information of a Reservation
+	 * 
+	 * @param event
+	 */
+	@FXML
+	void getReservationInfo(MouseEvent event) {
+		if (event.getClickCount() == 2) {
+			String id = checkResResultsTable.getSelectionModel().getSelectedItem().getId() + "";
+			setupReservationInfoPopup(id);
+		}
+	}
+
+	/**
+	 * Set up the pop up window for displaying Reservation information, passing the
+	 * ID of the Reservation
+	 * 
+	 * @param resID
+	 *            the ID of the Reservation
+	 */
 	private void setupReservationInfoPopup(String resID) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationInfoPopup.fxml"));
@@ -574,6 +603,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Clear and reset all fields in the check reservation box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearCheckReservation(MouseEvent event) {
 		pickedCheckGuest = null;
@@ -584,6 +618,11 @@ public class Controller {
 		hotelCheckChoice.getSelectionModel().selectFirst();
 	}
 
+	/**
+	 * Clear and reset all fields in the check in box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearCheckin(MouseEvent event) {
 		Fx.textFieldClear(checkInReservationID, checkInFirstName, checkInLastName, checkInAddress, checkInTelephone,
@@ -594,6 +633,11 @@ public class Controller {
 		chooseReservationButtonCheckIn.setDisable(true);
 	}
 
+	/**
+	 * Clear and reset all fields in the check out box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearCheckout(MouseEvent event) {
 		Fx.textFieldClear(checkOutReservationID, checkOutFirstName, checkOutLastName, checkOutAddress,
@@ -604,7 +648,7 @@ public class Controller {
 		chooseReservationButtonCheckOut.setDisable(true);
 	}
 
-	/*
+	/**
 	 * Prompt a window with guest info when double clicking on guest in result.
 	 */
 	@FXML
@@ -615,14 +659,12 @@ public class Controller {
 		}
 	}
 
-	@FXML
-	void getReservationInfo(MouseEvent event) {
-		if (event.getClickCount() == 2) {
-			String id = checkResResultsTable.getSelectionModel().getSelectedItem().getId() + "";
-			setupReservationInfoPopup(id);
-		}
-	}
-
+	/**
+	 * Set up the pop up window for Guest information, passing the Guest
+	 * 
+	 * @param guest
+	 *            the Guest
+	 */
 	private void setupGuestInfoPopup(Guest guest) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GuestInfoPopup.fxml"));
@@ -797,6 +839,15 @@ public class Controller {
 		setupReservationPopUp(tmpHotel, tmpQuality);
 	}
 
+	/**
+	 * Set up the pop up window for confirming a reservation, passing selected hotel
+	 * and quality.
+	 * 
+	 * @param tmpHotel
+	 *            the Hotel
+	 * @param tmpQuality
+	 *            the Quality
+	 */
 	private void setupReservationPopUp(Hotel tmpHotel, RoomQuality tmpQuality) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReservationPopup.fxml"));
@@ -822,6 +873,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Clear and reset all fields in the make reservation box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void clearReservation(MouseEvent event) {
 		pickedGuest = null;
@@ -852,6 +908,13 @@ public class Controller {
 		setupGuestPopUp(makeReservationGuest);
 	}
 
+	/**
+	 * Set up the pop up window for selecting a Guest for a reservation, passing the
+	 * TextField for where to display it after selection has been done.
+	 * 
+	 * @param textfield
+	 *            the TextField
+	 */
 	private void setupGuestPopUp(TextField textfield) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PickGuestPopup.fxml"));
@@ -875,6 +938,14 @@ public class Controller {
 
 	}
 
+	/**
+	 * Display a Guest by name in a TextField
+	 * 
+	 * @param guest
+	 *            the Guest
+	 * @param Textfield
+	 *            the TextField
+	 */
 	public void displayPickedGuest(Guest guest, TextField Textfield) {
 		if (Textfield.equals(makeReservationGuest)) {
 			pickedGuest = guest;
@@ -929,7 +1000,7 @@ public class Controller {
 			if (dbParser.addNewGuest(addGuestFirstName.getText().trim(), addGuestLastName.getText().trim(),
 					addGuestAddress.getText().trim(), addGuestTelephone.getText().trim(),
 					addGuestCreditCard.getText().trim(), addGuestPassport.getText().trim()) == true) {
-				
+
 				Fx.titledPaneColorNotification(addGuestBox, "success");
 				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
 						addGuestCreditCard, addGuestPassport);
