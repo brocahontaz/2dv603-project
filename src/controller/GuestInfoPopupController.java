@@ -3,6 +3,7 @@ package controller;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -113,9 +114,14 @@ public class GuestInfoPopupController {
 
 			if (dbParser.updateGuest(firstName, lastName, address, telephone, creditCard, passport,
 					tempPassportnumber) == true) {
+				// Running element manipulation on fx-thread
+				Platform.runLater(() -> {
 				Fx.titledPaneColorNotification(guestInfoBox, "success");
+				});
 			} else {
+				Platform.runLater(() -> {
 				Fx.titledPaneColorNotification(guestInfoBox, "danger");
+				});
 			}
 		});
 
