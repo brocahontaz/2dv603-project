@@ -86,7 +86,7 @@ public class PickGuestPopupController {
 			guestsResultTable.setVisible(true);
 		});
 	}
-	
+
 	public void setTextField(TextField textfield) {
 		this.textfield = textfield;
 	}

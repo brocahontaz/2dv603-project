@@ -21,7 +21,7 @@ public class Main extends Application {
 	}
 
 	private void setupMainStage(Stage primaryStage) {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ViewConfig.fxml"));
 			BorderPane root = (BorderPane) loader.load();
@@ -37,12 +37,11 @@ public class Main extends Application {
 			primaryStage.setTitle("HotelFX");
 			loader.<Controller>getController().setStage(primaryStage);
 
-			
 			// Completely closes the application and all threads.
 			primaryStage.setOnCloseRequest(e -> {
-		        Platform.exit();
-		        System.exit(0);
-		    });
+				Platform.exit();
+				System.exit(0);
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -116,11 +116,11 @@ public class GuestInfoPopupController {
 					tempPassportnumber) == true) {
 				// Running element manipulation on fx-thread
 				Platform.runLater(() -> {
-				Fx.titledPaneColorNotification(guestInfoBox, "success");
+					Fx.titledPaneColorNotification(guestInfoBox, "success");
 				});
 			} else {
 				Platform.runLater(() -> {
-				Fx.titledPaneColorNotification(guestInfoBox, "danger");
+					Fx.titledPaneColorNotification(guestInfoBox, "danger");
 				});
 			}
 		});
