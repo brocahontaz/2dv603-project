@@ -150,7 +150,6 @@ public class Fx {
 				textField.getStyleClass().add(oldStyle);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-				System.out.println("Exception from FX textFieldColorNotification");
 			}
 		});
 		executor.shutdown();

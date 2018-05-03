@@ -136,7 +136,6 @@ public class DBParser {
 		String[] temp = { arrDate, arrDate, depDate, depDate, arrDate, depDate, hotelName, quality };
 		CachedRowSetImpl crsTemp = executeQuery(Queries.CHECK_AVAILABLE_ROOMS, temp);
 		populateRoomArray(data, crsTemp);
-		// System.out.println(data);
 		return data;
 	}
 
@@ -780,7 +779,6 @@ public class DBParser {
 
 			if (generatedKeys.next()) {
 				generatedKey = generatedKeys.getInt(1);
-				System.out.println("KEY " + generatedKey);
 			}
 
 		} catch (SQLException e) {

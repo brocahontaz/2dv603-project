@@ -144,7 +144,7 @@ public class Hotel {
 	 */
 	@Override
 	public String toString() {
-		return "Hotel: " + this.name + "\nAddress: " + this.address;
+		return this.name;
 	}
 
 }

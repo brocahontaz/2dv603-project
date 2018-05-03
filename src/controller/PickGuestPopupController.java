@@ -99,7 +99,6 @@ public class PickGuestPopupController {
 		if (event.getClickCount() == 2) {
 			Guest guest = guestsResultTable.getSelectionModel().getSelectedItem();
 			controller.displayPickedGuest(guest, textfield);
-			System.out.println(guest);
 			closeGuestsPopUp(event);
 		}
 	}

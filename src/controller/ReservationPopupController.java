@@ -137,14 +137,6 @@ public class ReservationPopupController {
 			int key = dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(),
 					arrivalDate.toEpochDay(), departureDate.toEpochDay(), price.getText());
 
-			System.out.println("Arrival " + arrivalDate.toEpochDay());
-			System.out.println("Departure " + departureDate.toEpochDay());
-
-			System.out.println("Arrival convert" + LocalDate.ofEpochDay(arrivalDate.toEpochDay()));
-			System.out.println("Arrival convert" + LocalDate.ofEpochDay(departureDate.toEpochDay()));
-
-			System.out.println(key);
-
 			if (key != -1) {
 				// Running element manipulation on fx-thread
 				Platform.runLater(() -> {

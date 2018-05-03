@@ -149,8 +149,7 @@ public class RoomQuality {
 	 */
 	@Override
 	public String toString() {
-		return "Hotel: " + this.hotelName + "\nQuality: " + this.quality + "\nBeds: " + this.numberOfBeds + "\nPrice: "
-				+ this.price;
+		return this.quality;
 	}
 
 }
