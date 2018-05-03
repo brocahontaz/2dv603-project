@@ -420,15 +420,11 @@ public class Controller {
 			if (dbParser.checkIn(Integer.toString(checkInResId)) == true) {
 				// Running element manipulation on fx-thread
 				Platform.runLater(() -> {
-
 					Fx.titledPaneColorNotification(checkInGuestsBox, "success");
-
 				});
 			} else {
 				Platform.runLater(() -> {
-
 					Fx.titledPaneColorNotification(checkInGuestsBox, "danger");
-
 				});
 			}
 		});
@@ -444,19 +440,14 @@ public class Controller {
 		checkOutButton.setDisable(true);
 		executor.submit(() -> {
 			if (dbParser.checkOut(Integer.toString(checkOutResId)) == true) {
-
 				// Running element manipulation on fx-thread
 				Platform.runLater(() -> {
-
 					createBillPDF(Integer.toString(checkOutResId));
 					Fx.titledPaneColorNotification(checkOutGuestsBox, "success");
-
 				});
 			} else {
 				Platform.runLater(() -> {
-
 					Fx.titledPaneColorNotification(checkOutGuestsBox, "danger");
-
 				});
 			}
 		});
@@ -706,18 +697,13 @@ public class Controller {
 				// Running element manipulation on fx-thread
 				if (data.size() > 0) {
 					Platform.runLater(() -> {
-
 						Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
 								"success", 1);
-
 					});
-
 				} else {
 					Platform.runLater(() -> {
-
 						Fx.titledPaneColorNotificationButton(checkInGuestsBox, chooseReservationButtonCheckIn,
 								"danger");
-
 					});
 				}
 				checkinProgress.setVisible(false);
@@ -765,18 +751,13 @@ public class Controller {
 				// Running element manipulation on fx-thread
 				if (data.size() > 0) {
 					Platform.runLater(() -> {
-
 						Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
 								"success", 1);
-
 					});
-
 				} else {
 					Platform.runLater(() -> {
-
 						Fx.titledPaneColorNotificationButton(checkOutGuestsBox, chooseReservationButtonCheckOut,
 								"danger");
-
 					});
 				}
 
@@ -976,9 +957,14 @@ public class Controller {
 							searchGuestAddress.getText().trim(), searchGuestTelephone.getText().trim(),
 							searchGuestCreditCard.getText().trim(), searchGuestPassportNumber.getText().trim()));
 			if (guests.size() > 0) {
-				Fx.titledPaneColorNotification(searchGuestsBox, "success");
+				// Running element manipulation on fx-thread
+				Platform.runLater(() -> {
+					Fx.titledPaneColorNotification(searchGuestsBox, "success");
+				});
 			} else {
-				Fx.titledPaneColorNotification(searchGuestsBox, "danger");
+				Platform.runLater(() -> {
+					Fx.titledPaneColorNotification(searchGuestsBox, "danger");
+				});
 			}
 			searchResultTable.setItems(guests);
 			searchGuestButton.setDisable(false);
@@ -1000,16 +986,20 @@ public class Controller {
 			if (dbParser.addNewGuest(addGuestFirstName.getText().trim(), addGuestLastName.getText().trim(),
 					addGuestAddress.getText().trim(), addGuestTelephone.getText().trim(),
 					addGuestCreditCard.getText().trim(), addGuestPassport.getText().trim()) == true) {
-
-				Fx.titledPaneColorNotification(addGuestBox, "success");
-				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
-						addGuestCreditCard, addGuestPassport);
-				addGuestButton.setDisable(true);
+				// Running element manipulation on fx-thread
+				Platform.runLater(() -> {
+					Fx.titledPaneColorNotification(addGuestBox, "success");
+					Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
+							addGuestCreditCard, addGuestPassport);
+					addGuestButton.setDisable(true);
+				});
 			} else {
-				Fx.titledPaneColorNotification(addGuestBox, "danger");
-				Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
-						addGuestCreditCard, addGuestPassport);
-				addGuestButton.setDisable(true);
+				Platform.runLater(() -> {
+					Fx.titledPaneColorNotification(addGuestBox, "danger");
+					Fx.textFieldClear(addGuestFirstName, addGuestLastName, addGuestAddress, addGuestTelephone,
+							addGuestCreditCard, addGuestPassport);
+					addGuestButton.setDisable(true);
+				});
 			}
 		});
 	}
