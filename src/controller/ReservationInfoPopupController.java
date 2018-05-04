@@ -5,7 +5,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,6 +21,12 @@ import model.Guest;
 import model.Reservation;
 import model.Room;
 
+/**
+ * Controller for the Reservation Info pop up window
+ * 
+ * @author Johan Andersson, Fredrik Norrman, David Larsson
+ *
+ */
 public class ReservationInfoPopupController {
 
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -93,10 +98,23 @@ public class ReservationInfoPopupController {
 	private String id;
 	private Controller controller;
 
+	/**
+	 * Inject the Main Controller to be able to call function on it when picking a
+	 * guest
+	 * 
+	 * @param controller
+	 */
 	public void injectMainController(Controller controller) {
 		this.controller = controller;
 	}
 
+	/**
+	 * Fetch the reservation with specified ID from the database, and display all
+	 * information in the TextFields
+	 * 
+	 * @param id
+	 *            the id of the reservation to be displayed
+	 */
 	public void setupReservation(String id) {
 		this.id = id;
 		executor.submit(() -> {
@@ -138,6 +156,11 @@ public class ReservationInfoPopupController {
 		});
 	}
 
+	/**
+	 * Cancel the reservation
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void cancelReservation(MouseEvent event) {
 		executor.submit(() -> {
@@ -154,11 +177,19 @@ public class ReservationInfoPopupController {
 
 	}
 
+	/**
+	 * Close the pop up
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void closePop(MouseEvent event) {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
+	/**
+	 * Initialize
+	 */
 	@FXML
 	void initialize() {
 

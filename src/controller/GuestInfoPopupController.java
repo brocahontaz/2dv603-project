@@ -20,6 +20,12 @@ import javafx.scene.input.MouseEvent;
 import model.Guest;
 import utilities.Fx;
 
+/**
+ * Controller for the Guest Info pop up window
+ * 
+ * @author Johan Andersson, Fredrik Norrman, David Larsson
+ *
+ */
 public class GuestInfoPopupController {
 
 	private DBParser dbParser = new DBParser();
@@ -69,12 +75,17 @@ public class GuestInfoPopupController {
 	@FXML
 	private ProgressIndicator progress;
 
+	/**
+	 * Close the pop up
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void closeGuestInfoPopup(MouseEvent event) {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
-	/*
+	/**
 	 * Updates the guests info in the database
 	 */
 	@FXML
@@ -127,8 +138,8 @@ public class GuestInfoPopupController {
 
 	}
 
-	/*
-	 * Setting the textfields contents to the guests current information
+	/**
+	 * Setting the TextFields contents to the guests current information
 	 */
 	void setupGuestInfoPopup(Guest guest) {
 		guestInfoFirstname.setText(guest.getFirstName());
@@ -136,13 +147,14 @@ public class GuestInfoPopupController {
 		guestInfoAddress.setText(guest.getAddress());
 		guestInfoTelephone.setText(guest.getTelephoneNumber());
 		guestInfoCreditCard.setText(guest.getCreditCard());
+		
 		guestInfoPassport.setText(guest.getPassportNumber());
 		tempPassportnumber = guest.getPassportNumber();
 
 		executor.submit(() -> {
 			guestInfoPopupReservationsTable.setVisible(false);
 			progress.setVisible(true);
-			reservations = FXCollections.observableArrayList(dbParser.getReservationByPassport(tempPassportnumber));
+			reservations = FXCollections.observableArrayList(dbParser.getReservationsByPassport(tempPassportnumber));
 			guestInfoPopupReservationsTable.setItems(reservations);
 			guestInfoPopupReservationsTable.setVisible(true);
 			progress.setVisible(false);
@@ -150,15 +162,25 @@ public class GuestInfoPopupController {
 		});
 	}
 
+	/**
+	 * Listens to if TextFields are filled or not, and sets the disabled property on
+	 * the save button accordingly
+	 * 
+	 * @param event
+	 */
 	@FXML
 	void keyReleasedProperty(KeyEvent event) {
 		boolean isDisabled = (guestInfoFirstname.getText().isEmpty() || guestInfoLastname.getText().isEmpty()
-				|| guestInfoAddress.getText().isEmpty() || guestInfoTelephone.getText().isEmpty()
-				|| guestInfoCreditCard.getText().isEmpty() || guestInfoPassport.getText().isEmpty())
-				|| guestInfoPassport.getText().isEmpty();
+				|| guestInfoAddress.getText().isEmpty()
+				|| !(guestInfoTelephone.getText().length() >= Fx.TELEPHONE_MIN_LENGTH)
+				|| !(guestInfoCreditCard.getText().length() == Fx.CREDITCARD_LENGTH)
+				|| !(guestInfoPassport.getText().length() == Fx.PASSPORT_LENGTH));
 		saveGuestInfoPopup.setDisable(isDisabled);
 	}
 
+	/**
+	 * Set the TextFormatters for all TextFields
+	 */
 	private void setTextFormatters() {
 		Fx.setTextFormatter(guestInfoFirstname, 1, Fx.FIRSTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
 		Fx.setTextFormatter(guestInfoLastname, 1, Fx.LASTNAME_LENGTH, Fx.Regex.NO_NUMBERS);
@@ -167,12 +189,18 @@ public class GuestInfoPopupController {
 		Fx.setTextFormatter(guestInfoTelephone, Fx.TELEPHONE_MIN_LENGTH, Fx.TELEPHONE_LENGTH, Fx.Regex.ONLY_NUMBERS);
 	}
 
+	/**
+	 * Set the cell factories for the columns in the TableView
+	 */
 	private void setCellFactories() {
 		reservationIdCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("id"));
 		reservationHotelCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("hotel"));
 		reservationRoomCol.setCellValueFactory(new PropertyValueFactory<model.Reservation, String>("roomNumber"));
 	}
 
+	/**
+	 * Initialize
+	 */
 	@FXML
 	void initialize() {
 		setCellFactories();
