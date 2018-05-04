@@ -9,6 +9,12 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * Main class for the application
+ * 
+ * @author Johan Andersson, Fredrik Norrman, David Larsson
+ *
+ */
 public class Main extends Application {
 
 	@Override

@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
-import javax.sql.rowset.CachedRowSet;
 
 import com.mysql.jdbc.Statement;
 import com.sun.rowset.CachedRowSetImpl;
@@ -20,7 +17,6 @@ import model.Hotel;
 import model.Reservation;
 import model.Room;
 import model.RoomQuality;
-import test.testTableClass;
 
 /**
  * Class for handling connections between the software and the database.
@@ -37,8 +33,6 @@ public class DBParser {
 	private String password = ConnectInfo.getPassword();
 
 	private PreparedStatement ps = null;
-	private CachedRowSetImpl crs;
-	// private ResultSet rs = null;
 
 	/**
 	 * Constructor.
@@ -49,6 +43,15 @@ public class DBParser {
 
 	}
 
+	/**
+	 * Search for Reservations with date filtering
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @param hotelName
+	 *            the name of the Hotel
+	 * @return<ArrayList> the list of Reservations
+	 */
 	public ArrayList<Reservation> searchReservationsWithDates(String passportNumber, Long arrivalDate,
 			Long departureDate, String hotelName) {
 
@@ -67,6 +70,15 @@ public class DBParser {
 		return data;
 	}
 
+	/**
+	 * Search for Reservations with arrival date filtering
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @param hotelName
+	 *            the name of the Hotel
+	 * @return<ArrayList> the list of Reservations
+	 */
 	public ArrayList<Reservation> searchReservationsWithArrivalDate(String passportNumber, Long arrivalDate,
 			String hotelName) {
 
@@ -85,6 +97,15 @@ public class DBParser {
 		return data;
 	}
 
+	/**
+	 * Search for Reservations with departure date filtering
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @param hotelName
+	 *            the name of the Hotel
+	 * @return<ArrayList> the list of Reservations
+	 */
 	public ArrayList<Reservation> searchReservationsWithDepartureDate(String passportNumber, Long departureDate,
 			String hotelName) {
 
@@ -103,6 +124,15 @@ public class DBParser {
 		return data;
 	}
 
+	/**
+	 * Search for Reservations without date filtering
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @param hotelName
+	 *            the name of the Hotel
+	 * @return<ArrayList> the list of Reservations
+	 */
 	public ArrayList<Reservation> searchReservationsWithoutDates(String passportNumber, String hotelName) {
 
 		ArrayList<Reservation> data = new ArrayList<Reservation>();
@@ -120,6 +150,19 @@ public class DBParser {
 		return data;
 	}
 
+	/**
+	 * Get all available Rooms between two dates
+	 * 
+	 * @param arrivalDate
+	 *            the arrival date
+	 * @param departureDate
+	 *            the departure date
+	 * @param hotelName
+	 *            the name of the Hotel
+	 * @param quality
+	 *            the RoomQuality
+	 * @return<Arraylist> the list of the Rooms
+	 */
 	public ArrayList<Room> checkAvailableRoomsBetweenDates(Long arrivalDate, Long departureDate, String hotelName,
 			String quality) {
 		ArrayList<Room> data = new ArrayList<Room>();
@@ -139,16 +182,48 @@ public class DBParser {
 		return data;
 	}
 
+	/**
+	 * Check in a Reservation
+	 * 
+	 * @param reservationID
+	 *            the id of the Reservation
+	 * @return<boolean> successful or not
+	 */
 	public boolean checkIn(String reservationID) {
 		String[] temp = { "1", "0", reservationID };
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
+	/**
+	 * Check out a Reservation
+	 * 
+	 * @param reservationID
+	 *            the id of the Reservation
+	 * @return<boolean> successful or not
+	 */
 	public boolean checkOut(String reservationID) {
 		String[] temp = { "0", "1", reservationID };
 		return this.executeUpdate(Queries.CHECK_GUEST_IN_N_OUT, temp);
 	}
 
+	/**
+	 * Make a Reservation. Returns the ID of the Reservation if successful, -1
+	 * otherwise.
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @param roomNumber
+	 *            the room number
+	 * @param hotel
+	 *            the hotel
+	 * @param arrivalDate
+	 *            the arrival date
+	 * @param departureDate
+	 *            the departure date
+	 * @param price
+	 *            the price
+	 * @return<Integer> the id
+	 */
 	public int makeReservation(String passportNumber, String roomNumber, String hotel, Long arrivalDate,
 			Long departureDate, String price) {
 
@@ -157,13 +232,27 @@ public class DBParser {
 		return this.executeUpdateReturnKey(Queries.MAKE_RESERVATION, temp);
 	}
 
+	/**
+	 * Cancel a Reservation. Return true if operation is successful, false
+	 * otherwise.
+	 * 
+	 * @param id
+	 *            the id of the Reservation
+	 * @return<boolean> success or not
+	 */
 	public boolean cancelReservation(String id) {
 
-		String[] temp = { id };
+		return executeSingleParamUpdate(Queries.CANCEL_RESERVATION, id);
 
-		return this.executeUpdate(Queries.CANCEL_RESERVATION, temp);
 	}
 
+	/**
+	 * Get the Reservation and Guest for a specified Reservation id
+	 * 
+	 * @param reservationID
+	 *            the Reservation id
+	 * @return<ArrayList> the list of Reservation and Guest objects
+	 */
 	public ArrayList<Object> getGuestAndReservationById(String reservationID) {
 
 		ArrayList<Object> data = new ArrayList<Object>();
@@ -173,16 +262,27 @@ public class DBParser {
 		return data;
 	}
 
-	public ArrayList<Reservation> getReservationByPassport(String passportNumber) {
+	/**
+	 * Get the Reservations for a Guest
+	 * 
+	 * @param passportNumber
+	 *            the passport number of the Guest
+	 * @return<ArrayList> the list of Reservations
+	 */
+	public ArrayList<Reservation> getReservationsByPassport(String passportNumber) {
 
 		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 		String[] temp = { passportNumber };
-		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATION_BY_PASSPORT, temp);
+		CachedRowSetImpl crsTemp = executeQuery(Queries.GET_RESERVATIONS_BY_PASSPORT, temp);
 
 		populateReservations(reservations, crsTemp);
 		return reservations;
 	}
 
+	/**
+	 * Get all Rooms from the database
+	 * @return<ArrayList> the list of Rooms
+	 */
 	public ArrayList<Room> getAllRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		String[] temp = {};
@@ -194,6 +294,17 @@ public class DBParser {
 		return rooms;
 	}
 
+	/**
+	 * Search Rooms in the database, filtered on room number, hotel name and quality
+	 * 
+	 * @param roomNumber
+	 *            the room number
+	 * @param hotelName
+	 *            the hotel name
+	 * @param quality
+	 *            the quality
+	 * @return<ArrayList> the list of Rooms
+	 */
 	public ArrayList<Room> searchRooms(String roomNumber, String hotelName, String quality) {
 		if (roomNumber.isEmpty() || roomNumber == null) {
 			roomNumber = "%";
@@ -204,9 +315,6 @@ public class DBParser {
 		if (quality.isEmpty() || quality == null) {
 			quality = "%";
 		}
-		/*
-		 * if (numberOfBeds.isEmpty() || numberOfBeds == null) { numberOfBeds = "%"; }
-		 */
 
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		String[] temp = { roomNumber, hotelName, quality };
@@ -218,15 +326,16 @@ public class DBParser {
 		return rooms;
 	}
 
-	public model.Guest getGuest(String passportNumber) {
-		return null;
-	}
-
-	public model.Room getRoom(int roomNumber) {
-		return null;
-	}
-
-	public model.RoomQuality getQuality(String hotelName, String quality) {
+	/**
+	 * Get the RoomQuality from the database with specified Hotel name and name
+	 * 
+	 * @param hotelName
+	 *            the Hotel Name
+	 * @param quality
+	 *            the name
+	 * @return<ArrayList> list with the RoomQualities
+	 */
+	public RoomQuality getQuality(String hotelName, String quality) {
 		ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
 		String[] temp = { hotelName, quality };
 
@@ -238,6 +347,10 @@ public class DBParser {
 
 	}
 
+	/**
+	 * Get all the RoomQualities from the database
+	 * @return<ArrayList> list with the RoomQualities
+	 */
 	public ArrayList<RoomQuality> getQualities() {
 		ArrayList<RoomQuality> qualities = new ArrayList<RoomQuality>();
 		String[] temp = {};
@@ -249,6 +362,10 @@ public class DBParser {
 		return qualities;
 	}
 
+	/**
+	 * Get all the Discounts from the database
+	 * @return<ArrayList> list with the Discounts
+	 */
 	public ArrayList<Discount> getDiscounts() {
 		ArrayList<Discount> discounts = new ArrayList<Discount>();
 		String[] temp = {};
@@ -260,6 +377,10 @@ public class DBParser {
 		return discounts;
 	}
 
+	/**
+	 * Get all the Discount percentages from the database
+	 * @return<ArrayList> list with the Discount percentages
+	 */
 	public ArrayList<String> getAllDiscounts() {
 		ArrayList<String> discounts = new ArrayList<String>();
 		String[] temp = {};
@@ -272,6 +393,13 @@ public class DBParser {
 
 	}
 
+	/**
+	 * Get all the Discount percentages for a specified Hotel from the database
+	 * 
+	 * @param hotelName
+	 *            the Hotel name
+	 * @return<ArrayList> list with the Discount percentages
+	 */
 	public ArrayList<String> getHotelsDiscounts(String hotelName) {
 		ArrayList<String> discounts = new ArrayList<String>();
 		String[] temp = { hotelName };
@@ -284,6 +412,10 @@ public class DBParser {
 
 	}
 
+	/**
+	 * Get all the RoomQualities names from the database
+	 * @return<ArrayList> list with the RoomQualities names
+	 */
 	public ArrayList<String> getAllRoomQualities() {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = {};
@@ -295,6 +427,13 @@ public class DBParser {
 		return qualities;
 	}
 
+	/**
+	 * Get all the RoomQualities names for a specified Hotel from the database
+	 * 
+	 * @param hotelName
+	 *            the Hotel name
+	 * @return<ArrayList> list with the RoomQualities names
+	 */
 	public ArrayList<String> getHotelsRoomQualities(String hotelName) {
 		ArrayList<String> qualities = new ArrayList<String>();
 		String[] temp = { hotelName };
@@ -307,6 +446,10 @@ public class DBParser {
 
 	}
 
+	/**
+	 * Get all the Hotels from the database
+	 * @return<ArrayList> list with the Hotels
+	 */
 	public ArrayList<Hotel> getHotels() {
 		ArrayList<Hotel> hotels = new ArrayList<Hotel>();
 		String[] temp = {};
@@ -318,7 +461,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Search for guests
+	 * Search for Guests
 	 * 
 	 * @param firstName
 	 *            the first name
@@ -366,7 +509,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Add a new guest to the database
+	 * Add a new Guest to the database
 	 * 
 	 * @param firstName
 	 *            the first name of the guest
@@ -389,7 +532,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Update the guest to the database
+	 * Update the Guest in the database
 	 * 
 	 * @param firstName
 	 *            the first name of the guest
@@ -412,7 +555,7 @@ public class DBParser {
 	}
 
 	/**
-	 * Get all the guests in the database
+	 * Get all the Guests in the database
 	 * 
 	 * @return ArrayList<model.Guest> the guests
 	 */
@@ -429,8 +572,10 @@ public class DBParser {
 
 	/**
 	 * Get Guest by Reservation ID
+	 * 
 	 * @param reservationID
-	 * @return
+	 *            the reservation id
+	 * @return<Guest> the guest
 	 */
 	public ArrayList<Guest> getGuestByReservationID(String reservationID) {
 
@@ -460,6 +605,15 @@ public class DBParser {
 		return guests;
 	}
 
+	/**
+	 * Populate ArrayList with Guest, Reservation and Room objects, from a
+	 * CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateGuestReservation(ArrayList<Object> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -467,32 +621,31 @@ public class DBParser {
 						crsTemp.getString("address"), crsTemp.getString("telephoneNumber"),
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
-						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"),
+						LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
 						LocalDate.ofEpochDay(crsTemp.getLong("departureDate")), crsTemp.getBoolean("checkedIn"),
 						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 				list.add(new Room(Integer.parseInt(crsTemp.getString("roomNumber")), crsTemp.getString("hotelName"),
 						crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
 	/**
-	 * Private help method to populate ArrayList with guests from cached row set
+	 * Populate ArrayList with Guest objects, from a CachedRowSet
 	 * 
 	 * @param list
-	 *            the ArrayList to be populated
+	 *            the list
 	 * @param crsTemp
-	 *            the cached row set
+	 *            the CachedRowSet
 	 */
 	private void populateGuestArray(ArrayList<Guest> list, CachedRowSetImpl crsTemp) {
 		try {
@@ -502,18 +655,24 @@ public class DBParser {
 						crsTemp.getString("creditCard"), crsTemp.getString("passportNumber")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with Room objects, from a CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateRoomArray(ArrayList<Room> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
@@ -521,129 +680,161 @@ public class DBParser {
 						crsTemp.getString("quality")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with Hotel objects, from a CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateHotelArray(ArrayList<Hotel> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Hotel(crsTemp.getString("hotelName"), crsTemp.getString("address")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with Discount percentages, from a CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateDiscountArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
 				list.add(crsTemp.getString("discountPercent"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with RoomQuality names, from a CachedRowSet.
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateQualityArray(ArrayList<String> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
 				list.add(crsTemp.getString("quality"));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with RoomQuality objects, from a CachedRowSet. With all
+	 * information regarding the objects.
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateQualities(ArrayList<RoomQuality> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"), crsTemp.getInt("numberOfBeds"),
-						crsTemp.getInt("price")));
+				list.add(new RoomQuality(crsTemp.getString("hotelName"), crsTemp.getString("quality"),
+						crsTemp.getInt("numberOfBeds"), crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with Discount objects, from a CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateDiscounts(ArrayList<Discount> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
 				list.add(new Discount(crsTemp.getString("hotelName"), crsTemp.getInt("discountPercent")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/**
+	 * Populate ArrayList with Reservation objects, from a CachedRowSet
+	 * 
+	 * @param list
+	 *            the list
+	 * @param crsTemp
+	 *            the CachedRowSet
+	 */
 	private void populateReservations(ArrayList<Reservation> list, CachedRowSetImpl crsTemp) {
 		try {
 			while (crsTemp.next()) {
-				/*
-				 * TODO: if departureDate > currentDate add to list, else don't. Done to only
-				 * show active reservations
-				 */
 				list.add(new Reservation(crsTemp.getInt("id"), crsTemp.getString("passportNumber"),
-						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"), LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
+						crsTemp.getString("hotelName"), crsTemp.getInt("roomNumber"),
+						LocalDate.ofEpochDay(crsTemp.getLong("arrivalDate")),
 						LocalDate.ofEpochDay(crsTemp.getLong("departureDate")), crsTemp.getBoolean("checkedIn"),
 						crsTemp.getBoolean("checkedOut"), crsTemp.getInt("price")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				crsTemp.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -727,6 +918,7 @@ public class DBParser {
 	 *            the query to be used in the prepared statement
 	 * @param params
 	 *            the parameters to be used for the prepared statement
+	 * @return<boolean>
 	 */
 	private boolean executeUpdate(Queries query, String[] params) {
 		this.initialize();
@@ -759,6 +951,16 @@ public class DBParser {
 		return success;
 	}
 
+	/**
+	 * Private help method to execute updates on the database. Returns a key
+	 * consisting of the newly inserted auto increment field.
+	 * 
+	 * @param query
+	 *            the query to be used in the prepared statement
+	 * @param params
+	 *            the parameters to be used for the prepared statement
+	 * @return<Integer> the key
+	 */
 	private int executeUpdateReturnKey(Queries query, String[] params) {
 		this.initialize();
 		int generatedKey = -1;
