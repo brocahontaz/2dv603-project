@@ -2,10 +2,12 @@ package controller;
 
 import java.net.URL;
 import java.time.LocalDate;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
@@ -27,12 +31,6 @@ import model.Room;
 import model.RoomQuality;
 import utilities.Fx;
 
-/**
- * Controller for the Reservation pop up window
- * 
- * @author Johan Andersson, Fredrik Norrman, David Larsson
- *
- */
 public class ReservationPopupController {
 
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -115,21 +113,11 @@ public class ReservationPopupController {
 	@FXML
 	private TitledPane title;
 
-	/**
-	 * Close the pop up window
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void close(MouseEvent event) {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
-	/**
-	 * Select a room
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void selectRoom(MouseEvent event) {
 		if (event.getClickCount() == 2) {
@@ -140,14 +128,11 @@ public class ReservationPopupController {
 		}
 	}
 
-	/**
-	 * Confirm the reservation
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void confirmReservation(MouseEvent event) {
 		executor.submit(() -> {
+			// String trimmedArrival = arrivalDate.toString().replaceAll("-", "");
+			// String trimmedDeparture = departureDate.toString().replaceAll("-", "");
 
 			int key = dbParser.makeReservation(guest.getPassportNumber(), room.getText(), hotel.getText(),
 					arrivalDate.toEpochDay(), departureDate.toEpochDay(), price.getText());
@@ -167,22 +152,6 @@ public class ReservationPopupController {
 		});
 	}
 
-	/**
-	 * Accept values for pre-entered fields
-	 * 
-	 * @param guest
-	 *            the selected Guest
-	 * @param arrivalDate
-	 *            the selected arrival date
-	 * @param departureDate
-	 *            the selected departure date
-	 * @param hotelChoice
-	 *            the selected hotel
-	 * @param roomQualityChoice
-	 *            the selected room quality
-	 * @param discountChoice
-	 *            the selected discount
-	 */
 	public void acceptValues(Guest guest, LocalDate arrivalDate, LocalDate departureDate, Hotel hotelChoice,
 			RoomQuality roomQualityChoice, int discountChoice) {
 
@@ -197,9 +166,6 @@ public class ReservationPopupController {
 
 	}
 
-	/**
-	 * Set all the TextFields
-	 */
 	private void setFields() {
 		firstname.setText(guest.getFirstName());
 		lastname.setText(guest.getLastName());
@@ -232,17 +198,12 @@ public class ReservationPopupController {
 
 	}
 
-	/**
-	 * Load all the available rooms from the database
-	 */
 	private void loadAvailableRooms() {
 
 		executor.submit(() -> {
 			roomResultsTable.setVisible(false);
 			progress.setVisible(true);
 			room.clear();
-			hotel.clear();
-			quality.clear();
 			rooms = FXCollections.observableArrayList(dbParser.checkAvailableRoomsBetweenDates(arrivalDate.toEpochDay(),
 					departureDate.toEpochDay(), hotelChoice.getName(), roomQualityChoice.getQuality()));
 			roomResultsTable.setItems(rooms);
@@ -252,9 +213,6 @@ public class ReservationPopupController {
 
 	}
 
-	/**
-	 * Add change listeners to the room, hotel and quality TextFields
-	 */
 	private void addChangeListeners() {
 		room.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (!hotel.getText().isEmpty() && !quality.getText().isEmpty()) {
@@ -273,9 +231,6 @@ public class ReservationPopupController {
 		});
 	}
 
-	/**
-	 * Calculate the price for the selected Room
-	 */
 	private void calculatePrice() {
 		int temp = controller.getQualityPrice(hotel.getText(), quality.getText());
 
@@ -290,11 +245,6 @@ public class ReservationPopupController {
 
 	}
 
-	/**
-	 * Get the duration between selected arrival and departure dates
-	 * 
-	 * @return<Integer> the number of days
-	 */
 	private int getDays() {
 		long arrival = arrivalDate.toEpochDay();
 		long departure = departureDate.toEpochDay();
@@ -303,28 +253,15 @@ public class ReservationPopupController {
 		return days;
 	}
 
-	/**
-	 * Inject the Main Controller
-	 * 
-	 * @param controller
-	 */
-	public void injectMainController(Controller controller) {
-		this.controller = controller;
-	}
-
-	/**
-	 * Set the cell factories for the TableView
-	 */
-	private void setCellFactories() {
+	@FXML
+	void initialize() {
 		colHotel.setCellValueFactory(new PropertyValueFactory<Room, String>("hotelName"));
 		colQuality.setCellValueFactory(new PropertyValueFactory<Room, String>("quality"));
 		colRoomNumber.setCellValueFactory(new PropertyValueFactory<Room, String>("roomNumber"));
-	}
-
-	@FXML
-	void initialize() {
-		setCellFactories();
 		addChangeListeners();
 	}
 
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
+	}
 }

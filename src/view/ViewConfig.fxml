@@ -13,6 +13,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -644,9 +645,27 @@
                           <menus>
                             <Menu mnemonicParsing="false" text="File">
                               <items>
+                                <MenuItem fx:id="vaxjoChange" mnemonicParsing="false" text="Växjö" />
+                                    <MenuItem fx:id="kalmarChange" mnemonicParsing="false" text="Kalmar" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
                                     <MenuItem fx:id="closeSystem" mnemonicParsing="false" onAction="#closeSystem" text="Close" />
                               </items>
                             </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Preferences" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                              </items>
+                            </Menu>
+                              <Menu mnemonicParsing="false" text="Fullscreen">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Toggle" />
+                                 </items>
+                              </Menu>
                           </menus>
                         </MenuBar>
                         <HBox HBox.hgrow="ALWAYS" />

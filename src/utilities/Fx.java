@@ -16,20 +16,8 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 
-/**
- * Utility class for FX operations
- * 
- * @author Johan Andersson, Fredrik Norrman, David Larsson
- *
- */
 public class Fx {
 
-	/**
-	 * Enum for regex-strings used for the TextFormatters
-	 * 
-	 * @author Johan Andersson, Fredrik Norrman, David Larsson
-	 *
-	 */
 	public enum Regex {
 
 		ONLY_NUMBERS("^[0-9]+$", "This TextField can only\ncontain numbers!"), NO_NUMBERS("^[a-zA-Z- ',]+$",
@@ -58,14 +46,14 @@ public class Fx {
 
 	public final static int FIRSTNAME_LENGTH = 30;
 	public final static int LASTNAME_LENGTH = 30;
-	public final static int PASSPORT_LENGTH = 8;
+	public final static int PASSPORT_LENGTH = 16;
 	public final static int CREDITCARD_LENGTH = 16;
 	public final static int TELEPHONE_MIN_LENGTH = 9;
 	public final static int TELEPHONE_LENGTH = 20;
 	public final static int RESERVATION_ID_LENGTH = 10000;
 
 	/**
-	 * Clear 6 TextFields.
+	 * Clear 6 textfields.
 	 * 
 	 * @param textField1
 	 * @param textField2
@@ -85,7 +73,7 @@ public class Fx {
 	}
 
 	/**
-	 * Clear 8 TextFields.
+	 * Clear 8 textfields.
 	 * 
 	 * @param textField1
 	 * @param textField2
@@ -110,7 +98,7 @@ public class Fx {
 	}
 
 	/**
-	 * Clear 12 TextFields.
+	 * Clear 12 textfields.
 	 * 
 	 * @param textField1
 	 * @param textField2
@@ -144,12 +132,10 @@ public class Fx {
 	}
 
 	/**
-	 * Changes the CSS-style of a TextField for 3 seconds.
+	 * Changes the css-style of a textfield for 3 seconds.
 	 * 
 	 * @param textField
-	 *            the TextField
 	 * @param cssStyle
-	 *            the CSS style
 	 */
 	public static void textFieldColorNotification(TextField textField, String cssStyle) {
 		ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -170,12 +156,10 @@ public class Fx {
 	}
 
 	/**
-	 * Changes the CSS-style of a TitledPane for 3 seconds.
+	 * Changes the css-style of a titledpane for 3 seconds.
 	 * 
 	 * @param titledPane
-	 *            the TitledPane
 	 * @param cssStyle
-	 *            the CSS style
 	 */
 	public static void titledPaneColorNotification(TitledPane titledPane, String cssStyle) {
 		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
@@ -187,14 +171,11 @@ public class Fx {
 	}
 
 	/**
-	 * Changes the CSS-style of a TitledPane for X seconds.
+	 * Changes the css-style of a titledpane for X seconds.
 	 * 
 	 * @param titledPane
-	 *            the TitledPane
 	 * @param cssStyle
-	 *            the CSS style
 	 * @param time
-	 *            the time
 	 */
 	public static void titledPaneColorNotification(TitledPane titledPane, String cssStyle, int time) {
 		String oldStyle = trimCssStyle(titledPane.getStyleClass().toString());
@@ -206,15 +187,12 @@ public class Fx {
 	}
 
 	/**
-	 * Changes the CSS-style of a TitledPane for 3 seconds and disable a button for
+	 * Changes the css-style of a titledpane for 3 seconds and disable a button for
 	 * the same time.
 	 * 
 	 * @param titledPane
-	 *            the TitledPane
 	 * @param button
-	 *            the Button
 	 * @param cssStyle
-	 *            the CSS style
 	 */
 	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle) {
 		button.setDisable(true);
@@ -227,17 +205,13 @@ public class Fx {
 	}
 
 	/**
-	 * Changes the CSS-style of a TitledPane for X seconds and disable a button for
+	 * Changes the css-style of a titledpane for X seconds and disable a button for
 	 * the same time.
 	 * 
 	 * @param titledPane
-	 *            the TitledPane
 	 * @param button
-	 *            the Button
 	 * @param cssStyle
-	 *            the CSS style
 	 * @param time
-	 *            the time
 	 */
 	public static void titledPaneColorNotificationButton(TitledPane titledPane, Button button, String cssStyle,
 			int time) {
@@ -250,72 +224,49 @@ public class Fx {
 		pause.play();
 	}
 
-	/**
-	 * Set the TextFormatter for a TextField, with minimum and maximum lengths and a
-	 * regex
-	 * 
-	 * @param field
-	 *            the TextField
-	 * @param minLength
-	 *            the minimum length
-	 * @param maxLength
-	 *            the maximum length
-	 * @param regex
-	 *            the regex string
-	 */
 	public static void setTextFormatter(TextField field, int minLength, int maxLength, Fx.Regex regex) {
 
 		final ContextMenu menu = new ContextMenu();
 		UnaryOperator<Change> rejectChange = c -> {
 			menu.hide();
 
-			// Check if the change might effect the validating predicate
+			// check if the change might effect the validating predicate
 			if (c.isContentChange()) {
-				// Check if change is valid regarding length
+				// check if change is valid
 				if (c.getControlNewText().length() > maxLength) {
-					/*
-					 * Invalid change - show a context menu with error message
-					 */
+					// invalid change
+					// sugar: show a context menu with error message
 					menu.getItems().clear();
 					menu.getItems().add(new MenuItem("This field takes\n" + maxLength + " characters only."));
 					menu.show(c.getControl(), Side.BOTTOM, 0, 0);
-					// Return null to reject the change
+					// return null to reject the change
 					return null;
 				}
 
-				// Check if change is valid regarding regex
 				if (!c.getControlNewText().matches(regex.regex())) {
 					if (!c.getControlNewText().isEmpty()) {
-						/*
-						 * Invalid change - show a context menu with error message
-						 */
+						// invalid change
+						// sugar: show a context menu with error message
 						menu.getItems().clear();
 						menu.getItems().add(new MenuItem(regex.message()));
 						menu.show(c.getControl(), Side.BOTTOM, 0, 0);
-						// Return null to reject the change
+						// return null to reject the change
 						return null;
 					}
 
 				}
 			}
-			// Valid change: accept the change by returning it
+			// valid change: accept the change by returning it
 			return c;
 		};
-
+		
 		final Tooltip tooltip = new Tooltip();
 		tooltip.setText("Must be at least " + minLength + " characters long.");
 		field.setTooltip(tooltip);
 		field.setTextFormatter(new TextFormatter<TextField>(rejectChange));
 	}
 
-	/**
-	 * Helper method to titledPaneColorNotificationButton
-	 * 
-	 * @param titledPane
-	 * @param button
-	 * @param cssStyle
-	 * @param oldStyle
-	 */
+	// Helper method to titledPaneColorNotificationButton
 	private static void titledPaneColorNotificationButtonHelp(TitledPane titledPane, Button button, String cssStyle,
 			String oldStyle) {
 		titledPane.getStyleClass().remove(cssStyle);
@@ -323,24 +274,13 @@ public class Fx {
 		button.setDisable(false);
 	}
 
-	/**
-	 * Helper method to titledPaneColorNotification
-	 * 
-	 * @param titledPane
-	 * @param cssStyle
-	 * @param oldStyle
-	 */
+	// Helper method to titledPaneColorNotification
 	private static void titledPaneColorNotificationHelp(TitledPane titledPane, String cssStyle, String oldStyle) {
 		titledPane.getStyleClass().remove(cssStyle);
 		titledPane.getStyleClass().add(oldStyle);
 	}
 
-	/**
-	 * Helper method to trim cssString
-	 * 
-	 * @param cssStyle
-	 * @return
-	 */
+	// Helper method to trim cssString.
 	private static String trimCssStyle(String cssStyle) {
 		String result = "";
 		result = cssStyle.substring(cssStyle.lastIndexOf(" ") + 1);

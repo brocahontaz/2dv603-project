@@ -34,7 +34,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -51,12 +50,6 @@ import model.Room;
 import model.RoomQuality;
 import utilities.Fx;
 
-/**
- * Main Controller for the main window
- * 
- * @author Johan Andersson, Fredrik Norrman, David Larsson
- *
- */
 public class Controller {
 
 	private ObservableList<Guest> guests;
@@ -397,17 +390,14 @@ public class Controller {
 	 */
 
 	@FXML
+	private MenuItem vaxjoChange;
+
+	@FXML
+	private MenuItem kalmarChange;
+
+	@FXML
 	private MenuItem closeSystem;
 
-	/**
-	 * Get the price for a specific quality in a specific hotel
-	 * 
-	 * @param hotelName
-	 *            the Hotel
-	 * @param quality
-	 *            the Quality
-	 * @return
-	 */
 	public int getQualityPrice(String hotelName, String quality) {
 		List<Integer> temp = roomQualities.stream().filter(quality1 -> quality1.getHotelName().equals(hotelName))
 				.filter(quality1 -> quality1.getQuality().equals(quality)).map(quality1 -> quality1.getPrice())
@@ -463,21 +453,11 @@ public class Controller {
 		});
 	}
 
-	/**
-	 * Pick a guest for the Reservation search
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void pickCheckGuest(MouseEvent event) {
 		setupGuestPopUp(checkReservationGuest);
 	}
 
-	/**
-	 * Search reservations
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void checkReservation(MouseEvent event) {
 		String resID = checkReservationID.getText().trim();
@@ -491,9 +471,6 @@ public class Controller {
 		}
 	}
 
-	/**
-	 * Search for reservations, filtered
-	 */
 	private void checkReservation() {
 		executor.submit(() -> {
 
@@ -516,7 +493,6 @@ public class Controller {
 				hotelCheck = "";
 			}
 
-			// If both dates are entered, filter with both dates
 			if (arrivalCheckDate.getValue() != null && departureCheckDate.getValue() != null) {
 
 				arrival = arrivalCheckDate.getValue().toEpochDay();
@@ -524,21 +500,18 @@ public class Controller {
 				reservations = FXCollections.observableArrayList(
 						dbParser.searchReservationsWithDates(passport, arrival, departure, hotelCheck));
 
-				// If arrival date is entered, filter with it
 			} else if (arrivalCheckDate.getValue() != null) {
 
 				arrival = arrivalCheckDate.getValue().toEpochDay();
 				reservations = FXCollections
 						.observableArrayList(dbParser.searchReservationsWithArrivalDate(passport, arrival, hotelCheck));
 
-				// If departure date is entered, filter with it
 			} else if (departureCheckDate.getValue() != null) {
 
 				departure = departureCheckDate.getValue().toEpochDay();
 				reservations = FXCollections.observableArrayList(
 						dbParser.searchReservationsWithDepartureDate(passport, departure, hotelCheck));
 
-				// Or lastly, if no dates are entered, simply search without them
 			} else {
 
 				reservations = FXCollections
@@ -713,7 +686,6 @@ public class Controller {
 	@FXML
 	void chooseReservationCheckIn(MouseEvent event) {
 		String reservationID = checkInReservationID.getText().trim();
-
 		if (reservationID.matches("[0-9]+")) {
 			chooseReservationButtonCheckIn.setDisable(true);
 			checkInButton.setDisable(true);
@@ -738,7 +710,6 @@ public class Controller {
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				Room room = (Room) data.get(2);
-
 				checkInFirstName.setText(guest.getFirstName());
 				checkInLastName.setText(guest.getLastName());
 				checkInAddress.setText(guest.getAddress());
@@ -770,11 +741,9 @@ public class Controller {
 	@FXML
 	void chooseReservationCheckOut(MouseEvent event) {
 		String reservationID = checkOutReservationID.getText().trim();
-
 		if (reservationID.matches("[0-9]+")) {
 			chooseReservationButtonCheckOut.setDisable(true);
 			checkOutButton.setDisable(true);
-
 			executor.submit(() -> {
 				checkoutProgress.setVisible(true);
 				ObservableList<Object> data = FXCollections
@@ -796,7 +765,6 @@ public class Controller {
 				Guest guest = (Guest) data.get(0);
 				Reservation reservation = (Reservation) data.get(1);
 				Room room = (Room) data.get(2);
-
 				checkOutFirstName.setText(guest.getFirstName());
 				checkOutLastName.setText(guest.getLastName());
 				checkOutAddress.setText(guest.getAddress());
@@ -1176,7 +1144,7 @@ public class Controller {
 			// Get the Hotels from the database
 			hotels = FXCollections.observableArrayList(dbParser.getHotels());
 
-			/*
+			/**
 			 * Add the default value for the ComboBox (no hotel), and set the items for the
 			 * Hotel ComboBox.
 			 */
@@ -1303,7 +1271,7 @@ public class Controller {
 		// Add default value for no quality chosen
 		temp1.add(0, defQual);
 
-		/*
+		/**
 		 * If the select Hotel is not the default hotel, then get the room qualities for
 		 * select hotel. Otherwise get all room qualities available.
 		 */
@@ -1357,7 +1325,7 @@ public class Controller {
 		// Add default value for no discount
 		temp1.add(0);
 
-		/*
+		/**
 		 * If the select Hotel is not the default hotel, then get the discounts for
 		 * select hotel. Otherwise get all discounts available.
 		 */
@@ -1397,7 +1365,9 @@ public class Controller {
 	 * Display the estimated price for chosen options for a reservation
 	 */
 	private void displayEstimatedPrice() {
+
 		estimatedPrice.setText(calculateEstimatedOverallPrice());
+
 	}
 
 	/**
@@ -1414,7 +1384,7 @@ public class Controller {
 
 		String qual = roomQualityChoice.getSelectionModel().getSelectedItem().getQuality();
 
-		/*
+		/**
 		 * If a quality is selected, but no hotel, then get the prices for picked
 		 * quality from all hotels. Else, get the selected quality for the selected
 		 * hotel.
@@ -1427,7 +1397,7 @@ public class Controller {
 			temp.add(roomQualityChoice.getSelectionModel().getSelectedItem());
 		}
 
-		/*
+		/**
 		 * For all selected qualities, calculate the estimated price depending on number
 		 * of days and possible discount
 		 */
@@ -1488,8 +1458,8 @@ public class Controller {
 			splashScreen.setResizable(false);
 			splashScreen.initStyle(StageStyle.UNDECORATED);
 			root.getScene().getWindow().sizeToScene();
-			splashScreen.getIcons().add(new Image(getClass().getResourceAsStream("/view/apeemoji.png")));
-			splashScreen.setTitle("HotelFX");
+			splashScreen.setTitle("");
+
 			splashScreen.initStyle(StageStyle.TRANSPARENT);
 			scene.setFill(Color.TRANSPARENT);
 
@@ -1620,7 +1590,7 @@ public class Controller {
 
 		try {
 
-			File template = new File(".\\billTemplate\\hotelpdftemplate.pdf");
+			File template = new File("C:\\Temp\\hotelpdftemplate.pdf");
 			PDDocument templateDocument = PDDocument.load(template);
 			PDDocumentCatalog docCatalog = templateDocument.getDocumentCatalog();
 			PDAcroForm acroForm = docCatalog.getAcroForm();
@@ -1652,13 +1622,13 @@ public class Controller {
 			acroForm.getField("quality").setReadOnly(true);
 			acroForm.getField("room").setValue(checkoutRoom.getText());
 			acroForm.getField("room").setReadOnly(true);
-			acroForm.getField("price").setValue(checkoutPrice.getText() + " SEK");
+			acroForm.getField("price").setValue(checkoutPrice.getText());
 			acroForm.getField("price").setReadOnly(true);
 
 			PDPageTree pages = docCatalog.getPages();
 			PDDocument document = new PDDocument();
 			document.addPage(pages.get(0));
-			document.save(".\\PDFBills\\" + id + ".pdf");
+			document.save("C:\\Temp\\" + id + ".pdf");
 
 			templateDocument.close();
 			document.close();
@@ -1677,9 +1647,10 @@ public class Controller {
 	 */
 	private void openBillPDF(String id) {
 		try {
-			File file = new File(".\\PDFBills\\" + id + ".pdf");
+			File file = new File("C:\\temp\\" + id + ".pdf");
 			Desktop.getDesktop().open(file);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

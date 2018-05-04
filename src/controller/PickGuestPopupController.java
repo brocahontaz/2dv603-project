@@ -17,12 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Guest;
 
-/**
- * Controller for the Pick Guest popup window
- * 
- * @author Johan Andersson, Fredrik Norrman, David Larsson
- *
- */
 public class PickGuestPopupController {
 
 	private ObservableList<Guest> guests;
@@ -58,18 +52,14 @@ public class PickGuestPopupController {
 	@FXML
 	private ProgressIndicator progress;
 
-	/**
-	 * Close the pop up
-	 * 
-	 * @param event
-	 */
 	@FXML
 	void closeGuestsPopUp(MouseEvent event) {
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
 	/**
-	 * Clear the TableView and return the result of the search.
+	 * Clear the TableView and return the result of the search. Temporarily using
+	 * firstname for testing.
 	 */
 	@FXML
 	void popupGuestSearch(ActionEvent event) {
@@ -80,11 +70,8 @@ public class PickGuestPopupController {
 			String searchInput = popupGuestSearch.getText();
 			searchInput = searchInput.trim();
 
-			/*
-			 * If search-box input is all numeric, search by passport number, else search by
-			 * first and last names if input contains a space, else search by only last name
-			 */
-
+			// If search-box input is all numeric, search by passport number, else search by
+			// last name.
 			if (searchInput.matches("[0-9]+")) {
 				guests = FXCollections.observableArrayList(dbParser.searchGuests("", "", "", "", "", searchInput));
 			} else if (searchInput.contains(" ")) {
@@ -100,11 +87,6 @@ public class PickGuestPopupController {
 		});
 	}
 
-	/**
-	 * Set the TextField to return on selection
-	 * 
-	 * @param textfield
-	 */
 	public void setTextField(TextField textfield) {
 		this.textfield = textfield;
 	}
@@ -145,31 +127,18 @@ public class PickGuestPopupController {
 	}
 
 	/**
-	 * Inject the Main Controller to be able to call function on it when picking a
-	 * guest
-	 * 
-	 * @param controller
+	 * Load Guest(s) upon opening of the window.
 	 */
-	public void injectMainController(Controller controller) {
-		this.controller = controller;
-	}
-
-	/**
-	 * Set cell factories for the TableView
-	 */
-	private void setCellFactories() {
+	@FXML
+	void initialize() {
+		getAllGuestsOnPopup();
 		popFirstNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("firstName"));
 		popLastNameCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("lastName"));
 		popPassportCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("passportNumber"));
 		popTelephoneCol.setCellValueFactory(new PropertyValueFactory<model.Guest, String>("telephoneNumber"));
 	}
 
-	/**
-	 * Load Guest(s) upon opening of the window.
-	 */
-	@FXML
-	void initialize() {
-		getAllGuestsOnPopup();
-		setCellFactories();
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
 	}
 }
