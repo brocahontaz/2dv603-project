@@ -131,7 +131,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="checkReservationsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
+                                          <TitledPane fx:id="checkReservationsBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Check Reservations">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
@@ -210,7 +210,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="resultsBox2" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
+                                          <TitledPane fx:id="resultsBox2" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
                                                 <AnchorPane maxHeight="560.0" maxWidth="1050.0" minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1050.0">
                                                    <children>
@@ -257,7 +257,7 @@
                                  <content>
                                     <FlowPane hgap="10.0" vgap="10.0">
                                        <children>
-                                          <TitledPane fx:id="checkInGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Check in guests">
+                                          <TitledPane fx:id="checkInGuestsBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="primary" text="Check in guests">
                                              <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="430.0" prefWidth="520.0">
                                                    <children>
@@ -530,7 +530,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="searchGuestsBox" animated="false" collapsible="false" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="info" text="Search guests">
+                                          <TitledPane fx:id="searchGuestsBox" animated="false" collapsible="false" style="-fx-background-color: f4f4f4;" styleClass="info" text="Search guests">
                                             <content>
                                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="520.0">
                                                    <children>
@@ -581,7 +581,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </TitledPane>
-                                          <TitledPane fx:id="resultsBox" minWidth="520.0" onMouseDragged="#dragPane" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
+                                          <TitledPane fx:id="resultsBox" minWidth="520.0" style="-fx-background-color: f4f4f4;" styleClass="success" text="Results">
                                              <content>
                                                 <AnchorPane minWidth="520.0" prefWidth="1050.0">
                                                    <children>

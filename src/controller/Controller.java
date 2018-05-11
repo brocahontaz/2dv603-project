@@ -699,6 +699,7 @@ public class Controller {
 			guestInfoPopup.setTitle("Guests");
 			guestInfoPopup.show();
 			loader.<GuestInfoPopupController>getController().setupGuestInfoPopup(guest);
+			loader.<GuestInfoPopupController>getController().injectMainController(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -818,16 +819,6 @@ public class Controller {
 
 			});
 		}
-	}
-
-	/**
-	 * Drag a pane
-	 * 
-	 * @param event
-	 */
-	@FXML
-	void dragPane(MouseEvent event) {
-
 	}
 
 	/**
@@ -1125,12 +1116,19 @@ public class Controller {
 	}
 
 	/**
-	 * List all guests
+	 * List all guests on click
 	 * 
 	 * @param event
 	 */
 	@FXML
 	void listAllGuests(MouseEvent event) {
+		listAllGuests();
+	}
+	
+	/**
+	 * List all guests public method to make it reachable from GuestInfoPopupController
+	 */
+	public void listAllGuests() {
 		executor.submit(() -> {
 			dbLoad.setVisible(true);
 			searchResultTable.setVisible(false);

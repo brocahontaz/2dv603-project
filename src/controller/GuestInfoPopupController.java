@@ -6,6 +6,8 @@ import java.util.concurrent.Executors;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -32,6 +34,7 @@ public class GuestInfoPopupController {
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private String tempPassportnumber; // There to make it able to change the current passport number aswell
 	private ObservableList<model.Reservation> reservations;
+	private Controller controller;
 
 	@FXML
 	private TitledPane guestInfoBox;
@@ -76,12 +79,13 @@ public class GuestInfoPopupController {
 	private ProgressIndicator progress;
 
 	/**
-	 * Close the pop up
+	 * Close the pop up and update searchResultTable TableView in main window
 	 * 
 	 * @param event
 	 */
 	@FXML
 	void closeGuestInfoPopup(MouseEvent event) {
+		controller.listAllGuests();
 		((Node) (event.getSource())).getScene().getWindow().hide();
 	}
 
@@ -160,6 +164,16 @@ public class GuestInfoPopupController {
 			progress.setVisible(false);
 
 		});
+	}
+	
+	/**
+	 * Inject the Main Controller to be able to call function on it when picking a
+	 * guest
+	 * 
+	 * @param controller
+	 */
+	public void injectMainController(Controller controller) {
+		this.controller = controller;
 	}
 
 	/**
